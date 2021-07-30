@@ -29,6 +29,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   fluttertoast: ^8.0.7
+  charts_flutter: ^0.11.0
+  fl_chart: ^0.36.3
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
@@ -47,43 +50,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/bksd_icon.png
-    - assets/images/hero-bksd-mobile_1.png
-    - assets/images/Hero-Jumbotron.png
-    - assets/images/splash-1.png
-    - assets/images/splash-2.png
-    - assets/images/splash-3.png
-    - assets/images/icon-panduan.png
-    - assets/images/Group-ks-layanan.png
-    - assets/images/Group-contact-centrecontact-centre.png
-    - assets/images/carbon_information.png
-    - assets/images/Group-ks-dalam-negeri.png
-    - assets/images/Group-kerja-sama-luar-negeriks-luar-negeri.png
-    - assets/images/Group-ks-peluang.png
-    - assets/images/Group-ks-program.png
-    - assets/images/icon-panduan.png
-    - assets/images/ks-laporan.png
-    - assets/images/image-background.png
-    - assets/images/logo-kab-muba.png
-    - assets/images/logos_whatsapp.png
-    - assets/images/dashicons_book-alt.png
-    - assets/images/ant-design_mail-filled.png
-    - assets/images/bg-city.png
-    - assets/images/image-card-1.png
-    - assets/images/image-card-2.png
-    - assets/images/image-card-3.png
-    - assets/images/image-berita.png
-    - assets/images/user-avatar.png
-    - assets/images/card-membership.png
-    - assets/images/document.png
-    - assets/images/document-checklist.png
-    - assets/images/patch-check.png
-    - assets/images/indo-icon.png
-    - assets/images/world-icon.png
-    - assets/images/bg-pendidikan.png
-    - assets/images/bg-kesehatan.png
-    - assets/images/bg-pariwisata.png
-    - assets/images/bg-olahraga.png
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

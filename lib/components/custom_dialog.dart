@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomDialog extends StatefulWidget {
   final String unduhFile;
-  const CustomDialog({Key? key, required this.unduhFile}) : super(key: key);
+  final String title;
+  const CustomDialog({Key? key, required this.unduhFile, required this.title})
+      : super(key: key);
 
   @override
   _CustomDialogState createState() => _CustomDialogState();
@@ -33,7 +35,7 @@ class _CustomDialogState extends State<CustomDialog> {
                       boxShadow: [BoxShadow(color: Colors.black54)]),
                   child: Center(
                     child: Text(
-                      "Konfirmasi",
+                      widget.title,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
