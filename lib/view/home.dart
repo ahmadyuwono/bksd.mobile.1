@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/loginscreen.dart';
+import 'package:muba/view/muba_tv.dart';
 import 'package:muba/view/page_index_konten/contact_center/contactcenter.dart';
 import 'package:muba/view/page_index_konten/informasi_kerjasama/informasi_kerjasama.dart';
 import 'package:muba/view/page_index_konten/kerjasama_dalam_negeri/kerjasama_dalam_negeri.dart';
@@ -20,6 +22,7 @@ class Beranda extends StatefulWidget {
 
 class _BerandaState extends State<Beranda> {
   String name = "";
+  bool isLogin = false;
   List<String> service = [
     "Panduan Kerjasama",
     "Layanan Kerjasama",
@@ -45,6 +48,21 @@ class _BerandaState extends State<Beranda> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    SharedPreferencesHelper.readIsLogin().then((value) {
+      setState(() {
+        isLogin = value;
+      });
+    });
+    SharedPreferencesHelper.readName().then((value) {
+      setState(() {
+        name = value;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -67,13 +85,15 @@ class _BerandaState extends State<Beranda> {
                           padding: const EdgeInsets.only(top: 50, right: 24),
                           child: InkWell(
                             onTap: () {
+                              setState(() {
+                                SharedPreferencesHelper.clearAllData();
+                              });
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => LoginScreen(
                                             name: (value) {
                                               setState(() {});
-                                              name = value;
                                             },
                                           )));
                             },
@@ -85,8 +105,8 @@ class _BerandaState extends State<Beranda> {
                               height: 30,
                               child: Center(
                                 child: Text(
-                                  name.isNotEmpty
-                                      ? "Hello, $name!"
+                                  isLogin == true
+                                      ? "Hello, $name! Logout"
                                       : "LOGIN OR REGISTER",
                                   style: TextStyle(
                                     color: Colors.white,
@@ -167,9 +187,29 @@ class _BerandaState extends State<Beranda> {
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.indigoAccent,
+        onTap: (value) {
+          // switch (value) {
+          //   case 1:
+          //     return Navigator.push(
+          //       context,
+          //     );
+          if (value == 1) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => MubaTv()));
+          }
+        },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+          BottomNavigationBarItem(
+              activeIcon: IconButton(
+                icon: Icon(Icons.tv),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => MubaTv()));
+                },
+              ),
+              icon: Icon(Icons.tv),
+              label: "Muba TV"),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: "Settings",
@@ -180,34 +220,60 @@ class _BerandaState extends State<Beranda> {
   }
 
   _navigateRoute(routeName) {
-    switch (routeName) {
-      case "Contact Center":
-        return Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ContactCenter()));
-      case "Panduan Kerjasama":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PanduanKerjasama()));
-      case "Layanan Kerjasama":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => LayananKerjaSama()));
-      case "Informasi Kerjasama":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => InformasiKerjasama()));
-      case "Kerjasama Dalam Negeri":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => KerjasamaDalamNegeri()));
-      case "Kerjasama Luar Negeri":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => KerjasamaLuarNegeri()));
-      case "Peluang Kerjasama":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PeluangKerjasama()));
-      case "Program Kerjasama":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ProgramKerjasama()));
-      case "Laporan Kerjasama":
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => LaporanKerjasama()));
+    if (isLogin == true) {
+      switch (routeName) {
+        case "Contact Center":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ContactCenter()));
+        case "Panduan Kerjasama":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PanduanKerjasama()));
+        case "Layanan Kerjasama":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => LayananKerjaSama()));
+        case "Informasi Kerjasama":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => InformasiKerjasama()));
+        case "Kerjasama Dalam Negeri":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => KerjasamaDalamNegeri()));
+        case "Kerjasama Luar Negeri":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => KerjasamaLuarNegeri()));
+        case "Peluang Kerjasama":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PeluangKerjasama()));
+        case "Program Kerjasama":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ProgramKerjasama()));
+        case "Laporan Kerjasama":
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => LaporanKerjasama()));
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                backgroundColor: Color(0xFF27405E),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                title: Container(
+                    child: Text(
+                  "Harap Login Terlebih Dahulu",
+                  style: TextStyle(color: Colors.white),
+                )),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ));
     }
   }
 }
