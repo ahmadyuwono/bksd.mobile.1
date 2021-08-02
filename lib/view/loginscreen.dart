@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muba/components/form_register_field.dart';
 import 'package:muba/components/password_field.dart';
 import 'package:muba/model/login_model.dart';
+import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/forgotpassword.dart';
 import 'package:muba/view/home.dart';
 import 'package:muba/view/register_form.dart';
@@ -102,9 +103,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             LoginModel.integrateAPI(_username, _password).then(
                                 (value) {
                               setState(() {});
+                              if (value.status != 0) {
+                                SharedPreferencesHelper.saveName(value.name);
+                                SharedPreferencesHelper.saveIsLogin(true);
+                              }
                               widget.name(value.name);
                               loginModel = value;
-                            }).whenComplete(() => loginModel != null
+                            }).whenComplete(() => loginModel!.status != 0
                                 ? Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -215,64 +220,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-
-  // Future<LoginModel> loginAuth(String email, String password) async {
-  //   final response = await http.post(
-  //     Uri.parse('http://localhost/muba/api/auth/login'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       'email': email,
-  //       'password': password,
-  //     }),
-  //   );
-  //
-  //   if (response.statusCode == 201 || response.statusCode == 200) {
-  //     // If the server did return a 201 CREATED response,
-  //     // then parse the JSON.
-  //     print(response.statusCode);
-  //     setState(() {
-  //       _statusCode = response.statusCode;
-  //     });
-  //     return LoginModel.fromJson(jsonDecode(response.body));
-  //   } else {
-  //     // If the server did not return a 201 CREATED response,
-  //     // then throw an exception.
-  //     throw Exception('error ${response.statusCode}');
-  //   }
-  // }
-
-  // FutureBuilder<LoginModel> buildFutureBuilder() {
-  //   return FutureBuilder<LoginModel>(
-  //       future: _futureLogin,
-  //       builder: (context, data) {
-  //         if (data.hasData) {
-  //           return AlertDialog(
-  //             title: Text("Login Berhasil! ${data.data!.token}"),
-  //             actions: [
-  //               IconButton(
-  //                 icon: Icon(Icons.close_sharp),
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop();
-  //                 },
-  //               )
-  //             ],
-  //           );
-  //         } else if (data.hasError) {
-  //           return AlertDialog(
-  //             title: Text("Login gagal! ${data.error}"),
-  //             actions: [
-  //               IconButton(
-  //                 icon: Icon(Icons.close_sharp),
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop();
-  //                 },
-  //               )
-  //             ],
-  //           );
-  //         }
-  //         return const CircularProgressIndicator();
-  //       });
-  // }
 }

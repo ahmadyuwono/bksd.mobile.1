@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:muba/model/berita_model.dart';
 import 'package:muba/view/page_index_konten/informasi_kerjasama/detail_informasi_kerjasama.dart';
 
 class ListInformasiSama extends StatefulWidget {
-  final List imageAsset;
-  final List headLine;
+  final List<BeritaModel> headLine;
   final int index;
   const ListInformasiSama(
-      {Key? key,
-      required this.imageAsset,
-      required this.headLine,
-      required this.index})
+      {Key? key, required this.headLine, required this.index})
       : super(key: key);
 
   @override
@@ -19,6 +17,8 @@ class ListInformasiSama extends StatefulWidget {
 class _ListInformasiSamaState extends State<ListInformasiSama> {
   @override
   Widget build(BuildContext context) {
+    DateTime date = DateTime.parse(widget.headLine[widget.index].tanggal);
+    String formattedDate = DateFormat("dd MMMM yyyy").format(date);
     return InkWell(
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,
@@ -29,7 +29,10 @@ class _ListInformasiSamaState extends State<ListInformasiSama> {
             context,
             MaterialPageRoute(
                 builder: (context) => DetailInformasi(
-                      title: widget.headLine[widget.index],
+                      title: widget.headLine[widget.index].judul,
+                      date: formattedDate,
+                      content: widget.headLine[widget.index].isi,
+                      image: widget.headLine[widget.index].foto,
                     )));
       },
       child: Container(
@@ -37,7 +40,8 @@ class _ListInformasiSamaState extends State<ListInformasiSama> {
         padding: const EdgeInsets.only(bottom: 13),
         child: Row(
           children: [
-            Image.asset(widget.imageAsset[widget.index]),
+            Image.network(
+                "https://muba.socketspace.com/uploads/berita/${widget.headLine[widget.index].foto}"),
             SizedBox(
               width: 18,
             ),
@@ -48,11 +52,11 @@ class _ListInformasiSamaState extends State<ListInformasiSama> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.headLine[widget.index],
+                    widget.headLine[widget.index].judul,
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    "22 Juni 2021",
+                    "$formattedDate",
                     style: TextStyle(color: Colors.grey),
                   )
                 ],
@@ -64,3 +68,5 @@ class _ListInformasiSamaState extends State<ListInformasiSama> {
     );
   }
 }
+
+//base_url/uploads/berita

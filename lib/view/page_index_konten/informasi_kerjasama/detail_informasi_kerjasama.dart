@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 
 class DetailInformasi extends StatefulWidget {
   final String title;
-  const DetailInformasi({Key? key, required this.title}) : super(key: key);
+  final String date;
+  final String image;
+  final String content;
+  const DetailInformasi(
+      {Key? key,
+      required this.title,
+      required this.date,
+      required this.image,
+      required this.content})
+      : super(key: key);
 
   @override
   _DetailInformasiState createState() => _DetailInformasiState();
@@ -14,10 +23,7 @@ class _DetailInformasiState extends State<DetailInformasi> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF27405E),
-        title: Padding(
-          padding: const EdgeInsets.only(left: 73),
-          child: Center(child: Text("Informasi Kerja Sama")),
-        ),
+        title: Center(child: Text("Informasi Kerja Sama")),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
@@ -42,7 +48,7 @@ class _DetailInformasiState extends State<DetailInformasi> {
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Text(
-                "22 Juni 2021",
+                widget.date,
                 textAlign: TextAlign.left,
                 style: TextStyle(color: Colors.grey),
               ),
@@ -50,7 +56,8 @@ class _DetailInformasiState extends State<DetailInformasi> {
             SizedBox(
               height: 14,
             ),
-            Image.asset("assets/images/image-berita.png"),
+            Image.network(
+                "https://muba.socketspace.com/uploads/berita/${widget.image}"),
             SizedBox(
               height: 7,
             ),
@@ -70,12 +77,7 @@ class _DetailInformasiState extends State<DetailInformasi> {
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Text(
-                "SEKAYU - Setelah melewati berbagai rangkaian penetapan lokasi rencana pembangunan jalur pipa gas bumi di wilayah Kecamatan Tungkal Jaya dan Kecamatan Bayung Lencir, fase berikut adalah proses pengerjaan yang sudah didepan mata."
-                "Untuk mempertegas arah pengerjaan, Pemkab Muba menggelar rapat persiapan penetapan lokasi rencana pembangunan jalur pipa gas bumi di wilayah Kecamatan Tungkal Jaya dan Kecamatan Bayung Lencir dipimpin Bupati Musi Banyuasin Dr H "
-                "Dodi Reza Alex Noerdin Lic Econ MBA diwakili oleh Sekretaris Daerah Muba Drs. H Apriyadi MSi. Menurut Apriyadi, rapat dilakukan untuk memplenokan hasil sosialisasi dan pelaksanaan monitoring terkait kewenangan yang diberikan oleh"
-                "Gubernur Sumatera Selatan, kepada Pemkab Muba untuk pengadaan tanah dalam keperluan pembangunan jalur pipa gas. Kewenangan ini, tambah Apriyadi, berjalan dengan baik bahkan luas lokasi yang awalnya 23,4 hektar bertambah menjadi 23,5 ha,"
-                "setelah dilakukan verifikasi monitoring lapangan. 'Untuk itu, saya ucapkan terima kasih kepada semua pihak yang terkait, yang sudah melakukan tugasnya dengan baik. Meskipun masih berada ditengah pandemi COVID-19, alhamdulilah kegiatan ini"
-                "lancar, tidak ada yang terhambat dan berjalan sesuai yang diinginkan', ungkap Sekda",
+                widget.content,
                 textAlign: TextAlign.start,
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
               ),
