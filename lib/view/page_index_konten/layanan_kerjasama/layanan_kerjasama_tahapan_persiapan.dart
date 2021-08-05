@@ -4,6 +4,7 @@ import 'package:muba/components/form_tahap_persiapan/korespondensi.dart';
 import 'package:muba/components/form_tahap_persiapan/premis_rectal.dart';
 import 'package:muba/components/form_tahap_persiapan/rencana_pelaksanaan.dart';
 import 'package:muba/components/form_tahap_persiapan/subjek_hukum.dart';
+import 'package:muba/generated/l10n.dart';
 import 'package:muba/view/page_index_konten/layanan_kerjasama/form_tahap_persiapan_complete.dart';
 
 class TahapanPersiapan extends StatefulWidget {
@@ -220,15 +221,27 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
+            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
-            fixedColor: Colors.white,
             unselectedItemColor: Colors.white,
+            selectedItemColor: Colors.indigoAccent,
+            onTap: (value) {
+              if (value == 0) {
+                Navigator.pushNamed(context, '/home');
+              } else if (value == 1) {
+                Navigator.pushNamed(context, '/tv');
+              } else if (value == 2) {
+                Navigator.pushNamed(context, '/settings');
+              }
+            },
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home), label: S.of(context).homeButton),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.tv), label: S.of(context).tvButton),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label: "Settings",
+                label: S.of(context).settingsButton,
               ),
             ],
           ),

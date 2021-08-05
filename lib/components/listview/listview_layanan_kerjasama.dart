@@ -22,7 +22,7 @@ class _ListLayananSamaState extends State<ListLayananSama> {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.pushReplacement(
+          Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => DetailLayananKerjasama(

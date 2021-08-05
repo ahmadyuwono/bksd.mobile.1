@@ -17,6 +17,17 @@ class FieldFormReg extends StatefulWidget {
 
 class _FieldFormRegState extends State<FieldFormReg> {
   TextEditingController _textEditingController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController.addListener(() {});
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

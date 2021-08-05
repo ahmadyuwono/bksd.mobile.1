@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muba/components/form_tahapan_penawaran/form_tahapan_penawaran.dart';
-import 'package:muba/view/home.dart';
+import 'package:muba/generated/l10n.dart';
 import 'package:muba/view/page_index_konten/layanan_kerjasama/form_tahap_penawaran_complete.dart';
 
 class TahapanPenawaran extends StatefulWidget {
@@ -111,24 +111,27 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
+            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
-            fixedColor: Colors.white,
             unselectedItemColor: Colors.white,
+            selectedItemColor: Colors.indigoAccent,
+            onTap: (value) {
+              if (value == 0) {
+                Navigator.pushNamed(context, '/home');
+              } else if (value == 1) {
+                Navigator.pushNamed(context, '/tv');
+              } else if (value == 2) {
+                Navigator.pushNamed(context, '/settings');
+              }
+            },
             items: [
               BottomNavigationBarItem(
-                  activeIcon: IconButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => Beranda()));
-                    },
-                    icon: Icon(Icons.home),
-                  ),
-                  icon: Icon(Icons.home),
-                  label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+                  icon: Icon(Icons.home), label: S.of(context).homeButton),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.tv), label: S.of(context).tvButton),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label: "Settings",
+                label: S.of(context).settingsButton,
               ),
             ],
           ),

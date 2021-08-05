@@ -1,7 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:muba/generated/l10n.dart';
+import 'package:muba/view/forgotpassword.dart';
 import 'package:muba/view/home.dart';
-import 'package:muba/view/page_index_konten/layanan_kerjasama/detail_layanan_kerjasama.dart';
+import 'package:muba/view/loginscreen.dart';
+import 'package:muba/view/muba_tv.dart';
+import 'package:muba/view/page_index_konten/contact_center/contactcenter.dart';
+import 'package:muba/view/page_index_konten/informasi_kerjasama/informasi_kerjasama.dart';
+import 'package:muba/view/page_index_konten/kerjasama_dalam_negeri/kerjasama_dalam_negeri.dart';
+import 'package:muba/view/page_index_konten/kerjasama_luar_negeri/kerjasama_luar_negeri.dart';
+import 'package:muba/view/page_index_konten/laporan_kerjasama/laporan_kerjasama.dart';
+import 'package:muba/view/page_index_konten/layanan_kerjasama/layanankerjasama.dart';
+import 'package:muba/view/page_index_konten/panduan_kerjasama/panduankerjasama.dart';
+import 'package:muba/view/page_index_konten/peluang_kerjasama/peluang_kerjasama.dart';
+import 'package:muba/view/page_index_konten/program_kerjasama/program_kerjasama.dart';
+import 'package:muba/view/page_settings/page_about.dart';
+import 'package:muba/view/page_settings/page_bahasa.dart';
+import 'package:muba/view/page_settings/page_copyright_policy.dart';
+import 'package:muba/view/page_settings/page_privacy_policy.dart';
+import 'package:muba/view/page_settings/page_terms_of_service.dart';
+import 'package:muba/view/register_form.dart';
+import 'package:muba/view/settings.dart';
 
 void main() {
   runApp(MubaApp());
@@ -14,9 +35,39 @@ class MubaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''),
+        Locale('id', ''),
+      ],
       home: Home(),
+      builder: EasyLoading.init(),
       routes: {
-        '/dashboard1': (context) => DetailLayananKerjasama(title: "ABCD"),
+        '/home': (context) => Beranda(),
+        '/login': (context) => LoginScreen(name: (value) {}),
+        '/register': (context) => RegisterForm(),
+        '/forgot': (context) => ForgotPassword(),
+        '/tv': (context) => MubaTv(),
+        '/settings': (context) => Settings(),
+        '/panduan': (context) => PanduanKerjasama(),
+        '/layanan': (context) => LayananKerjaSama(),
+        '/kontak': (context) => ContactCenter(),
+        '/berita': (context) => InformasiKerjasama(),
+        '/domestik': (context) => KerjasamaDalamNegeri(),
+        '/inter': (context) => KerjasamaLuarNegeri(),
+        '/peluang': (context) => PeluangKerjasama(),
+        '/program': (context) => ProgramKerjasama(),
+        '/laporan': (context) => LaporanKerjasama(),
+        '/bahasa': (context) => PageBahasa(),
+        '/privacy': (context) => PagePrivacy(),
+        '/terms': (context) => PageTerms(),
+        '/copyright': (context) => PageCopyright(),
+        '/about': (context) => PageAbout(),
       },
     );
   }

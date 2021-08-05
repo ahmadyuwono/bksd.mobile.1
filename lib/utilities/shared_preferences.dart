@@ -8,6 +8,8 @@ class SharedPreferencesHelper {
   static final String KEY_ISREMEMBER = "KEY_ISREMEMBER";
   static final String KEY_TOKEN = "KEY_TOKEN";
   static final String KEY_NAME = "KEY_NAME";
+  static final String KEY_LANGUAGE = "KEY_LANGUAGE";
+  static final String KEY_ISSELECTED = "KEY_ISSELECTED";
 
   static Future<SharedPreferences> get sharedpreferences =>
       SharedPreferences.getInstance();
@@ -84,6 +86,30 @@ class SharedPreferencesHelper {
     return pref.getString(KEY_NAME) ?? "";
   }
 
+  //untuk simpan language
+  static Future saveLanguage(String language) async {
+    final pref = await sharedpreferences;
+    return pref.setString(KEY_LANGUAGE, language);
+  }
+
+  //untuk panggil language
+  static Future<String> readLanguage() async {
+    final pref = await sharedpreferences;
+    return pref.getString(KEY_LANGUAGE) ?? "en";
+  }
+
+  //untuk simpan isselected
+  static Future saveIsSelected(bool isSelected) async {
+    final pref = await sharedpreferences;
+    return pref.setBool(KEY_ISSELECTED, isSelected);
+  }
+
+  //untuk panggil isselected
+  static Future<bool> readIsSelected() async {
+    final pref = await sharedpreferences;
+    return pref.getBool(KEY_ISSELECTED) ?? false;
+  }
+
   //clear semua data yang disimpan
   static Future clearAllData() async {
     final pref = await sharedpreferences;
@@ -93,6 +119,7 @@ class SharedPreferencesHelper {
       pref.setString(KEY_PASSWORD, ""),
       pref.setString(KEY_TOKEN, ""),
       pref.setString(KEY_NAME, ""),
+      pref.setBool(KEY_ISSELECTED, false),
     });
   }
 }

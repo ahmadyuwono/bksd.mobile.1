@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:muba/components/tabbarview/tabbarview_laporan_dalam.dart';
 import 'package:muba/components/tabbarview/tabbarview_proker_luar.dart';
+import 'package:muba/generated/l10n.dart';
 import 'package:muba/view/home.dart';
+import 'package:muba/view/muba_tv.dart';
+import 'package:muba/view/settings.dart';
 
 class LaporanKerjasama extends StatefulWidget {
   const LaporanKerjasama({Key? key}) : super(key: key);
@@ -126,23 +129,28 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
           ),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Color(0xFF27405E),
-            fixedColor: Colors.white,
             unselectedItemColor: Colors.white,
+            selectedItemColor: Colors.white,
+            onTap: (value) {
+              if (value == 0) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Beranda()));
+              } else if (value == 1) {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MubaTv()));
+              } else if (value == 2) {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Settings()));
+              }
+            },
             items: [
               BottomNavigationBarItem(
-                  activeIcon: IconButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Beranda()));
-                    },
-                    icon: Icon(Icons.home),
-                  ),
-                  icon: Icon(Icons.home),
-                  label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+                  icon: Icon(Icons.home), label: S.of(context).homeButton),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.tv), label: S.of(context).tvButton),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label: "Settings",
+                label: S.of(context).settingsButton,
               ),
             ],
           ),
