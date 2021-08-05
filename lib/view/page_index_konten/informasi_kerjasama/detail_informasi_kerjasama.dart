@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class DetailInformasi extends StatefulWidget {
   final String title;
@@ -23,7 +24,7 @@ class _DetailInformasiState extends State<DetailInformasi> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF27405E),
-        title: Center(child: Text("Informasi Kerja Sama")),
+        title: Center(child: Text(S.of(context).information)),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
@@ -84,6 +85,31 @@ class _DetailInformasiState extends State<DetailInformasi> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 2,
+        backgroundColor: Color(0xFF27405E),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.indigoAccent,
+        onTap: (value) {
+          if (value == 0) {
+            Navigator.pushNamed(context, '/home');
+          } else if (value == 1) {
+            Navigator.pushNamed(context, '/tv');
+          } else if (value == 2) {
+            Navigator.pushNamed(context, '/settings');
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: S.of(context).homeButton),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.tv), label: S.of(context).tvButton),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: S.of(context).settingsButton,
+          ),
+        ],
       ),
     );
   }

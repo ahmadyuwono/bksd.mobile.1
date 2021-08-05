@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:muba/components/form_register_field.dart';
 import 'package:muba/components/password_field.dart';
+import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/login_model.dart';
 import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/forgotpassword.dart';
@@ -19,7 +21,26 @@ class _LoginScreenState extends State<LoginScreen> {
   String _username = "";
   String _password = "";
   int _statusCode = 0;
+  bool isLoading = false;
+  bool isLogin = false;
+  bool isPressed = false;
   LoginModel? loginModel;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferencesHelper.readIsLogin().then((value) {
+      setState(() {
+        isLogin = value;
+      });
+    });
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..userInteractions = false
+      ..backgroundColor = Colors.transparent
+      ..indicatorColor = Color(0x0FF27405E)
+      ..textColor = Color(0x0FF27405E);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,54 +116,79 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       height: 55,
                       decoration: BoxDecoration(
-                          color: Color(0xFF27405E),
+                          color: isPressed == false
+                              ? Color(0xFF27405E)
+                              : Colors.grey,
                           borderRadius: BorderRadius.circular(5)),
                       child: Center(
                         child: InkWell(
-                          onTap: () {
-                            LoginModel.integrateAPI(_username, _password).then(
-                                (value) {
-                              setState(() {});
-                              if (value.status != 0) {
-                                SharedPreferencesHelper.saveName(value.name);
-                                SharedPreferencesHelper.saveIsLogin(true);
-                              }
-                              widget.name(value.name);
-                              loginModel = value;
-                            }).whenComplete(() => loginModel!.status != 0
-                                ? Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Beranda()))
-                                : showDialog(
-                                    context: context,
-                                    builder: (_) => AlertDialog(
-                                          backgroundColor: Color(0xFF27405E),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          title: Container(
-                                              child: Text(
-                                            "Login gagal! User tidak ditemukan!",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )),
-                                          actions: [
-                                            IconButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              icon: Icon(
-                                                Icons.close,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        )));
-                          },
+                          onTap: isPressed == false
+                              ? () {
+                                  setState(() {
+                                    isPressed = true;
+                                  });
+                                  EasyLoading.show(
+                                      status: S.of(context).pleaseWait);
+                                  LoginModel.integrateAPI(_username, _password)
+                                      .then((value) {
+                                    setState(() {});
+                                    if (value.status != 0) {
+                                      isLogin = true;
+                                      SharedPreferencesHelper.saveName(
+                                          value.name);
+                                      SharedPreferencesHelper.saveIsLogin(
+                                          isLogin);
+                                      SharedPreferencesHelper.saveUsername(
+                                          value.email);
+                                      SharedPreferencesHelper.saveToken(
+                                          value.token);
+                                    }
+                                    widget.name(value.name);
+                                    loginModel = value;
+                                  }).whenComplete(() {
+                                    setState(() {});
+                                    isPressed = false;
+                                    EasyLoading.dismiss();
+                                    loginModel!.status != 0
+                                        ? Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Beranda()))
+                                        : showDialog(
+                                            context: context,
+                                            builder: (_) => AlertDialog(
+                                                  backgroundColor:
+                                                      Color(0xFF27405E),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  title: Container(
+                                                      child: Text(
+                                                    S.of(context).loginFailed,
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  )),
+                                                  actions: [
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ));
+                                  });
+                                }
+                              : () {},
                           child: Text(
-                            "Login",
+                            S.of(context).loginButton,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
@@ -159,13 +205,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         InkWell(
                           onTap: () {
+                            setState(() {
+                              SharedPreferencesHelper.saveIsLogin(isLogin);
+                            });
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ForgotPassword()));
                           },
                           child: Text(
-                            "Lupa Password",
+                            S.of(context).forgotPassword,
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w700,
@@ -180,7 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     builder: (context) => RegisterForm()));
                           },
                           child: Text(
-                            "REGISTER",
+                            S.of(context).register,
                             style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.w700,
@@ -194,24 +243,27 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
+              currentIndex: 2,
               backgroundColor: Color(0xFF27405E),
-              fixedColor: Colors.white,
               unselectedItemColor: Colors.white,
+              selectedItemColor: Colors.indigoAccent,
+              onTap: (value) {
+                if (value == 0) {
+                  Navigator.pushNamed(context, '/home');
+                } else if (value == 1) {
+                  Navigator.pushNamed(context, '/tv');
+                } else if (value == 2) {
+                  Navigator.pushNamed(context, '/settings');
+                }
+              },
               items: [
                 BottomNavigationBarItem(
-                    activeIcon: IconButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Beranda()));
-                      },
-                      icon: Icon(Icons.home),
-                    ),
-                    icon: Icon(Icons.home),
-                    label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+                    icon: Icon(Icons.home), label: S.of(context).homeButton),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.tv), label: S.of(context).tvButton),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.settings),
-                  label: "Settings",
+                  label: S.of(context).settingsButton,
                 ),
               ],
             ),

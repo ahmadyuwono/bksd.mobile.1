@@ -1,0 +1,145 @@
+{
+  "homeButton": "Home",
+  "@homeButton": {
+    "description": "Home Button Label"
+  },
+
+  "tvButton": "Muba TV",
+  "@tvButton": {
+    "description": "TV Button Label"
+  },
+
+  "settingsButton": "Settings",
+  "@settingsButton": {
+    "description": "Settings Button Label"
+  },
+
+  "languageButton": "Language",
+  "@languageButton": {
+    "description": "Language Button"
+  },
+
+  "loginRegister": "Login or Register",
+  "@loginRegister": {
+    "description": "LoginReg"
+  },
+
+  "loginButton": "Login",
+  "@loginButton": {
+    "description": "LoginButton"
+  },
+
+  "logoutButton": "Logout",
+
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome"
+  },
+
+  "register": "Register",
+  "@register": {
+    "description": "Register"
+  },
+
+  "forgotPassword": "Forgot Password",
+  "@forgotPassword": {
+    "description": "ForgotPass"
+  },
+
+  "guide": "Cooperation Guide",
+  "@guide": {
+    "description": "guide"
+  },
+
+  "service": "Cooperation Service",
+  "@service": {
+    "description": "service"
+  },
+
+  "kontak": "Contact Center",
+  "@kontak": {
+    "description": "kontak"
+  },
+
+  "information": "News",
+  "@information": {
+    "description": "news"
+  },
+
+  "domestic": "Domestic Cooperation",
+  "@domestic": {
+    "description": "domestic"
+  },
+
+  "international": "International Cooperation",
+  "@international": {
+    "description": "international"
+  },
+
+  "opportunity": "Cooperation Opportunity",
+  "@opportunity": {
+    "description": "opportunity"
+  },
+
+  "program": "Cooperation Program",
+  "@program": {
+    "description": "program"
+  },
+
+  "report": "Cooperation Report",
+  "@report": {
+    "description": "report"
+  },
+
+  "registered": "Already Registered ? ",
+  "@registered": {
+    "description": "registered"
+  },
+
+  "registeredBack": "Back to Login",
+  "@registeredBack": {
+    "description": "registeredBack"
+  },
+
+  "registerButton": "Register",
+  "@registerButton": {
+    "description": "registerButton"
+  },
+
+  "agreeCheck": "I agree to the Terms and Privacy Policy from BKSD Kab. Muba service",
+  "@agreeCheck": {
+    "description": "agreeCheck"
+  },
+
+  "registerTitle": "Register BKSD Kab. Muba",
+  "@registerTitle": {
+    "description": "registerTitle"
+  },
+
+  "registerCheck": "Data not complete, please check again",
+  "@registerCheck": {
+    "description": "registerCheck"
+  },
+
+  "completeName": "Full Name",
+  "address": "Address",
+  "country": "Country",
+  "confirmPass": "Confirm Password",
+  "pleaseWait": "Please Wait",
+  "sendForgot": "Send",
+  "loginFailed": "Failed to login! User not found!",
+  "pleaseLogin": "Please login first",
+  "generalSettings": "General Settings",
+  "about": "About App",
+  "selectPlatform": "Please select a platform to reach Contact Center",
+  "platformCard": "Select Platform",
+  "fileID": "File ID",
+  "registeredMember": "REGISTERED AS A MEMBER",
+  "uploadedFiles": "Uploaded Files",
+  "reUpload": "Re-upload",
+  "lookFiles": "LOOK AT FILES",
+  "uploadFiles": "UPLOAD FILES",
+  "verifyFiles": "FILES HAVE BEEN VERIFIED",
+  "dalamNegeri": "Domestic",
+  "luarNegeri": "International"
+}

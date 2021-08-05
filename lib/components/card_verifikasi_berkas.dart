@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class CardVerifikasiBerkas extends StatefulWidget {
   final String image;
   final String title;
+  final bool isVerified;
   const CardVerifikasiBerkas(
-      {Key? key, required this.image, required this.title})
+      {Key? key,
+      required this.image,
+      required this.title,
+      required this.isVerified})
       : super(key: key);
 
   @override
@@ -44,7 +48,16 @@ class _CardVerifikasiBerkasState extends State<CardVerifikasiBerkas> {
                     SizedBox(
                       height: 10,
                     ),
-                    Image.asset("assets/images/patch-check.png"),
+                    widget.isVerified == true
+                        ? Image.asset("assets/images/patch-check.png")
+                        : CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Colors.red,
+                            child: Icon(
+                              Icons.clear,
+                              color: Colors.white,
+                              size: 15,
+                            )),
                   ],
                 ),
               ),

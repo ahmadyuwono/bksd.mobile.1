@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:muba/view/home.dart';
+import 'package:muba/generated/l10n.dart';
 
 class ContactCenter extends StatefulWidget {
   const ContactCenter({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _ContactCenterState extends State<ContactCenter> {
         backgroundColor: Color(0xFF27405E),
         title: Center(
           child: Text(
-            "Contact Center",
+            S.of(context).kontak,
             textAlign: TextAlign.center,
           ),
         ),
@@ -55,7 +55,7 @@ class _ContactCenterState extends State<ContactCenter> {
               ),
               Center(
                 child: Text(
-                  "Silahkan Pilih Platform Untuk Menghubungi Bagian Contact Center",
+                  S.of(context).selectPlatform,
                   style: TextStyle(
                       color: Color(0xFF27405E),
                       fontSize: 18,
@@ -79,7 +79,7 @@ class _ContactCenterState extends State<ContactCenter> {
                     children: [
                       Center(
                         child: Text(
-                          "Pilih Platform",
+                          S.of(context).platformCard,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -143,23 +143,25 @@ class _ContactCenterState extends State<ContactCenter> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF27405E),
-        fixedColor: Colors.white,
         unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.white,
+        onTap: (value) {
+          if (value == 0) {
+            Navigator.pushNamed(context, '/home');
+          } else if (value == 1) {
+            Navigator.pushNamed(context, '/tv');
+          } else if (value == 2) {
+            Navigator.pushNamed(context, '/settings');
+          }
+        },
         items: [
           BottomNavigationBarItem(
-              activeIcon: IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Beranda()));
-                },
-                icon: Icon(Icons.home),
-              ),
-              icon: Icon(Icons.home),
-              label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+              icon: Icon(Icons.home), label: S.of(context).homeButton),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.tv), label: S.of(context).tvButton),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: "Settings",
+            label: S.of(context).settingsButton,
           ),
         ],
       ),

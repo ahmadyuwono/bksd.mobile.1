@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:muba/components/form_register_field.dart';
+import 'package:muba/generated/l10n.dart';
+import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/home.dart';
 import 'package:muba/view/loginscreen.dart';
+import 'package:muba/view/muba_tv.dart';
+import 'package:muba/view/settings.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -11,6 +15,17 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  bool isLogin = false;
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferencesHelper.readIsLogin().then((value) {
+      setState(() {
+        isLogin = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -47,7 +62,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               title: Center(
                 child: Text(
-                  "Forgot Password",
+                  S.of(context).forgotPassword,
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -62,7 +77,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 child: Column(
                   children: [
                     FieldFormReg(
-                      hintForm: 'Email',
+                      hintForm: 'E-mail',
                       isPassword: false,
                       onFilled: (value) {},
                     ),
@@ -85,7 +100,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       )));
                         },
                         child: Text(
-                          "Kirim",
+                          S.of(context).sendForgot,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -98,7 +113,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        "Kembali ke Login",
+                        S.of(context).registeredBack,
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     )
@@ -108,23 +123,28 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ),
             bottomNavigationBar: BottomNavigationBar(
               backgroundColor: Color(0xFF27405E),
-              fixedColor: Colors.white,
               unselectedItemColor: Colors.white,
+              selectedItemColor: Colors.white,
+              onTap: (value) {
+                if (value == 0) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Beranda()));
+                } else if (value == 1) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MubaTv()));
+                } else if (value == 2) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Settings()));
+                }
+              },
               items: [
                 BottomNavigationBarItem(
-                    activeIcon: IconButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Beranda()));
-                      },
-                      icon: Icon(Icons.home),
-                    ),
-                    icon: Icon(Icons.home),
-                    label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+                    icon: Icon(Icons.home), label: S.of(context).homeButton),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.tv), label: S.of(context).tvButton),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.settings),
-                  label: "Settings",
+                  label: S.of(context).settingsButton,
                 ),
               ],
             ),

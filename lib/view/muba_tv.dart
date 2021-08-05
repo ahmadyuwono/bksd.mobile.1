@@ -1,6 +1,7 @@
 import 'dart:async' show Future;
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:muba/components/listview/listview_muba_tv.dart';
@@ -17,10 +18,15 @@ class MubaTv extends StatefulWidget {
 class _MubaTvState extends State<MubaTv> {
   List<VideoModel> videoModel = [];
   bool isLoaded = false;
+  bool isError = false;
 
   void initState() {
     super.initState();
-    loadData().then((value) {
+    loadData().onError((error, stackTrace) {
+      setState(() {
+        isError = true;
+      });
+    }).then((value) {
       setState(() {});
       videoModel = value;
     }).whenComplete(() {
@@ -46,35 +52,79 @@ class _MubaTvState extends State<MubaTv> {
           ),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(left: 20),
-        child: isLoaded == true
-            ? CustomScrollView(
+      body: isError == false
+          ? Container(
+              padding: const EdgeInsets.only(left: 20),
+              child: isLoaded == true
+                  ? CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      slivers: [
+                        CupertinoSliverRefreshControl(
+                          onRefresh: () {
+                            return loadData().onError((error, stackTrace) {
+                              setState(() {
+                                isError = true;
+                              });
+                            }).then((value) {
+                              setState(() {});
+                              videoModel = value;
+                            }).whenComplete(() {
+                              setState(() {});
+                              isLoaded = true;
+                            });
+                          },
+                        ),
+                        SliverPadding(padding: const EdgeInsets.only(top: 24)),
+                        SliverList(
+                          delegate: SliverChildListDelegate(List.generate(
+                              videoModel.length,
+                              (index) => ListviewMubaTv(
+                                  data: videoModel, index: index)).toList()),
+                        ),
+                      ],
+                    )
+                  : Center(
+                      child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF27405E),
+                        strokeWidth: 8,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    )),
+            )
+          : Container(
+              child: CustomScrollView(
                 scrollDirection: Axis.vertical,
                 physics: BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
                 slivers: [
-                  SliverPadding(padding: const EdgeInsets.only(top: 24)),
-                  SliverList(
-                    delegate: SliverChildListDelegate(List.generate(
-                            videoModel.length,
-                            (index) =>
-                                ListviewMubaTv(data: videoModel, index: index))
-                        .toList()),
+                  CupertinoSliverRefreshControl(
+                    onRefresh: () {
+                      return loadData().onError((error, stackTrace) {
+                        setState(() {
+                          isError = true;
+                        });
+                      }).then((value) {
+                        setState(() {});
+                        videoModel = value;
+                      }).whenComplete(() {
+                        setState(() {});
+                        isLoaded = true;
+                      });
+                    },
+                  ),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Text("Error Koneksi Terputus"),
+                    ),
                   ),
                 ],
-              )
-            : Center(
-                child: SizedBox(
-                height: 100,
-                width: 100,
-                child: CircularProgressIndicator(
-                  color: Color(0xFF27405E),
-                  strokeWidth: 8,
-                  backgroundColor: Colors.transparent,
-                ),
-              )),
-      ),
+              ),
+            ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 1,
         backgroundColor: Color(0xFF27405E),

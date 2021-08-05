@@ -1,17 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/loginscreen.dart';
 import 'package:muba/view/muba_tv.dart';
-import 'package:muba/view/page_index_konten/contact_center/contactcenter.dart';
-import 'package:muba/view/page_index_konten/informasi_kerjasama/informasi_kerjasama.dart';
-import 'package:muba/view/page_index_konten/kerjasama_dalam_negeri/kerjasama_dalam_negeri.dart';
-import 'package:muba/view/page_index_konten/kerjasama_luar_negeri/kerjasama_luar_negeri.dart';
-import 'package:muba/view/page_index_konten/laporan_kerjasama/laporan_kerjasama.dart';
-import 'package:muba/view/page_index_konten/panduan_kerjasama/panduankerjasama.dart';
-import 'package:muba/view/page_index_konten/peluang_kerjasama/peluang_kerjasama.dart';
-import 'package:muba/view/page_index_konten/program_kerjasama/program_kerjasama.dart';
-
-import 'page_index_konten/layanan_kerjasama/layanankerjasama.dart';
+import 'package:muba/view/settings.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({Key? key}) : super(key: key);
@@ -23,28 +16,20 @@ class Beranda extends StatefulWidget {
 class _BerandaState extends State<Beranda> {
   String name = "";
   bool isLogin = false;
-  List<String> service = [
-    "Panduan Kerjasama",
-    "Layanan Kerjasama",
-    "Contact Center",
-    "Informasi Kerjasama",
-    "Kerjasama Dalam Negeri",
-    "Kerjasama Luar Negeri",
-    "Peluang Kerjasama",
-    "Program Kerjasama",
-    "Laporan Kerjasama"
-  ];
+  String token = "";
+  String email = "";
+  List<String> service = [];
 
-  List<String> icons = [
-    "assets/images/index-1.png",
-    "assets/images/index-2.png",
-    "assets/images/index-3.png",
-    "assets/images/index-4.png",
+  List icons = [
+    CupertinoIcons.compass,
+    CupertinoIcons.group,
+    Icons.contact_phone_outlined,
+    CupertinoIcons.info,
     "assets/images/index-5.png",
     "assets/images/index-6.png",
-    "assets/images/index-7.png",
-    "assets/images/index-8.png",
-    "assets/images/index-9.png",
+    Icons.lightbulb_outlined,
+    Icons.fact_check_outlined,
+    CupertinoIcons.doc_text,
   ];
 
   @override
@@ -60,10 +45,37 @@ class _BerandaState extends State<Beranda> {
         name = value;
       });
     });
+    SharedPreferencesHelper.readUsername().then((value) {
+      setState(() {});
+      email = value;
+    });
+    SharedPreferencesHelper.readToken().then((value) {
+      setState(() {});
+      token = value;
+    });
+    SharedPreferencesHelper.readLanguage().then((value) {
+      setState(() {
+        value.isNotEmpty ? S.load(Locale(value)) : S.load(Locale("en"));
+      });
+    });
+    SharedPreferencesHelper.readIsSelected().then((value) {
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> service = [
+      S.of(context).guide,
+      S.of(context).service,
+      S.of(context).kontak,
+      S.of(context).information,
+      S.of(context).domestic,
+      S.of(context).international,
+      S.of(context).opportunity,
+      S.of(context).program,
+      S.of(context).report
+    ];
     return Scaffold(
       body: Container(
         color: Color(0xFF27405E),
@@ -84,19 +96,21 @@ class _BerandaState extends State<Beranda> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 50, right: 24),
                           child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                SharedPreferencesHelper.clearAllData();
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen(
-                                            name: (value) {
-                                              setState(() {});
-                                            },
-                                          )));
-                            },
+                            onTap: isLogin == false
+                                ? () {
+                                    setState(() {
+                                      SharedPreferencesHelper.clearAllData();
+                                    });
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginScreen(
+                                                  name: (value) {
+                                                    setState(() {});
+                                                  },
+                                                )));
+                                  }
+                                : () {},
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Color(0xFF27405E),
@@ -106,8 +120,8 @@ class _BerandaState extends State<Beranda> {
                               child: Center(
                                 child: Text(
                                   isLogin == true
-                                      ? "Hello, $name! Logout"
-                                      : "LOGIN OR REGISTER",
+                                      ? "${S.of(context).welcome}, $name"
+                                      : S.of(context).loginRegister,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -139,12 +153,35 @@ class _BerandaState extends State<Beranda> {
                                 height: 36,
                               ),
                               InkWell(
-                                child: Image.asset(
-                                  icons[i],
-                                  width: 53,
-                                  height: 53,
-                                  color: Color(0xFF27405E),
-                                ),
+                                child: i == 4 || i == 5
+                                    ? CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: Colors.transparent,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          child: Image.asset(
+                                            icons[i],
+                                            fit: BoxFit.fill,
+                                            color: Color(0xFF27405E),
+                                          ),
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: Colors.transparent,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          child: Icon(
+                                            icons[i],
+                                            size: 50,
+                                            color: Color(0xFF27405E),
+                                          ),
+                                        ),
+                                      ),
                                 onTap: () {
                                   _navigateRoute(service[i]);
                                 },
@@ -188,31 +225,22 @@ class _BerandaState extends State<Beranda> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.indigoAccent,
         onTap: (value) {
-          // switch (value) {
-          //   case 1:
-          //     return Navigator.push(
-          //       context,
-          //     );
           if (value == 1) {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => MubaTv()));
+          } else if (value == 2) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Settings()));
           }
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              activeIcon: IconButton(
-                icon: Icon(Icons.tv),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => MubaTv()));
-                },
-              ),
-              icon: Icon(Icons.tv),
-              label: "Muba TV"),
+              icon: Icon(Icons.home), label: S.of(context).homeButton),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.tv), label: S.of(context).tvButton),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: "Settings",
+            label: S.of(context).settingsButton,
           ),
         ],
       ),
@@ -220,35 +248,33 @@ class _BerandaState extends State<Beranda> {
   }
 
   _navigateRoute(routeName) {
-    if (isLogin == true) {
-      switch (routeName) {
-        case "Contact Center":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ContactCenter()));
-        case "Panduan Kerjasama":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PanduanKerjasama()));
-        case "Layanan Kerjasama":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LayananKerjaSama()));
-        case "Informasi Kerjasama":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => InformasiKerjasama()));
-        case "Kerjasama Dalam Negeri":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => KerjasamaDalamNegeri()));
-        case "Kerjasama Luar Negeri":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => KerjasamaLuarNegeri()));
-        case "Peluang Kerjasama":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PeluangKerjasama()));
-        case "Program Kerjasama":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProgramKerjasama()));
-        case "Laporan Kerjasama":
-          return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LaporanKerjasama()));
+    if (isLogin == true || routeName == S.of(context).information) {
+      if (routeName == S.of(context).kontak) {
+        return Navigator.pushNamed(context, '/kontak');
+      }
+      if (routeName == S.of(context).guide) {
+        return Navigator.pushNamed(context, '/panduan');
+      }
+      if (routeName == S.of(context).service) {
+        return Navigator.pushNamed(context, '/layanan');
+      }
+      if (routeName == S.of(context).information) {
+        return Navigator.pushNamed(context, '/berita');
+      }
+      if (routeName == S.of(context).domestic) {
+        return Navigator.pushNamed(context, '/domestik');
+      }
+      if (routeName == S.of(context).international) {
+        return Navigator.pushNamed(context, '/inter');
+      }
+      if (routeName == S.of(context).opportunity) {
+        return Navigator.pushNamed(context, '/peluang');
+      }
+      if (routeName == S.of(context).program) {
+        return Navigator.pushNamed(context, '/program');
+      }
+      if (routeName == S.of(context).report) {
+        return Navigator.pushNamed(context, '/laporan');
       }
     } else {
       showDialog(
@@ -259,7 +285,7 @@ class _BerandaState extends State<Beranda> {
                     borderRadius: BorderRadius.circular(10)),
                 title: Container(
                     child: Text(
-                  "Harap Login Terlebih Dahulu",
+                  S.of(context).pleaseLogin,
                   style: TextStyle(color: Colors.white),
                 )),
                 actions: [
