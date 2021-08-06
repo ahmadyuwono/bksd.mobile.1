@@ -10,16 +10,17 @@ class PanduanKerjasama extends StatefulWidget {
 }
 
 class _PanduanKerjasamaState extends State<PanduanKerjasama> {
-  List<String> contentCard = [
-    "Kerja Sama Daerah Dengan Daerah Lain (KSDD)",
-    "Kerja Sama Daerah Dengan Pihak Ketiga (KSDPK)",
-    "Sinergi Pemerintah Pusat dan Pemerintah Daerah (SINERGI)",
-    "Kerja Sama Daerah dengan Pemerintah Daerah Luar Negeri (KSDPL)",
-    "Kerja Sama Daerah dengan Lembaga Luar Negeri (KSDLL)",
-  ];
+  List<String> contentCard = [];
 
   @override
   Widget build(BuildContext context) {
+    List<String> contentCard = [
+      "${S.of(context).ksdd} (KSDD)",
+      "${S.of(context).ksdpk} (KSDPK)",
+      "${S.of(context).sinergi} (SINERGI)",
+      "${S.of(context).ksdpl} (KSDPL)",
+      "${S.of(context).ksdll} (KSDLL)",
+    ];
     return Stack(
       children: [
         Container(
@@ -56,10 +57,9 @@ class _PanduanKerjasamaState extends State<PanduanKerjasama> {
                 ],
               )),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.indigoAccent,
+            selectedItemColor: Colors.white,
             onTap: (value) {
               if (value == 0) {
                 Navigator.pushNamed(context, '/home');

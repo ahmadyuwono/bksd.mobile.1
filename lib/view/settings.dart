@@ -80,9 +80,14 @@ class _SettingsState extends State<Settings> {
                                             : FontWeight.w400),
                                   )
                                 : InkWell(
-                                    onTap: () {
-                                      setState(() {});
-                                      _navigate(menu[index]);
+                                    onTap: () async {
+                                      String selectedLang =
+                                          await _navigate(menu[index]);
+                                      setState(() {
+                                        if (index == 1) {
+                                          S.load(Locale(selectedLang));
+                                        }
+                                      });
                                     },
                                     child: Text(
                                       menu[index],

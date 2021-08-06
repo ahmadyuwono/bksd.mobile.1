@@ -61,11 +61,11 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
                         child: Column(
                           children: [
                             Text(
-                              "KERANGKA ACUAN KERJA",
+                              "${S.of(context).stepTitle}",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            Text("Silahkan isi format dibawah ini"),
+                            Text(S.of(context).formStepT),
                             SizedBox(
                               height: 18,
                             ),
@@ -204,7 +204,7 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
                                             )));
                               },
                               child: Text(
-                                "KIRIM",
+                                S.of(context).sendForgot,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
@@ -221,10 +221,9 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.indigoAccent,
+            selectedItemColor: Colors.white,
             onTap: (value) {
               if (value == 0) {
                 Navigator.pushNamed(context, '/home');

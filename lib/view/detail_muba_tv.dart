@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:muba/view/home.dart';
+import 'package:muba/generated/l10n.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -111,16 +111,21 @@ class _DetailMubaTvState extends State<DetailMubaTv> {
         selectedItemColor: Colors.indigoAccent,
         onTap: (value) {
           if (value == 0) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Beranda()));
+            Navigator.pushNamed(context, '/home');
+          } else if (value == 1) {
+            Navigator.pushNamed(context, '/tv');
+          } else if (value == 2) {
+            Navigator.pushNamed(context, '/settings');
           }
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: S.of(context).homeButton),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.tv), label: S.of(context).tvButton),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: "Settings",
+            label: S.of(context).settingsButton,
           ),
         ],
       ),

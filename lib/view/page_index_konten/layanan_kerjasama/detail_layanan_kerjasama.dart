@@ -13,21 +13,22 @@ class DetailLayananKerjasama extends StatefulWidget {
 }
 
 class _DetailLayananKerjasamaState extends State<DetailLayananKerjasama> {
-  List<String> textContent = [
-    "Tahap Persiapan",
-    "Tahap Penawaran",
-    "Tahap Penyusunan KB",
-    "Tahap Pembahasan KB",
-    "Tahap Penandatanganan KB",
-    "Tahap Persetujuan DPRD",
-    "Tahap Penyusunan PKS",
-    "Tahap Pembahasan PKS",
-    "Tahap Penandatanganan PKS",
-    "Tahap Pelaksanaan PKS",
-  ];
+  List<String> textContent = [];
 
   @override
   Widget build(BuildContext context) {
+    List<String> textContent = [
+      S.of(context).prepPhase,
+      S.of(context).offerPhase,
+      "${S.of(context).susunPhase} KB",
+      "${S.of(context).reviewPhase} KB",
+      "${S.of(context).signPhase} KB",
+      "${S.of(context).agreePhase} DPRD",
+      "${S.of(context).susunPhase} PKS",
+      "${S.of(context).reviewPhase} PKS",
+      "${S.of(context).signPhase} PKS",
+      "${S.of(context).executePhase} PKS",
+    ];
     return Stack(
       children: [
         Container(
@@ -91,10 +92,9 @@ class _DetailLayananKerjasamaState extends State<DetailLayananKerjasama> {
                 ],
               )),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.indigoAccent,
+            selectedItemColor: Colors.white,
             onTap: (value) {
               if (value == 0) {
                 Navigator.pushNamed(context, '/home');
@@ -121,23 +121,23 @@ class _DetailLayananKerjasamaState extends State<DetailLayananKerjasama> {
   }
 
   _navigate(routeName) {
-    switch (routeName) {
-      case "Tahap Persiapan":
-        return Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TahapanPersiapan(
-                      title: routeName,
-                      title2: widget.title,
-                    )));
-      case "Tahap Penawaran":
-        return Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => TahapanPenawaran(
-                      title: routeName,
-                      title2: widget.title,
-                    )));
+    if (routeName == S.of(context).prepPhase) {
+      return Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TahapanPersiapan(
+                    title: routeName,
+                    title2: widget.title,
+                  )));
+    }
+    if (routeName == S.of(context).offerPhase) {
+      return Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TahapanPenawaran(
+                    title: routeName,
+                    title2: widget.title,
+                  )));
     }
   }
 }

@@ -288,10 +288,9 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.indigoAccent,
+        selectedItemColor: Colors.white,
         onTap: (value) {
           if (value == 0) {
             Navigator.pushNamed(context, '/home');

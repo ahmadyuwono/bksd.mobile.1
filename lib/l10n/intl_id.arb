@@ -1,48 +1,161 @@
 {
   "homeButton": "Beranda",
+
   "tvButton": "Muba TV",
+
   "settingsButton": "Pengaturan",
+
   "languageButton": "Bahasa",
+
   "loginRegister": "Masuk atau Daftar",
+
   "loginButton": "Masuk",
+
   "logoutButton": "Keluar",
+
   "welcome": "Selamat Datang",
+
   "register": "Daftar",
+
   "forgotPassword": "Lupa Password",
+
   "guide": "Panduan Kerjasama",
+
   "service": "Layanan Kerjasama",
+
   "kontak": "Pusat Kontak",
+
   "information": "Berita",
+
   "domestic": "Kerjasama Dalam Negeri",
+
   "international": "Kerjasama Luar Negeri",
+
   "opportunity": "Peluang Kerjasama",
+
   "program": "Program Kerjasama",
+
   "report": "Laporan Kerjasama",
+
   "registered": "Sudah Daftar ? ",
+
   "registeredBack": "Kembali ke Login",
+
   "registerButton": "Daftar",
+
   "agreeCheck": "Saya menyetujui Terms dan Privacy Policy dari layanan BKSD Kab. Muba",
+
   "registerTitle": "Registrasi BKSD Kab. Muba",
+
   "registerCheck": "Data belum lengkap, mohon dicek kembali",
+
   "completeName": "Nama Lengkap",
+
   "address": "Alamat",
+
   "country": "Negara",
+
   "confirmPass": "Konfirmasi Password",
+
   "pleaseWait": "Mohon Tunggu",
+
   "sendForgot": "Kirim",
+
   "loginFailed": "Login gagal! User tidak ditemukan!",
+
   "pleaseLogin": "Harap login dahulu",
+
   "generalSettings": "Pengaturan Umum",
+
   "about": "Tentang Aplikasi",
+
   "selectPlatform": "Silahkan pilih platform untuk menghubungi Pusat Kontak",
+
   "platformCard": "Pilih Platform",
+
   "fileID": "ID Berkas",
+
   "registeredMember": "SUDAH TERDAFTAR SEBAGAI MEMBER",
+
   "uploadedFiles": "Berkas Terunggah",
+
   "reUpload": "Unggah Ulang",
+
   "lookFiles": "LIHAT BERKAS",
+
   "uploadFiles": "UNGGAH BERKAS",
+
   "verifyFiles": "BERKAS TELAH DIVERIFIKASI",
+
   "dalamNegeri": "Dalam Negeri",
-  "luarNegeri": "Luar Negeri"
+
+  "luarNegeri": "Luar Negeri",
+
+  "prepPhase": "Tahap Persiapan",
+
+  "offerPhase": "Tahap Penawaran",
+
+  "susunPhase": "Tahap Penyusunan",
+
+  "reviewPhase": "Tahap Pembahasan",
+
+  "signPhase": "Tahap Penandatanganan",
+
+  "agreePhase": "Tahap Persetujuan",
+
+  "executePhase": "Tahap Pelaksanaan",
+
+  "dialogTitle": "Konfirmasi",
+
+  "dialogTitleP": "Persyaratan",
+
+  "dialogContent": "Apakah anda yaking untuk mengunduh file:",
+
+  "dialogConfirm": "UNDUH",
+
+  "dialogCancel": "BATAL",
+
+  "facilitation": "Fasilitasi",
+
+  "coop": "Kerja Sama",
+
+  "ksdd": "Kerjasama Daerah dengan Daerah Lain",
+
+  "ksdpk": "Kerjasama Daerah dengan Pihak Ketiga",
+
+  "sinergi": "Sinergi Pemerintah Pusat dengan Pemerintah Daerah",
+
+  "ksdpl": "Kerjasama Daerah dengan Pemerintah Daerah Luar Negeri",
+
+  "ksdll": "Kerjasama Daerah dengan Lembaga Luar Negeri",
+
+  "education": "Pendidikan",
+
+  "health": "Kesehatan",
+
+  "tourism": "Pariwisata",
+
+  "sport": "Olahraga",
+
+  "suksesForm": "BERHASIL",
+
+  "fillingSukses": "PENGISIAN FORMAT KERANGKA ACUAN KERJA",
+
+  "backToDb": "Kembali ke Dashboard",
+
+  "formStepT": "Silahkan isi format dibawah ini",
+
+  "stepTitle": "FORM APLIKASI PERSIAPAN",
+
+  "stepTitleOffer": "FORM APLIKASI PENAWARAN",
+
+  "noLetter": "Nomor Surat",
+
+  "dateLetter": "Tanggal Surat",
+
+  "offerState": "Dengan ini Mengajukan Penawaran",
+
+  "office": "Kedudukan",
+
+  "actBehalf": "Bertindak Untuk dan Atas Nama"
 }

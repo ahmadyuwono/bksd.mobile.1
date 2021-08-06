@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 import 'package:muba/view/page_index_konten/peluang_kerjasama/peluang_kerjasama_konten.dart';
 
 class TabbarviewLuar extends StatefulWidget {
@@ -9,7 +10,7 @@ class TabbarviewLuar extends StatefulWidget {
 }
 
 class _TabbarviewLuarState extends State<TabbarviewLuar> {
-  List<String> title = ["Pendidikan", "Kesehatan", "Pariwisata", "Olahraga"];
+  List<String> title = [];
   List<String> images = [
     "assets/images/bg-pendidikan.png",
     "assets/images/bg-kesehatan.png",
@@ -18,6 +19,12 @@ class _TabbarviewLuarState extends State<TabbarviewLuar> {
   ];
   @override
   Widget build(BuildContext context) {
+    List<String> title = [
+      S.of(context).education,
+      S.of(context).health,
+      S.of(context).tourism,
+      S.of(context).sport
+    ];
     return Container(
         padding: const EdgeInsets.only(left: 32, right: 32),
         child: CustomScrollView(

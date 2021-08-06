@@ -119,7 +119,6 @@ class SharedPreferencesHelper {
       pref.setString(KEY_PASSWORD, ""),
       pref.setString(KEY_TOKEN, ""),
       pref.setString(KEY_NAME, ""),
-      pref.setBool(KEY_ISSELECTED, false),
     });
   }
 }

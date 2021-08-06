@@ -16,6 +16,7 @@ class Beranda extends StatefulWidget {
 class _BerandaState extends State<Beranda> {
   String name = "";
   bool isLogin = false;
+  late bool isSelected;
   String token = "";
   String email = "";
   List<String> service = [];
@@ -59,7 +60,9 @@ class _BerandaState extends State<Beranda> {
       });
     });
     SharedPreferencesHelper.readIsSelected().then((value) {
-      setState(() {});
+      setState(() {
+        isSelected = value;
+      });
     });
   }
 
@@ -183,6 +186,10 @@ class _BerandaState extends State<Beranda> {
                                         ),
                                       ),
                                 onTap: () {
+                                  setState(() {
+                                    SharedPreferencesHelper.saveIsSelected(
+                                        isSelected);
+                                  });
                                   _navigateRoute(service[i]);
                                 },
                               ),

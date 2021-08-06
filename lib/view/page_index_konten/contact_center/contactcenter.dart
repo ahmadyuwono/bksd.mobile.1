@@ -1,5 +1,12 @@
+import 'dart:async' show Future;
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:muba/components/listview/listview_contact_center.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/kontak_model.dart';
 
 class ContactCenter extends StatefulWidget {
   const ContactCenter({Key? key}) : super(key: key);
@@ -9,6 +16,26 @@ class ContactCenter extends StatefulWidget {
 }
 
 class _ContactCenterState extends State<ContactCenter> {
+  List<KontakModel> kontakModel = [];
+  bool isLoaded = false;
+  bool isError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadData().onError((error, stackTrace) {
+      setState(() {
+        isError = true;
+      });
+    }).then((value) {
+      setState(() {});
+      kontakModel = value;
+    }).whenComplete(() {
+      setState(() {});
+      isLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,126 +48,80 @@ class _ContactCenterState extends State<ContactCenter> {
           ),
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.only(left: 29, right: 29, top: 37),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/images/logo-kab-muba.png"),
-                  SizedBox(
-                    width: 9,
+      body: isError == false
+          ? Container(
+              height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.only(left: 29, right: 29),
+              child: isLoaded == true
+                  ? CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      slivers: [
+                        CupertinoSliverRefreshControl(
+                          onRefresh: () {
+                            return loadData().onError((error, stackTrace) {
+                              setState(() {
+                                isError = true;
+                              });
+                            }).then((value) {
+                              setState(() {});
+                              kontakModel = value;
+                            }).whenComplete(() {
+                              setState(() {});
+                              isLoaded = true;
+                            });
+                          },
+                        ),
+                        SliverPadding(padding: const EdgeInsets.only(top: 37)),
+                        SliverList(
+                            delegate: SliverChildListDelegate(List.generate(
+                                1,
+                                (index) => ListviewContact(
+                                      kontakModel: kontakModel,
+                                    )))),
+                      ],
+                    )
+                  : Center(
+                      child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF27405E),
+                        strokeWidth: 8,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    )),
+            )
+          : Container(
+              child: CustomScrollView(
+                scrollDirection: Axis.vertical,
+                physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                slivers: [
+                  CupertinoSliverRefreshControl(
+                    onRefresh: () {
+                      return loadData().onError((error, stackTrace) {
+                        setState(() {
+                          isError = true;
+                        });
+                      }).then((value) {
+                        setState(() {});
+                        kontakModel = value;
+                      }).whenComplete(() {
+                        setState(() {});
+                        isLoaded = true;
+                      });
+                    },
                   ),
-                  Container(
-                    width: 174,
-                    height: 42,
-                    child: Text(
-                      "BAGIAN KERJASAMA KABUPATEN MUBA",
-                      style: TextStyle(
-                          color: Color(0xFF27405E),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Text("Error"),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 50,
-              ),
-              Center(
-                child: Text(
-                  S.of(context).selectPlatform,
-                  style: TextStyle(
-                      color: Color(0xFF27405E),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                height: 34,
-              ),
-              Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  color: Color(0xFF27405E),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 25, bottom: 43),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Text(
-                          S.of(context).platformCard,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Divider(
-                        thickness: 1,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        height: 28,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset("assets/images/logos_whatsapp.png"),
-                          SizedBox(
-                            width: 11.88,
-                          ),
-                          Text(
-                            "Whatsapp",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 29,
-                      ),
-                      Divider(
-                        thickness: 1,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        height: 33,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                              "assets/images/ant-design_mail-filled.png"),
-                          SizedBox(
-                            width: 10.88,
-                          ),
-                          Text(
-                            "E-Mail",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
@@ -166,5 +147,24 @@ class _ContactCenterState extends State<ContactCenter> {
         ],
       ),
     );
+  }
+
+  Future integrateAPI() async {
+    String apiURL = "https://muba.socketspace.com/api/kontak";
+    var response = await http.get(Uri.parse(apiURL));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData() async {
+    String jsonData = await integrateAPI();
+    final jsonRespone = jsonDecode(jsonData);
+    ListKontak listModel = ListKontak.fromJson(jsonRespone);
+    return listModel.kontak;
   }
 }

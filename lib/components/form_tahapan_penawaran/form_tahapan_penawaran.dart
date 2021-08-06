@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class FormPenawaran extends StatefulWidget {
   final Function(String) a;
@@ -31,7 +32,7 @@ class _FormPenawaranState extends State<FormPenawaran> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Nomor Surat"),
+          Text(S.of(context).noLetter),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
@@ -51,7 +52,7 @@ class _FormPenawaranState extends State<FormPenawaran> {
           SizedBox(
             height: 10,
           ),
-          Text("Tanggal Surat"),
+          Text(S.of(context).dateLetter),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
@@ -71,7 +72,7 @@ class _FormPenawaranState extends State<FormPenawaran> {
           SizedBox(
             height: 10,
           ),
-          Text("Dengan Ini Mengajukan Penawaran KSDD"),
+          Text(S.of(context).offerState),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
@@ -91,7 +92,7 @@ class _FormPenawaranState extends State<FormPenawaran> {
           SizedBox(
             height: 10,
           ),
-          Text("Kedudukan (Alamat)"),
+          Text(S.of(context).office),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
@@ -111,7 +112,7 @@ class _FormPenawaranState extends State<FormPenawaran> {
           SizedBox(
             height: 10,
           ),
-          Text("Bertindak Untuk dan Atas Nama"),
+          Text(S.of(context).actBehalf),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(

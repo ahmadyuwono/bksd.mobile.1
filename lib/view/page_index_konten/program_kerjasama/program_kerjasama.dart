@@ -44,10 +44,12 @@ class _ProgramKerjasamaState extends State<ProgramKerjasama>
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Color(0xFF27405E),
-            title: Text(
-              S.of(context).program,
-              maxLines: 3,
-              textAlign: TextAlign.center,
+            title: Center(
+              child: Text(
+                S.of(context).program,
+                maxLines: 3,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           body: Column(
@@ -123,10 +125,9 @@ class _ProgramKerjasamaState extends State<ProgramKerjasama>
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.indigoAccent,
+            selectedItemColor: Colors.white,
             onTap: (value) {
               if (value == 0) {
                 Navigator.pushNamed(context, '/home');

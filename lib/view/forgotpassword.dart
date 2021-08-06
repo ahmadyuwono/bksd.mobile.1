@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muba/components/form_register_field.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/utilities/shared_preferences.dart';
-import 'package:muba/view/home.dart';
 import 'package:muba/view/loginscreen.dart';
-import 'package:muba/view/muba_tv.dart';
-import 'package:muba/view/settings.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -127,14 +124,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               selectedItemColor: Colors.white,
               onTap: (value) {
                 if (value == 0) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Beranda()));
+                  Navigator.pushNamed(context, '/home');
                 } else if (value == 1) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MubaTv()));
+                  Navigator.pushNamed(context, '/tv');
                 } else if (value == 2) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
+                  Navigator.pushNamed(context, '/settings');
                 }
               },
               items: [

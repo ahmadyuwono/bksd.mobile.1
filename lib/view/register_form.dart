@@ -4,10 +4,7 @@ import 'package:muba/components/form_register_field.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/register_model.dart';
 import 'package:muba/utilities/shared_preferences.dart';
-import 'package:muba/view/home.dart';
 import 'package:muba/view/loginscreen.dart';
-import 'package:muba/view/muba_tv.dart';
-import 'package:muba/view/settings.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -206,7 +203,8 @@ class _RegisterFormState extends State<RegisterForm> {
                             ? () {
                                 setState(() {});
                                 isChecked == true
-                                    ? EasyLoading.show(status: S.of(context).pleaseWait)
+                                    ? EasyLoading.show(
+                                        status: S.of(context).pleaseWait)
                                     : EasyLoading.dismiss();
                                 if (isChecked == true) {
                                   isPressed = true;
@@ -312,14 +310,11 @@ class _RegisterFormState extends State<RegisterForm> {
               selectedItemColor: Colors.white,
               onTap: (value) {
                 if (value == 0) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Beranda()));
+                  Navigator.pushNamed(context, '/home');
                 } else if (value == 1) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MubaTv()));
+                  Navigator.pushNamed(context, '/tv');
                 } else if (value == 2) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
+                  Navigator.pushNamed(context, '/settings');
                 }
               },
               items: [

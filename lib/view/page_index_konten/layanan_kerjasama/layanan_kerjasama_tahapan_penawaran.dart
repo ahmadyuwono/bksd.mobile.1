@@ -52,11 +52,11 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
                         child: Column(
                           children: [
                             Text(
-                              "FORM APLIKASI PENAWARAN",
+                              S.of(context).stepTitleOffer,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            Text("Silahkan isi format dibawah ini"),
+                            Text(S.of(context).formStepT),
                             SizedBox(
                               height: 52,
                             ),
@@ -94,7 +94,7 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
                                             )));
                               },
                               child: Text(
-                                "KIRIM",
+                                S.of(context).sendForgot,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
@@ -111,10 +111,9 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.indigoAccent,
+            selectedItemColor: Colors.white,
             onTap: (value) {
               if (value == 0) {
                 Navigator.pushNamed(context, '/home');
