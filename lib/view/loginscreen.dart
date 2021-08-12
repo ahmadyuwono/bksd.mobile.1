@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:muba/components/custom_alert_dialog.dart';
@@ -56,7 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    User? firebaseUser = Provider.of<User?>(context);
     return Stack(
       children: [
         Image.asset(
@@ -227,7 +224,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _validateLogin() {
-    _deleteAccount(0);
     LoginModel.integrateAPI(_username, _password).then((value) {
       setState(() {});
       print(value.status);
@@ -255,17 +251,17 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  _deleteAccount(int status) async {
-    if (userModel != null || _status != 503) {
-      if (userModel!.indexWhere((element) => element.email == _username) ==
-          -1) {
-        await AuthService.deleteAccount().whenComplete(() {
-          setState(() => isPressed == false);
-          EasyLoading.dismiss();
-        });
-      }
-    }
-  }
+  // _deleteAccount(int status) async {
+  //   if (userModel != null || _status != 503) {
+  //     if (userModel!.indexWhere((element) => element.email == _username) ==
+  //         -1) {
+  //       await AuthService.deleteAccount().whenComplete(() {
+  //         setState(() => isPressed == false);
+  //         EasyLoading.dismiss();
+  //       });
+  //     }
+  //   }
+  // }
 
   Future integrateAPI() async {
     String apiURL = "https://muba.socketspace.com/api/user";

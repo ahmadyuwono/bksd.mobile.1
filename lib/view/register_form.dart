@@ -208,7 +208,6 @@ class _RegisterFormState extends State<RegisterForm> {
                                   EasyLoading.show(
                                       status: S.of(context).pleaseWait);
                                   isPressed = true;
-                                  _signUp();
                                   _validateForm();
                                 }
                               }
@@ -316,15 +315,15 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
-  _signUp() async {
-    if (nik.length >= 16 &&
-        namaLengkap.isNotEmpty &&
-        alamat.isNotEmpty &&
-        negara.isNotEmpty &&
-        regExp.hasMatch(email) &&
-        password.length >= 8 &&
-        konfirmPassword == password) {
-      await AuthService.signUp(email, password);
-    }
-  }
+  // _signUp() async {
+  //   if (nik.length >= 16 &&
+  //       namaLengkap.isNotEmpty &&
+  //       alamat.isNotEmpty &&
+  //       negara.isNotEmpty &&
+  //       regExp.hasMatch(email) &&
+  //       password.length >= 8 &&
+  //       konfirmPassword == password) {
+  //     await AuthService.signUp(email, password);
+  //   }
+  // }
 }

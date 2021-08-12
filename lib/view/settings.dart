@@ -149,8 +149,7 @@ class _SettingsState extends State<Settings> {
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
                   ),
-                  onPressed: () async {
-                    await AuthService.signOut();
+                  onPressed: () {
                     setState(() {
                       SharedPreferencesHelper.saveIsLogin(false);
                     });

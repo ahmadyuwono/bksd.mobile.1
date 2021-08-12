@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
@@ -23,7 +22,6 @@ class _BerandaState extends State<Beranda> {
   String token = "";
   String email = "";
   List<String> service = [];
-  User? user;
   ScrollController _scrollController = ScrollController();
   ScrollPhysics? _scrollPhysics;
 
