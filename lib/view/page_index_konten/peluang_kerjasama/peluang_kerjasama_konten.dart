@@ -1,11 +1,20 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:muba/components/custom_dialog.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/peluang_model.dart';
 
 class KontenPeluang extends StatefulWidget {
   final String title;
   final int index;
-  const KontenPeluang({Key? key, required this.title, required this.index})
+  final List<PeluangModel> peluangModel;
+  const KontenPeluang(
+      {Key? key,
+      required this.title,
+      required this.index,
+      required this.peluangModel})
       : super(key: key);
 
   @override
@@ -62,55 +71,57 @@ class _KontenPeluangState extends State<KontenPeluang> {
             SliverList(
               delegate: SliverChildListDelegate(
                 List.generate(
-                  listKonten.length,
+                  widget.peluangModel.length,
                   (index) => Column(
                     children: [
-                      listKonten[index].category == widget.title
-                          ? listKonten[index].name.toLowerCase().contains(
-                                  _textEditingController.text
-                                      .trim()
-                                      .toLowerCase())
-                              ? InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (_) => CustomDialog(
-                                            title: S.of(context).dialogTitleP,
-                                            unduhFile:
-                                                "${listKonten[index].name}"));
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.80,
-                                    height: 70,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
+                      widget.peluangModel[index].jenis != null
+                          ? widget.peluangModel[index].jenis == widget.title
+                              ? widget.peluangModel[index].judul
+                                      .toLowerCase()
+                                      .contains(_textEditingController.text
+                                          .trim()
+                                          .toLowerCase())
+                                  ? InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) => CustomDialog(
+                                                title:
+                                                    S.of(context).dialogTitleP,
+                                                unduhFile:
+                                                    "${widget.peluangModel[index].judul}"));
+                                      },
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.80,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              colorFilter: ColorFilter.mode(
+                                                  Colors.black.withOpacity(0.4),
+                                                  BlendMode.srcOver),
+                                              image: NetworkImage(widget
+                                                          .peluangModel[index]
+                                                          .file !=
+                                                      null
+                                                  ? "https://muba.socketspace.com/${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}"
+                                                  : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
                                           borderRadius:
-                                              BorderRadius.circular(10)),
-                                      color: Color(0xFF27405E),
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 27),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                                listKonten[index].images),
-                                            SizedBox(
-                                              width: 24,
-                                            ),
-                                            Text(
-                                              listKonten[index].name,
-                                              style: TextStyle(
-                                                  fontSize: 24,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
+                                              BorderRadius.circular(5),
+                                        ),
+                                        height: 70,
+                                        child: Center(
+                                          child: Text(
+                                            widget.peluangModel[index].judul,
+                                            style: TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.white),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                )
+                                    )
+                                  : Container()
                               : Container()
                           : Container(),
                       SizedBox(
@@ -159,26 +170,3 @@ class ListKonten {
   const ListKonten(
       {required this.images, required this.name, required this.category});
 }
-
-List<ListKonten> listKonten = [
-  ListKonten(
-      images: "assets/images/icon-school.png",
-      name: "SDN 1 Kab. Muba",
-      category: "Pendidikan"),
-  ListKonten(
-      images: "assets/images/icon-school.png",
-      name: "SDN 1 Kab. Muba",
-      category: "Pendidikan"),
-  ListKonten(
-      images: "assets/images/icon-school.png",
-      name: "SDN 1 Kab. Muba",
-      category: "Pendidikan"),
-  ListKonten(
-      images: "assets/images/icon-school.png",
-      name: "SDN 5 Kab. Muba",
-      category: "Pendidikan"),
-  ListKonten(
-      images: "assets/images/icon-school.png",
-      name: "SDN 6 Kab. Muba",
-      category: "Pendidikan"),
-];

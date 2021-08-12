@@ -23,7 +23,7 @@ class PeluangModel {
   final String jenis_id;
   final String negara_id;
   final String judul;
-  final String file;
+  final String? file;
   final String? jenis;
 
   factory PeluangModel.fromJson(Map<String, dynamic> object) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:muba/generated/l10n.dart';
 
 class DetailInformasi extends StatefulWidget {
@@ -83,7 +84,7 @@ class _DetailInformasiState extends State<DetailInformasi> {
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Text(
-                  widget.content,
+                  _parseHtmlString(widget.content),
                   textAlign: TextAlign.start,
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                 ),
@@ -117,5 +118,13 @@ class _DetailInformasiState extends State<DetailInformasi> {
         ],
       ),
     );
+  }
+
+  String _parseHtmlString(String htmlString) {
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text;
+
+    return parsedString;
   }
 }

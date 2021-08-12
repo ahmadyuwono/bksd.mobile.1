@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muba/components/tabbarview/tabbarview_proker_dalam.dart';
 import 'package:muba/components/tabbarview/tabbarview_proker_luar.dart';
@@ -70,8 +71,9 @@ class _ProgramKerjasamaState extends State<ProgramKerjasama>
               ),
             ),
           ),
-          body: isLoaded == true
+          body: isError == false
               ? Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
@@ -132,30 +134,60 @@ class _ProgramKerjasamaState extends State<ProgramKerjasama>
                         indicatorWeight: 4,
                       ),
                     ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          TabbarviewProkerDalam(
-                            programModel: programModel,
-                          ),
-                          TabbarviewProkerLuar(
-                            programModel: programModel,
-                          ),
-                        ],
+                    isLoaded == true
+                        ? Expanded(
+                            child: TabBarView(
+                              controller: _tabController,
+                              children: [
+                                TabbarviewProkerDalam(
+                                  programModel: programModel,
+                                ),
+                                TabbarviewProkerLuar(
+                                  programModel: programModel,
+                                ),
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 200),
+                            child: SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: CircularProgressIndicator(
+                                color: Color(0xFF27405E),
+                                strokeWidth: 8,
+                                backgroundColor: Colors.transparent,
+                              ),
+                            )),
+                  ],
+                )
+              : Container(
+                  child: CustomScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  slivers: [
+                    CupertinoSliverRefreshControl(
+                      onRefresh: () {
+                        return loadData().onError((error, stackTrace) {
+                          setState(() {
+                            isError = true;
+                          });
+                        }).then((value) {
+                          setState(() {});
+                          programModel = value;
+                        }).whenComplete(() {
+                          setState(() {});
+                          isLoaded = true;
+                        });
+                      },
+                    ),
+                    SliverToBoxAdapter(
+                      child: Center(
+                        child: Text("Error Internet?"),
                       ),
                     ),
                   ],
-                )
-              : Center(
-                  child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: CircularProgressIndicator(
-                    color: Color(0xFF27405E),
-                    strokeWidth: 8,
-                    backgroundColor: Colors.transparent,
-                  ),
                 )),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Color(0xFF27405E),

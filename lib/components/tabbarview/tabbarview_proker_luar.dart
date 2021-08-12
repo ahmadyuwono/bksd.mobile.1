@@ -25,7 +25,7 @@ class _TabbarviewProkerLuarState extends State<TabbarviewProkerLuar> {
                 padding: const EdgeInsets.only(top: 47, left: 49, right: 31)),
             SliverToBoxAdapter(
               child: Container(
-                height: 100,
+                height: MediaQuery.of(context).size.height * 0.30,
                 width: 100,
                 child: ListView.builder(
                     physics: BouncingScrollPhysics(
@@ -37,70 +37,86 @@ class _TabbarviewProkerLuarState extends State<TabbarviewProkerLuar> {
                           DateTime.parse(widget.programModel[index].created_at);
                       String formattedDate =
                           DateFormat("dd MMMM yyyy").format(date);
-                      return InkWell(
-                        onTap: () {},
-                        child: Container(
-                          height: 100,
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          child: Card(
-                            semanticContainer: true,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Color(0xFF27405E),
-                                ),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.only(left: 18, right: 25),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF42A5F5),
-                                image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    colorFilter: ColorFilter.mode(
-                                        Colors.black.withOpacity(0.4),
-                                        BlendMode.srcOver),
-                                    image: NetworkImage(
-                                        "https://muba.socketspace.com/${widget.programModel[index].url.substring(1, widget.programModel[index].url.length)}")),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset("assets/images/document.png"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          widget.programModel[index].judul,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700),
+                      return widget.programModel[index].negara_id == '1'
+                          ? Container(
+                              height: MediaQuery.of(context).size.height,
+                              width: MediaQuery.of(context).size.width,
+                              child: Align(
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.70,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.30,
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Material(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: Color(0xFF27405E),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 18, right: 25),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFF42A5F5),
+                                          image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              colorFilter: ColorFilter.mode(
+                                                  Colors.black.withOpacity(0.4),
+                                                  BlendMode.srcOver),
+                                              image: NetworkImage(
+                                                  "https://muba.socketspace.com/${widget.programModel[index].url.substring(1, widget.programModel[index].url.length)}")),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                         ),
-                                        SizedBox(
-                                          height: 12,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                                "assets/images/document.png"),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    widget.programModel[index]
+                                                        .judul,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 12,
+                                                  ),
+                                                  Text(
+                                                    formattedDate,
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                        Text(
-                                          formattedDate,
-                                          style: TextStyle(color: Colors.white),
-                                        )
-                                      ],
+                                      ),
                                     ),
-                                  )
-                                ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      );
+                            )
+                          : Container();
                     }),
               ),
             ),

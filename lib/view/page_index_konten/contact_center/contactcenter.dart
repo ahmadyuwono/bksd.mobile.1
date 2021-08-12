@@ -116,7 +116,7 @@ class _ContactCenterState extends State<ContactCenter> {
                   ),
                   SliverToBoxAdapter(
                     child: Center(
-                      child: Text("Error"),
+                      child: Text("Error Internet?"),
                     ),
                   ),
                 ],

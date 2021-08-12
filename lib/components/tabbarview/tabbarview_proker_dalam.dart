@@ -36,7 +36,7 @@ class _TabbarviewProkerDalamState extends State<TabbarviewProkerDalam> {
               padding: const EdgeInsets.only(top: 47, left: 49, right: 31)),
           SliverToBoxAdapter(
             child: Container(
-              height: 100,
+              height: MediaQuery.of(context).size.height * 0.30,
               width: 100,
               child: ListView.builder(
                   physics: BouncingScrollPhysics(
@@ -50,12 +50,16 @@ class _TabbarviewProkerDalamState extends State<TabbarviewProkerDalam> {
                         DateFormat("dd MMMM yyyy").format(date);
                     return widget.programModel[index].negara_id == '0'
                         ? Container(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
                             child: Align(
                               child: Container(
+                                width: MediaQuery.of(context).size.width * 0.70,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.30,
                                 child: InkWell(
                                   onTap: () {},
-                                  child: Card(
-                                    semanticContainer: true,
+                                  child: Material(
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(
