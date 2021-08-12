@@ -33,21 +33,11 @@ class _DetailMubaTvState extends State<DetailMubaTv> {
           controlsVisibleAtStart: true,
           autoPlay: false,
         ));
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
   }
 
   @override
   void dispose() {
     _youtubePlayerControllerWeb?.dispose();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     super.dispose();
   }
 

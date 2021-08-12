@@ -122,6 +122,7 @@ class _BerandaState extends State<Beranda> {
                                       SharedPreferencesHelper.clearAllData();
                                     });
                                     Navigator.pushNamed(context, '/login');
+                                    // Navigator.pushNamed(context, '/carousel');
                                   }
                                 : () {},
                             child: Container(

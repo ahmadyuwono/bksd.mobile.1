@@ -1,21 +1,38 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/peluang_model.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async' show Future;
 import 'package:muba/view/page_index_konten/peluang_kerjasama/peluang_kerjasama_konten.dart';
 
 class TabbarviewDalam extends StatefulWidget {
-  final List<PeluangModel> dataPeluang;
-  const TabbarviewDalam({Key? key, required this.dataPeluang})
-      : super(key: key);
+  const TabbarviewDalam({Key? key}) : super(key: key);
 
   @override
   _TabbarviewDalamState createState() => _TabbarviewDalamState();
 }
 
 class _TabbarviewDalamState extends State<TabbarviewDalam> {
+  List<PeluangModel> peluangModel = [];
+  bool isLoaded = false;
+  bool isError = false;
+
   @override
   void initState() {
     super.initState();
+    loadData().onError((error, stackTrace) {
+      setState(() {
+        isError = true;
+      });
+    }).then((value) {
+      setState(() {});
+      peluangModel = value;
+    }).whenComplete(() {
+      setState(() {});
+      isLoaded = true;
+    });
   }
 
   @override
@@ -30,9 +47,9 @@ class _TabbarviewDalamState extends State<TabbarviewDalam> {
             SliverPadding(padding: const EdgeInsets.only(top: 50)),
             SliverList(
               delegate: SliverChildListDelegate(List.generate(
-                widget.dataPeluang.length,
+                peluangModel.length,
                 (index) => Container(
-                  child: widget.dataPeluang[index].negara_id == "1"
+                  child: peluangModel[index].negara_id == "1"
                       ? Column(
                           children: [
                             InkWell(
@@ -41,8 +58,8 @@ class _TabbarviewDalamState extends State<TabbarviewDalam> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => KontenPeluang(
-                                              title: widget
-                                                  .dataPeluang[index].judul,
+                                              title:
+                                                  "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
                                               index: index,
                                             )));
                               },
@@ -57,13 +74,16 @@ class _TabbarviewDalamState extends State<TabbarviewDalam> {
                                       colorFilter: ColorFilter.mode(
                                           Colors.black.withOpacity(0.4),
                                           BlendMode.srcOver),
-                                      image: NetworkImage(
-                                          "https://muba.socketspace.com/${widget.dataPeluang[index].file.substring(1, widget.dataPeluang[index].file.length)}")),
+                                      image: NetworkImage(peluangModel[index]
+                                                  .url !=
+                                              null
+                                          ? "https://muba.socketspace.com/${peluangModel[index].url!.substring(1, peluangModel[index].url!.length)}"
+                                          : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 height: 100,
                                 child: Text(
-                                  widget.dataPeluang[index].judul,
+                                  "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 36),
                                 ),
@@ -80,5 +100,28 @@ class _TabbarviewDalamState extends State<TabbarviewDalam> {
             ),
           ],
         ));
+  }
+
+  Future integrateAPI() async {
+    final queryParameter = {'negara_id': '1'};
+    final uri = Uri.https(
+        'muba.socketspace.com', '/api/peluang_kerjasama', queryParameter);
+    // String apiURL =
+    //     "https://muba.socketspace.com/api/peluang_kerjasama/?negara_id=1";
+    var response = await http.get(uri);
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData() async {
+    String jsonData = await integrateAPI();
+    final jsonRespone = jsonDecode(jsonData);
+    ListPeluang listModel = ListPeluang.fromJson(jsonRespone);
+    return listModel.peluang;
   }
 }

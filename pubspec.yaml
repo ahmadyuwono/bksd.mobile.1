@@ -45,6 +45,7 @@ dependencies:
   email_auth: ^0.0.1+4
   provider: ^5.0.0
   html: ^0.15.0
+  carousel_slider: ^4.0.0
 
 
 dev_dependencies:

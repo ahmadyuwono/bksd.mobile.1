@@ -6,7 +6,6 @@ import 'package:muba/components/tabbarview/tabbarview_peluang_luar.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async' show Future;
-
 import 'package:muba/model/peluang_model.dart';
 
 class PeluangKerjasama extends StatefulWidget {
@@ -18,7 +17,7 @@ class PeluangKerjasama extends StatefulWidget {
 
 class _PeluangKerjasamaState extends State<PeluangKerjasama>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  TabController? _tabController;
   List<PeluangModel> peluangModel = [];
   bool isLoaded = false;
   bool isError = false;
@@ -26,10 +25,10 @@ class _PeluangKerjasamaState extends State<PeluangKerjasama>
   void initState() {
     super.initState();
     _tabController = TabController(initialIndex: 1, length: 2, vsync: this);
-    _tabController.addListener(() {
+    _tabController!.addListener(() {
       setState(() {});
     });
-    loadData().onError((error, stackTrace) {
+    loadData(_tabController!.index).onError((error, stackTrace) {
       setState(() {
         isError = true;
       });
@@ -44,7 +43,7 @@ class _PeluangKerjasamaState extends State<PeluangKerjasama>
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 
@@ -82,7 +81,7 @@ class _PeluangKerjasamaState extends State<PeluangKerjasama>
                               children: [
                                 Image.asset(
                                   "assets/images/indo-icon.png",
-                                  color: _tabController.index == 0
+                                  color: _tabController!.index == 0
                                       ? Color(0xFF27405E)
                                       : Colors.grey,
                                 ),
@@ -101,7 +100,7 @@ class _PeluangKerjasamaState extends State<PeluangKerjasama>
                               children: [
                                 Image.asset(
                                   "assets/images/world-icon.png",
-                                  color: _tabController.index == 1
+                                  color: _tabController!.index == 1
                                       ? Color(0xFF27405E)
                                       : Colors.grey,
                                 ),
@@ -127,12 +126,8 @@ class _PeluangKerjasamaState extends State<PeluangKerjasama>
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        TabbarviewDalam(
-                          dataPeluang: peluangModel,
-                        ),
-                        TabbarviewLuar(
-                          peluangModel: peluangModel,
-                        ),
+                        TabbarviewDalam(),
+                        TabbarviewLuar(),
                       ],
                     ),
                   ),
@@ -176,9 +171,13 @@ class _PeluangKerjasamaState extends State<PeluangKerjasama>
     );
   }
 
-  Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/peluang_kerjasama/";
-    var response = await http.get(Uri.parse(apiURL));
+  Future integrateAPI(int id) async {
+    final queryParameter = {'negara_id': '1'};
+    final uri = Uri.https(
+        'muba.socketspace.com', '/api/peluang_kerjasama', queryParameter);
+    // String apiURL =
+    //     "https://muba.socketspace.com/api/peluang_kerjasama/?negara_id=1";
+    var response = await http.get(uri);
     if (response.statusCode == 200) {
       print(response.statusCode);
       return response.body;
@@ -188,8 +187,8 @@ class _PeluangKerjasamaState extends State<PeluangKerjasama>
     }
   }
 
-  Future loadData() async {
-    String jsonData = await integrateAPI();
+  Future loadData(int id) async {
+    String jsonData = await integrateAPI(id);
     final jsonRespone = jsonDecode(jsonData);
     ListPeluang listModel = ListPeluang.fromJson(jsonRespone);
     return listModel.peluang;

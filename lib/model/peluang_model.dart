@@ -11,27 +11,28 @@ class ListPeluang {
 }
 
 class PeluangModel {
-  PeluangModel({
-    required this.id,
-    required this.jenis_id,
-    required this.negara_id,
-    required this.judul,
-    required this.file,
-  });
+  PeluangModel(
+      {required this.url,
+      required this.jenis_id,
+      required this.negara_id,
+      required this.judul,
+      required this.file,
+      required this.jenis});
 
-  final String id;
+  final String? url;
   final String jenis_id;
   final String negara_id;
   final String judul;
   final String file;
+  final String? jenis;
 
   factory PeluangModel.fromJson(Map<String, dynamic> object) {
     return PeluangModel(
-      id: object['id'],
-      jenis_id: object['jenis_id'],
-      negara_id: object['negara_id'],
-      judul: object['judul'],
-      file: object['file'],
-    );
+        url: object['url'],
+        jenis_id: object['jenis_id'],
+        negara_id: object['negara_id'],
+        judul: object['judul'],
+        file: object['file'],
+        jenis: object['jenis']);
   }
 }
