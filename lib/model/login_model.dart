@@ -33,8 +33,11 @@ class LoginModel {
       "email": email,
       "password": password,
     });
-    var jsonObject = jsonDecode(response.body);
-
-    return LoginModel.createLoginModel(jsonObject);
+    if (response.statusCode == 200) {
+      var jsonObject = jsonDecode(response.body);
+      return LoginModel.createLoginModel(jsonObject);
+    } else {
+      throw Exception("Error ${response.statusCode}");
+    }
   }
 }

@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/services/auth_service.dart';
 import 'package:muba/view/forgotpassword.dart';
 import 'package:muba/view/home.dart';
 import 'package:muba/view/loginscreen.dart';
@@ -23,8 +26,11 @@ import 'package:muba/view/page_settings/page_privacy_policy.dart';
 import 'package:muba/view/page_settings/page_terms_of_service.dart';
 import 'package:muba/view/register_form.dart';
 import 'package:muba/view/settings.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MubaApp());
 }
 
@@ -33,42 +39,46 @@ class MubaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        Locale('en', ''),
-        Locale('id', ''),
-      ],
-      home: Home(),
-      builder: EasyLoading.init(),
-      routes: {
-        '/home': (context) => Beranda(),
-        '/login': (context) => LoginScreen(name: (value) {}),
-        '/register': (context) => RegisterForm(),
-        '/forgot': (context) => ForgotPassword(),
-        '/tv': (context) => MubaTv(),
-        '/settings': (context) => Settings(),
-        '/panduan': (context) => PanduanKerjasama(),
-        '/layanan': (context) => LayananKerjaSama(),
-        '/kontak': (context) => ContactCenter(),
-        '/berita': (context) => InformasiKerjasama(),
-        '/domestik': (context) => KerjasamaDalamNegeri(),
-        '/inter': (context) => KerjasamaLuarNegeri(),
-        '/peluang': (context) => PeluangKerjasama(),
-        '/program': (context) => ProgramKerjasama(),
-        '/laporan': (context) => LaporanKerjasama(),
-        '/bahasa': (context) => PageBahasa(),
-        '/privacy': (context) => PagePrivacy(),
-        '/terms': (context) => PageTerms(),
-        '/copyright': (context) => PageCopyright(),
-        '/about': (context) => PageAbout(),
-      },
+    return StreamProvider.value(
+      initialData: null,
+      value: AuthService.firebaseUserStream,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en', ''),
+          Locale('id', ''),
+        ],
+        home: Home(),
+        builder: EasyLoading.init(),
+        routes: {
+          '/home': (context) => Beranda(),
+          '/login': (context) => LoginScreen(name: (value) {}),
+          '/register': (context) => RegisterForm(),
+          '/forgot': (context) => ForgotPassword(),
+          '/tv': (context) => MubaTv(),
+          '/settings': (context) => Settings(),
+          '/panduan': (context) => PanduanKerjasama(),
+          '/layanan': (context) => LayananKerjaSama(),
+          '/kontak': (context) => ContactCenter(),
+          '/berita': (context) => InformasiKerjasama(),
+          '/domestik': (context) => KerjasamaDalamNegeri(),
+          '/inter': (context) => KerjasamaLuarNegeri(),
+          '/peluang': (context) => PeluangKerjasama(),
+          '/program': (context) => ProgramKerjasama(),
+          '/laporan': (context) => LaporanKerjasama(),
+          '/bahasa': (context) => PageBahasa(),
+          '/privacy': (context) => PagePrivacy(),
+          '/terms': (context) => PageTerms(),
+          '/copyright': (context) => PageCopyright(),
+          '/about': (context) => PageAbout(),
+        },
+      ),
     );
   }
 }
@@ -320,8 +330,7 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Beranda()));
+                Navigator.pushNamed(context, '/home');
               },
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(

@@ -11,7 +11,8 @@ class PageBahasa extends StatefulWidget {
 }
 
 class _PageBahasaState extends State<PageBahasa> {
-  bool isSelected = false;
+  bool? isSelected;
+  String? selectedLang;
 
   @override
   void initState() {
@@ -28,6 +29,14 @@ class _PageBahasaState extends State<PageBahasa> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0x0FF27405E),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop(
+              SharedPreferencesHelper.readLanguage(),
+            );
+          },
+        ),
         title: Center(
           child: Text(
             S.of(context).languageButton,
@@ -70,6 +79,7 @@ class _PageBahasaState extends State<PageBahasa> {
                             InkWell(
                               onTap: () {
                                 setState(() {
+                                  selectedLang = "en";
                                   isSelected = false;
                                   SharedPreferencesHelper.saveIsSelected(false);
                                   SharedPreferencesHelper.saveLanguage("en");
@@ -104,6 +114,7 @@ class _PageBahasaState extends State<PageBahasa> {
                             InkWell(
                               onTap: () {
                                 setState(() {
+                                  selectedLang = "id";
                                   isSelected = true;
                                   SharedPreferencesHelper.saveIsSelected(true);
                                   SharedPreferencesHelper.saveLanguage("id");

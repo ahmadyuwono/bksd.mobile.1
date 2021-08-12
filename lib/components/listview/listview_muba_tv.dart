@@ -16,25 +16,12 @@ class ListviewMubaTv extends StatefulWidget {
 }
 
 class _ListviewMubaTvState extends State<ListviewMubaTv> {
-  late VideoPlayerController _controller;
   void initState() {
     super.initState();
-    if (widget.data[widget.index].url.contains("https")) {
+    if (widget.data[widget.index].url.contains("youtube")) {
       urlVideo = widget.data[widget.index].url
           .substring(30, widget.data[widget.index].url.length);
     }
-    _controller = VideoPlayerController.network(
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-      ..addListener(() {
-        setState(() {
-          videoPosition = _controller.value.position;
-        });
-      })
-      ..initialize().then((_) {
-        setState(() {
-          videoLength = _controller.value.duration;
-        });
-      });
   }
 
   late Duration videoLength;
@@ -44,7 +31,6 @@ class _ListviewMubaTvState extends State<ListviewMubaTv> {
 
   void dispose() {
     super.dispose();
-    _controller.dispose();
   }
 
   @override
@@ -63,7 +49,8 @@ class _ListviewMubaTvState extends State<ListviewMubaTv> {
                 builder: (context) => DetailMubaTv(
                       title: widget.data[widget.index].judul,
                       date: formattedDate,
-                      image: urlVideo,
+                      videoId: urlVideo,
+                      urlVideo: widget.data[widget.index].url,
                     )));
       },
       child: Container(
@@ -75,8 +62,7 @@ class _ListviewMubaTvState extends State<ListviewMubaTv> {
             SizedBox(
               width: 18,
             ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.50,
+            Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,

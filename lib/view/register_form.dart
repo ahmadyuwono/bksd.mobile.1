@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:muba/components/custom_alert_dialog.dart';
 import 'package:muba/components/form_register_field.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/register_model.dart';
+import 'package:muba/services/auth_service.dart';
 import 'package:muba/utilities/shared_preferences.dart';
-import 'package:muba/view/home.dart';
 import 'package:muba/view/loginscreen.dart';
-import 'package:muba/view/muba_tv.dart';
-import 'package:muba/view/settings.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -92,7 +91,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 child: Column(
                   children: [
                     FieldFormReg(
-                      hintForm: 'NIK',
+                      hintForm: 'NIK (16 digit)',
                       isPassword: false,
                       onFilled: (value) {
                         setState(() {});
@@ -136,7 +135,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       height: 13,
                     ),
                     FieldFormReg(
-                      hintForm: 'E-mail',
+                      hintForm: 'E-mail (example@mail.com)',
                       isPassword: false,
                       onFilled: (value) {
                         setState(() {});
@@ -147,7 +146,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       height: 13,
                     ),
                     FieldFormReg(
-                      hintForm: 'Password',
+                      hintForm: 'Password (8 digit minimal)',
                       isPassword: true,
                       onFilled: (value) {
                         setState(() {});
@@ -181,7 +180,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               isChecked = value;
                             }),
                         Container(
-                          width: 335,
+                          width: MediaQuery.of(context).size.width * 0.70,
                           height: 30,
                           child: Text(
                             S.of(context).agreeCheck,
@@ -205,65 +204,12 @@ class _RegisterFormState extends State<RegisterForm> {
                         onTap: isPressed == false
                             ? () {
                                 setState(() {});
-                                isChecked == true
-                                    ? EasyLoading.show(status: S.of(context).pleaseWait)
-                                    : EasyLoading.dismiss();
                                 if (isChecked == true) {
+                                  EasyLoading.show(
+                                      status: S.of(context).pleaseWait);
                                   isPressed = true;
-                                  RegisterModel.integrateAPI(nik, namaLengkap,
-                                          email, password, negara, "1")
-                                      .then((value) {
-                                    setState(() {});
-                                    registerModel = value;
-                                  }).whenComplete(() {
-                                    setState(() {});
-                                    isPressed = false;
-                                    EasyLoading.dismiss();
-                                    registerModel != null &&
-                                            nik.length >= 16 &&
-                                            namaLengkap.isNotEmpty &&
-                                            alamat.isNotEmpty &&
-                                            negara.isNotEmpty &&
-                                            regExp.hasMatch(email) &&
-                                            password.length >= 8 &&
-                                            konfirmPassword == password
-                                        ? Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginScreen(
-                                                      name: (value) {},
-                                                    )))
-                                        : showDialog(
-                                            context: context,
-                                            builder: (_) => AlertDialog(
-                                                  backgroundColor:
-                                                      Color(0xFF27405E),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                  title: Container(
-                                                      child: Text(
-                                                    S.of(context).registerCheck,
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                                  actions: [
-                                                    IconButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.close,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ));
-                                  });
+                                  _signUp();
+                                  _validateForm();
                                 }
                               }
                             : () {},
@@ -312,14 +258,11 @@ class _RegisterFormState extends State<RegisterForm> {
               selectedItemColor: Colors.white,
               onTap: (value) {
                 if (value == 0) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Beranda()));
+                  Navigator.pushNamed(context, '/home');
                 } else if (value == 1) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MubaTv()));
+                  Navigator.pushNamed(context, '/tv');
                 } else if (value == 2) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
+                  Navigator.pushNamed(context, '/settings');
                 }
               },
               items: [
@@ -337,5 +280,51 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
       ],
     );
+  }
+
+  _validateForm() {
+    if (nik.length >= 16 &&
+        namaLengkap.isNotEmpty &&
+        alamat.isNotEmpty &&
+        negara.isNotEmpty &&
+        regExp.hasMatch(email) &&
+        password.length >= 8 &&
+        konfirmPassword == password) {
+      RegisterModel.integrateAPI(nik, namaLengkap, email, password, negara, "1")
+          .then((value) {
+        setState(() {});
+        registerModel = value;
+      }).whenComplete(() {
+        setState(() {});
+        isPressed = false;
+        EasyLoading.dismiss();
+        registerModel != null
+            ? Navigator.pushNamed(context, '/login')
+            : showDialog(
+                context: context,
+                builder: (_) =>
+                    CustomAlert(title: S.of(context).registerCheck));
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) => CustomAlert(title: S.of(context).registerCheck));
+      EasyLoading.dismiss();
+      setState(() {
+        isPressed = false;
+      });
+    }
+  }
+
+  _signUp() async {
+    if (nik.length >= 16 &&
+        namaLengkap.isNotEmpty &&
+        alamat.isNotEmpty &&
+        negara.isNotEmpty &&
+        regExp.hasMatch(email) &&
+        password.length >= 8 &&
+        konfirmPassword == password) {
+      await AuthService.signUp(email, password);
+    }
   }
 }

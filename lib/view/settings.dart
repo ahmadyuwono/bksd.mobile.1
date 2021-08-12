@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:muba/components/custom_snackbar.dart';
+import 'package:muba/components/form_register_field.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/services/auth_service.dart';
 import 'package:muba/utilities/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import 'package:muba/view/home.dart';
 import 'package:muba/view/muba_tv.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -13,21 +21,30 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   List<String> menu = [];
-
+  late String selectedLang;
   bool isLogin = false;
+  String token = "";
+  String oldPass = "";
+  String newPass = "";
+  String id = "";
+  int _status = 0;
 
   @override
   void initState() {
     super.initState();
     SharedPreferencesHelper.readLanguage().then((value) {
-      setState(() {
-        S.load(Locale(value));
-      });
+      setState(() => S.load(Locale(value)));
     });
     SharedPreferencesHelper.readIsLogin().then((value) {
-      setState(() {
-        isLogin = value;
-      });
+      setState(() => isLogin = value);
+    });
+    SharedPreferencesHelper.readToken().then((value) {
+      setState(() => token = value);
+      print(value);
+    });
+    SharedPreferencesHelper.readId().then((value) {
+      setState(() => id = value);
+      print(value);
     });
   }
 
@@ -41,6 +58,14 @@ class _SettingsState extends State<Settings> {
       "Copyright Policy",
       S.of(context).about,
     ];
+    final snackBar = SnackBar(
+        content: Text(S.of(context).passChanged),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ));
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -80,9 +105,18 @@ class _SettingsState extends State<Settings> {
                                             : FontWeight.w400),
                                   )
                                 : InkWell(
-                                    onTap: () {
-                                      setState(() {});
-                                      _navigate(menu[index]);
+                                    onTap: () async {
+                                      if (index == 1) {
+                                        selectedLang =
+                                            await _navigate(menu[index]);
+                                      } else {
+                                        await _navigate(menu[index]);
+                                      }
+                                      setState(() {
+                                        if (index == 1) {
+                                          S.load(Locale(selectedLang));
+                                        }
+                                      });
                                     },
                                     child: Text(
                                       menu[index],
@@ -115,7 +149,8 @@ class _SettingsState extends State<Settings> {
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    await AuthService.signOut();
                     setState(() {
                       SharedPreferencesHelper.saveIsLogin(false);
                     });
@@ -129,7 +164,112 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
-            )
+            ),
+            SliverToBoxAdapter(
+              child: isLogin == true
+                  ? Container(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints.tightFor(width: 100, height: 40),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            elevation: MaterialStateProperty.all(5),
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0x0FF27405E)),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5))),
+                          ),
+                          onPressed: () {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.30,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.30,
+                                      child: AlertDialog(
+                                        backgroundColor: Color(0x0FF27405E),
+                                        title: Text(
+                                          S.of(context).changePass,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        content: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.20,
+                                          child: Column(
+                                            children: [
+                                              FieldFormReg(
+                                                hintForm: S.of(context).oldPass,
+                                                isPassword: true,
+                                                onFilled: (value) {
+                                                  setState(() {});
+                                                  oldPass = value;
+                                                },
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              FieldFormReg(
+                                                hintForm: S.of(context).newPass,
+                                                isPassword: true,
+                                                onFilled: (value) {
+                                                  setState(() {});
+                                                  newPass = value;
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                  S.of(context).dialogCancel)),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          ElevatedButton(
+                                            child:
+                                                Text(S.of(context).changePass),
+                                            onPressed: () async {
+                                              EasyLoading.show(
+                                                  status:
+                                                      S.of(context).pleaseWait);
+                                              // await AuthService.updatePassword(
+                                              //     newPass);
+                                              integrateAPI(id, oldPass, newPass,
+                                                      token)
+                                                  .whenComplete(() {
+                                                if (_status == 200) {
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
+                                                }
+                                                EasyLoading.dismiss();
+                                              });
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ));
+                          },
+                          child: Text(
+                            S.of(context).changePass,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(),
+            ),
           ],
         ),
       ),
@@ -140,11 +280,9 @@ class _SettingsState extends State<Settings> {
         selectedItemColor: Colors.indigoAccent,
         onTap: (value) {
           if (value == 0) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Beranda()));
+            Navigator.pushNamed(context, '/home');
           } else if (value == 1) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MubaTv()));
+            Navigator.pushNamed(context, '/tv');
           }
         },
         items: [
@@ -176,6 +314,25 @@ class _SettingsState extends State<Settings> {
     }
     if (routeName == S.of(context).about) {
       return Navigator.pushNamed(context, '/about');
+    }
+  }
+
+  Future integrateAPI(
+      String id, String oldPass, String newPass, String token) async {
+    String apiURL = "https://muba.socketspace.com/api/user/password/$id";
+    var response = await http.put(Uri.parse(apiURL), headers: {
+      'Authorization': 'Bearer $token',
+    }, body: {
+      "old_password": "$oldPass",
+      "new_password": "$newPass",
+    });
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      setState(() => _status = response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed');
     }
   }
 }

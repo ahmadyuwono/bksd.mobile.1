@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/services/auth_service.dart';
 import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/loginscreen.dart';
 import 'package:muba/view/muba_tv.dart';
 import 'package:muba/view/settings.dart';
+import 'package:provider/provider.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({Key? key}) : super(key: key);
@@ -16,9 +19,13 @@ class Beranda extends StatefulWidget {
 class _BerandaState extends State<Beranda> {
   String name = "";
   bool isLogin = false;
+  late bool isSelected;
   String token = "";
   String email = "";
   List<String> service = [];
+  User? user;
+  ScrollController _scrollController = ScrollController();
+  ScrollPhysics? _scrollPhysics;
 
   List icons = [
     CupertinoIcons.compass,
@@ -59,8 +66,23 @@ class _BerandaState extends State<Beranda> {
       });
     });
     SharedPreferencesHelper.readIsSelected().then((value) {
-      setState(() {});
+      setState(() {
+        isSelected = value;
+      });
     });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels < 0) {
+        setState(() => _scrollPhysics = NeverScrollableScrollPhysics());
+      } else {
+        setState(() => _scrollPhysics = AlwaysScrollableScrollPhysics());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -80,9 +102,9 @@ class _BerandaState extends State<Beranda> {
       body: Container(
         color: Color(0xFF27405E),
         child: SingleChildScrollView(
+          controller: _scrollController,
           scrollDirection: Axis.vertical,
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics: BouncingScrollPhysics(parent: _scrollPhysics),
           child: Center(
             child: Column(
               children: [
@@ -101,14 +123,7 @@ class _BerandaState extends State<Beranda> {
                                     setState(() {
                                       SharedPreferencesHelper.clearAllData();
                                     });
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginScreen(
-                                                  name: (value) {
-                                                    setState(() {});
-                                                  },
-                                                )));
+                                    Navigator.pushNamed(context, '/login');
                                   }
                                 : () {},
                             child: Container(
@@ -141,17 +156,17 @@ class _BerandaState extends State<Beranda> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
                     child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: 9,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
                       itemBuilder: (ctx, i) {
                         return Container(
+                          padding: const EdgeInsets.only(bottom: 20),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                height: 36,
-                              ),
                               InkWell(
                                 child: i == 4 || i == 5
                                     ? CircleAvatar(
@@ -183,6 +198,10 @@ class _BerandaState extends State<Beranda> {
                                         ),
                                       ),
                                 onTap: () {
+                                  setState(() {
+                                    SharedPreferencesHelper.saveIsSelected(
+                                        isSelected);
+                                  });
                                   _navigateRoute(service[i]);
                                 },
                               ),

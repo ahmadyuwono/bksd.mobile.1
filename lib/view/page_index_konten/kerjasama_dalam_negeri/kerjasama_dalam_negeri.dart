@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -288,10 +286,9 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.indigoAccent,
+        selectedItemColor: Colors.white,
         onTap: (value) {
           if (value == 0) {
             Navigator.pushNamed(context, '/home');
@@ -335,10 +332,5 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
       _fileName =
           _paths != null ? _paths!.map((e) => e.name).toString() : "...";
     });
-  }
-
-  Future _pdfViewer(String file) async {
-    PDFDocument _pdfDocument = await PDFDocument.fromURL(file);
-    return _pdfDocument;
   }
 }

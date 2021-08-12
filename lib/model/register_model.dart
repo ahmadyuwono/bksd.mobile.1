@@ -42,7 +42,7 @@ class RegisterModel {
       "membership": membership,
     });
     var jsonObject = jsonDecode(response.body);
-
+    print(response.statusCode);
     return RegisterModel.createRegisterModel(jsonObject);
   }
 }

@@ -1,46 +1,54 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:muba/view/home.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:muba/generated/l10n.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailMubaTv extends StatefulWidget {
   final String title;
   final String date;
-  final String image;
-  const DetailMubaTv({
-    Key? key,
-    required this.title,
-    required this.date,
-    required this.image,
-  }) : super(key: key);
+  final String videoId;
+  final String urlVideo;
+  const DetailMubaTv(
+      {Key? key,
+      required this.title,
+      required this.date,
+      required this.videoId,
+      required this.urlVideo})
+      : super(key: key);
 
   @override
   _DetailMubaTvState createState() => _DetailMubaTvState();
 }
 
 class _DetailMubaTvState extends State<DetailMubaTv> {
-  late YoutubePlayerController _youtubePlayerControllerWeb;
-  final Completer<WebViewController> _webController =
-      Completer<WebViewController>();
+  YoutubePlayerController? _youtubePlayerControllerWeb;
   @override
   void initState() {
     super.initState();
     if (kIsWeb) {}
     _youtubePlayerControllerWeb = YoutubePlayerController(
-      initialVideoId: widget.image,
-    );
-    _youtubePlayerControllerWeb.onEnterFullscreen = () {
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
-    };
-    _youtubePlayerControllerWeb.onExitFullscreen = () {};
+        initialVideoId: widget.videoId,
+        flags: YoutubePlayerFlags(
+          controlsVisibleAtStart: true,
+          autoPlay: false,
+        ));
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    _youtubePlayerControllerWeb?.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   @override
@@ -82,8 +90,8 @@ class _DetailMubaTvState extends State<DetailMubaTv> {
               height: 14,
             ),
             Container(
-              child: YoutubePlayerIFrame(
-                controller: _youtubePlayerControllerWeb,
+              child: YoutubePlayer(
+                controller: _youtubePlayerControllerWeb!,
               ),
             ),
             SizedBox(
@@ -93,7 +101,7 @@ class _DetailMubaTvState extends State<DetailMubaTv> {
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Text(
-                "Sumber Video: Youtube",
+                "${S.of(context).source} : ${widget.urlVideo}",
                 textAlign: TextAlign.left,
                 style: TextStyle(color: Colors.grey),
               ),
@@ -111,16 +119,21 @@ class _DetailMubaTvState extends State<DetailMubaTv> {
         selectedItemColor: Colors.indigoAccent,
         onTap: (value) {
           if (value == 0) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Beranda()));
+            Navigator.pushNamed(context, '/home');
+          } else if (value == 1) {
+            Navigator.pushNamed(context, '/tv');
+          } else if (value == 2) {
+            Navigator.pushNamed(context, '/settings');
           }
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.tv), label: "Muba TV"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: S.of(context).homeButton),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.tv), label: S.of(context).tvButton),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: "Settings",
+            label: S.of(context).settingsButton,
           ),
         ],
       ),

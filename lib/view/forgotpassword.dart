@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:muba/components/custom_alert_dialog.dart';
 import 'package:muba/components/form_register_field.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/user_model.dart';
+import 'package:muba/services/auth_service.dart';
 import 'package:muba/utilities/shared_preferences.dart';
-import 'package:muba/view/home.dart';
 import 'package:muba/view/loginscreen.dart';
-import 'package:muba/view/muba_tv.dart';
-import 'package:muba/view/settings.dart';
+import 'package:http/http.dart' as http;
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -16,6 +20,9 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   bool isLogin = false;
+  String email = "";
+  int _status = 0;
+  List<UserModel>? userModel;
   @override
   void initState() {
     super.initState();
@@ -24,6 +31,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         isLogin = value;
       });
     });
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..userInteractions = false
+      ..backgroundColor = Colors.transparent
+      ..indicatorColor = Color(0x0FF27405E)
+      ..textColor = Color(0x0FF27405E);
   }
 
   @override
@@ -79,7 +92,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     FieldFormReg(
                       hintForm: 'E-mail',
                       isPassword: false,
-                      onFilled: (value) {},
+                      onFilled: (value) {
+                        setState(() {});
+                        email = value;
+                      },
                     ),
                     SizedBox(
                       height: 41,
@@ -92,12 +108,24 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       child: Center(
                           child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen(
-                                        name: (value) {},
-                                      )));
+                          EasyLoading.show(status: S.of(context).pleaseWait);
+                          loadData()
+                              .then((value) => userModel = value)
+                              .whenComplete(() {
+                            EasyLoading.dismiss();
+                            if (userModel != null) {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => CustomAlert(
+                                        title: userModel![userModel!.indexWhere(
+                                                (element) =>
+                                                    element.email == email)]
+                                            .password,
+                                      ));
+                            }
+                          });
+                          // Navigator.pushNamed(context, '/login');
+                          // await AuthService.forgotPassword(email);
                         },
                         child: Text(
                           S.of(context).sendForgot,
@@ -127,14 +155,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               selectedItemColor: Colors.white,
               onTap: (value) {
                 if (value == 0) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Beranda()));
+                  Navigator.pushNamed(context, '/home');
                 } else if (value == 1) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MubaTv()));
+                  Navigator.pushNamed(context, '/tv');
                 } else if (value == 2) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
+                  Navigator.pushNamed(context, '/settings');
                 }
               },
               items: [
@@ -152,5 +177,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
       ],
     );
+  }
+
+  Future integrateAPI() async {
+    String apiURL = "https://muba.socketspace.com/api/user";
+    var response = await http.get(Uri.parse(apiURL));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      setState(() => _status = response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData() async {
+    String jsonData = await integrateAPI();
+    final jsonRespone = jsonDecode(jsonData);
+    ListUser listModel = ListUser.fromJson(jsonRespone);
+    return listModel.user;
   }
 }

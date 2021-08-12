@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:muba/components/tabbarview/tabbarview_laporan_dalam.dart';
 import 'package:muba/components/tabbarview/tabbarview_proker_luar.dart';
 import 'package:muba/generated/l10n.dart';
-import 'package:muba/view/home.dart';
-import 'package:muba/view/muba_tv.dart';
-import 'package:muba/view/settings.dart';
 
 class LaporanKerjasama extends StatefulWidget {
   const LaporanKerjasama({Key? key}) : super(key: key);
@@ -49,7 +46,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
             backgroundColor: Color(0xFF27405E),
             title: Center(
               child: Text(
-                "Laporan Kerja Sama",
+                S.of(context).report,
                 maxLines: 3,
                 textAlign: TextAlign.center,
               ),
@@ -80,7 +77,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
                                   : Colors.grey,
                             ),
                             Text(
-                              "Dalam Negeri",
+                              S.of(context).dalamNegeri,
                               style: TextStyle(fontSize: 18),
                             ),
                           ],
@@ -99,7 +96,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
                                   : Colors.grey,
                             ),
                             Text(
-                              "Luar Negeri",
+                              S.of(context).luarNegeri,
                               style: TextStyle(fontSize: 18),
                             ),
                           ],
@@ -121,7 +118,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
                   controller: _tabController,
                   children: [
                     TabbarviewLaporanDalam(),
-                    TabbarviewProkerLuar(),
+                    TabbarviewLaporanDalam(),
                   ],
                 ),
               ),
@@ -133,14 +130,11 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
             selectedItemColor: Colors.white,
             onTap: (value) {
               if (value == 0) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Beranda()));
+                Navigator.pushNamed(context, '/home');
               } else if (value == 1) {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MubaTv()));
+                Navigator.pushNamed(context, '/tv');
               } else if (value == 2) {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Settings()));
+                Navigator.pushNamed(context, '/settings');
               }
             },
             items: [

@@ -21,7 +21,7 @@ class _KontenPeluangState extends State<KontenPeluang> {
         backgroundColor: Color(0xFF27405E),
         title: Center(
           child: Text(
-            "Kerja Sama ${widget.title}",
+            "${widget.title}",
             textAlign: TextAlign.center,
           ),
         ),
@@ -75,9 +75,9 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                     showDialog(
                                         context: context,
                                         builder: (_) => CustomDialog(
-                                            title: "Persyaratan",
+                                            title: S.of(context).dialogTitleP,
                                             unduhFile:
-                                                "Kerja Sama ${listKonten[index].name}"));
+                                                "${listKonten[index].name}"));
                                   },
                                   child: Container(
                                     width: MediaQuery.of(context).size.width *
@@ -125,10 +125,9 @@ class _KontenPeluangState extends State<KontenPeluang> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.indigoAccent,
+        selectedItemColor: Colors.white,
         onTap: (value) {
           if (value == 0) {
             Navigator.pushNamed(context, '/home');

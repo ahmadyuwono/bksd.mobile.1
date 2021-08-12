@@ -1,13 +1,21 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:muba/components/custom_alert_dialog.dart';
 import 'package:muba/components/form_register_field.dart';
 import 'package:muba/components/password_field.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/login_model.dart';
+import 'package:muba/model/user_model.dart';
+import 'package:muba/services/auth_service.dart';
 import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/forgotpassword.dart';
 import 'package:muba/view/home.dart';
 import 'package:muba/view/register_form.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   final Function(String) name;
@@ -20,11 +28,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String _username = "";
   String _password = "";
-  int _statusCode = 0;
+  int _status = 0;
   bool isLoading = false;
   bool isLogin = false;
   bool isPressed = false;
   LoginModel? loginModel;
+  List<UserModel>? userModel;
 
   @override
   void initState() {
@@ -40,10 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
       ..backgroundColor = Colors.transparent
       ..indicatorColor = Color(0x0FF27405E)
       ..textColor = Color(0x0FF27405E);
+    loadData()
+        .then((value) => userModel = value)
+        .whenComplete(() => print("completed"));
   }
 
   @override
   Widget build(BuildContext context) {
+    User? firebaseUser = Provider.of<User?>(context);
     return Stack(
       children: [
         Image.asset(
@@ -95,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     FieldFormReg(
                       onFilled: (value) {
                         setState(() {
-                          _username = value;
+                          _username = value.trim();
                         });
                       },
                       hintForm: 'E-mail',
@@ -107,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     PasswordField(
                         text: (value) {
                           setState(() {});
-                          _password = value;
+                          _password = value.trim();
                         },
                         hintForm: 'Password'),
                     SizedBox(
@@ -123,68 +136,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Center(
                         child: InkWell(
                           onTap: isPressed == false
-                              ? () {
+                              ? () async {
                                   setState(() {
                                     isPressed = true;
                                   });
                                   EasyLoading.show(
                                       status: S.of(context).pleaseWait);
-                                  LoginModel.integrateAPI(_username, _password)
-                                      .then((value) {
-                                    setState(() {});
-                                    if (value.status != 0) {
-                                      isLogin = true;
-                                      SharedPreferencesHelper.saveName(
-                                          value.name);
-                                      SharedPreferencesHelper.saveIsLogin(
-                                          isLogin);
-                                      SharedPreferencesHelper.saveUsername(
-                                          value.email);
-                                      SharedPreferencesHelper.saveToken(
-                                          value.token);
-                                    }
-                                    widget.name(value.name);
-                                    loginModel = value;
-                                  }).whenComplete(() {
-                                    setState(() {});
-                                    isPressed = false;
-                                    EasyLoading.dismiss();
-                                    loginModel!.status != 0
-                                        ? Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Beranda()))
-                                        : showDialog(
-                                            context: context,
-                                            builder: (_) => AlertDialog(
-                                                  backgroundColor:
-                                                      Color(0xFF27405E),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                  title: Container(
-                                                      child: Text(
-                                                    S.of(context).loginFailed,
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                                  actions: [
-                                                    IconButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.close,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ));
-                                  });
+                                  // await AuthService.signIn(_username, _password)
+                                  //     .whenComplete(() => _validateLogin());
+                                  _validateLogin();
                                 }
                               : () {},
                           child: Text(
@@ -208,10 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               SharedPreferencesHelper.saveIsLogin(isLogin);
                             });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgotPassword()));
+                            Navigator.pushNamed(context, '/forgot');
                           },
                           child: Text(
                             S.of(context).forgotPassword,
@@ -223,10 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterForm()));
+                            Navigator.pushNamed(context, '/register');
                           },
                           child: Text(
                             S.of(context).register,
@@ -237,16 +191,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         )
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: 2,
               backgroundColor: Color(0xFF27405E),
               unselectedItemColor: Colors.white,
-              selectedItemColor: Colors.indigoAccent,
+              selectedItemColor: Colors.white,
               onTap: (value) {
                 if (value == 0) {
                   Navigator.pushNamed(context, '/home');
@@ -271,5 +224,66 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
+  }
+
+  _validateLogin() {
+    _deleteAccount(0);
+    LoginModel.integrateAPI(_username, _password).then((value) {
+      setState(() {});
+      print(value.status);
+      if (value.status != 0) {
+        isLogin = true;
+        SharedPreferencesHelper.saveName(value.name);
+        SharedPreferencesHelper.saveIsLogin(isLogin);
+        SharedPreferencesHelper.saveUsername(value.email);
+        SharedPreferencesHelper.saveToken(value.token);
+        SharedPreferencesHelper.saveId(value.user_id);
+      }
+      widget.name(value.name);
+      loginModel = value;
+    }).whenComplete(() {
+      setState(() {});
+      isPressed = false;
+      EasyLoading.dismiss();
+      loginModel != null
+          ? Navigator.pushReplacementNamed(context, '/home')
+          : showDialog(
+              context: context,
+              builder: (_) => CustomAlert(
+                    title: S.of(context).loginFailed,
+                  ));
+    });
+  }
+
+  _deleteAccount(int status) async {
+    if (userModel != null || _status != 503) {
+      if (userModel!.indexWhere((element) => element.email == _username) ==
+          -1) {
+        await AuthService.deleteAccount().whenComplete(() {
+          setState(() => isPressed == false);
+          EasyLoading.dismiss();
+        });
+      }
+    }
+  }
+
+  Future integrateAPI() async {
+    String apiURL = "https://muba.socketspace.com/api/user";
+    var response = await http.get(Uri.parse(apiURL));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      setState(() => _status = response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData() async {
+    String jsonData = await integrateAPI();
+    final jsonRespone = jsonDecode(jsonData);
+    ListUser listModel = ListUser.fromJson(jsonRespone);
+    return listModel.user;
   }
 }

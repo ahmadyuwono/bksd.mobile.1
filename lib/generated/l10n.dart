@@ -55,7 +55,7 @@ class S {
     return Intl.message(
       'Home',
       name: 'homeButton',
-      desc: 'Home Button Label',
+      desc: '',
       args: [],
     );
   }
@@ -65,7 +65,7 @@ class S {
     return Intl.message(
       'Muba TV',
       name: 'tvButton',
-      desc: 'TV Button Label',
+      desc: '',
       args: [],
     );
   }
@@ -75,7 +75,7 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settingsButton',
-      desc: 'Settings Button Label',
+      desc: '',
       args: [],
     );
   }
@@ -85,7 +85,7 @@ class S {
     return Intl.message(
       'Language',
       name: 'languageButton',
-      desc: 'Language Button',
+      desc: '',
       args: [],
     );
   }
@@ -95,7 +95,7 @@ class S {
     return Intl.message(
       'Login or Register',
       name: 'loginRegister',
-      desc: 'LoginReg',
+      desc: '',
       args: [],
     );
   }
@@ -105,7 +105,7 @@ class S {
     return Intl.message(
       'Login',
       name: 'loginButton',
-      desc: 'LoginButton',
+      desc: '',
       args: [],
     );
   }
@@ -125,7 +125,7 @@ class S {
     return Intl.message(
       'Welcome',
       name: 'welcome',
-      desc: 'Welcome',
+      desc: '',
       args: [],
     );
   }
@@ -135,7 +135,7 @@ class S {
     return Intl.message(
       'Register',
       name: 'register',
-      desc: 'Register',
+      desc: '',
       args: [],
     );
   }
@@ -145,7 +145,7 @@ class S {
     return Intl.message(
       'Forgot Password',
       name: 'forgotPassword',
-      desc: 'ForgotPass',
+      desc: '',
       args: [],
     );
   }
@@ -155,7 +155,7 @@ class S {
     return Intl.message(
       'Cooperation Guide',
       name: 'guide',
-      desc: 'guide',
+      desc: '',
       args: [],
     );
   }
@@ -165,7 +165,7 @@ class S {
     return Intl.message(
       'Cooperation Service',
       name: 'service',
-      desc: 'service',
+      desc: '',
       args: [],
     );
   }
@@ -175,7 +175,7 @@ class S {
     return Intl.message(
       'Contact Center',
       name: 'kontak',
-      desc: 'kontak',
+      desc: '',
       args: [],
     );
   }
@@ -185,7 +185,7 @@ class S {
     return Intl.message(
       'News',
       name: 'information',
-      desc: 'news',
+      desc: '',
       args: [],
     );
   }
@@ -195,7 +195,7 @@ class S {
     return Intl.message(
       'Domestic Cooperation',
       name: 'domestic',
-      desc: 'domestic',
+      desc: '',
       args: [],
     );
   }
@@ -205,7 +205,7 @@ class S {
     return Intl.message(
       'International Cooperation',
       name: 'international',
-      desc: 'international',
+      desc: '',
       args: [],
     );
   }
@@ -215,7 +215,7 @@ class S {
     return Intl.message(
       'Cooperation Opportunity',
       name: 'opportunity',
-      desc: 'opportunity',
+      desc: '',
       args: [],
     );
   }
@@ -225,7 +225,7 @@ class S {
     return Intl.message(
       'Cooperation Program',
       name: 'program',
-      desc: 'program',
+      desc: '',
       args: [],
     );
   }
@@ -235,7 +235,7 @@ class S {
     return Intl.message(
       'Cooperation Report',
       name: 'report',
-      desc: 'report',
+      desc: '',
       args: [],
     );
   }
@@ -245,7 +245,7 @@ class S {
     return Intl.message(
       'Already Registered ? ',
       name: 'registered',
-      desc: 'registered',
+      desc: '',
       args: [],
     );
   }
@@ -255,7 +255,7 @@ class S {
     return Intl.message(
       'Back to Login',
       name: 'registeredBack',
-      desc: 'registeredBack',
+      desc: '',
       args: [],
     );
   }
@@ -265,7 +265,7 @@ class S {
     return Intl.message(
       'Register',
       name: 'registerButton',
-      desc: 'registerButton',
+      desc: '',
       args: [],
     );
   }
@@ -275,7 +275,7 @@ class S {
     return Intl.message(
       'I agree to the Terms and Privacy Policy from BKSD Kab. Muba service',
       name: 'agreeCheck',
-      desc: 'agreeCheck',
+      desc: '',
       args: [],
     );
   }
@@ -285,7 +285,7 @@ class S {
     return Intl.message(
       'Register BKSD Kab. Muba',
       name: 'registerTitle',
-      desc: 'registerTitle',
+      desc: '',
       args: [],
     );
   }
@@ -295,7 +295,7 @@ class S {
     return Intl.message(
       'Data not complete, please check again',
       name: 'registerCheck',
-      desc: 'registerCheck',
+      desc: '',
       args: [],
     );
   }
@@ -505,6 +505,396 @@ class S {
     return Intl.message(
       'International',
       name: 'luarNegeri',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preparation Step`
+  String get prepPhase {
+    return Intl.message(
+      'Preparation Step',
+      name: 'prepPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offering Step`
+  String get offerPhase {
+    return Intl.message(
+      'Offering Step',
+      name: 'offerPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Organizing Step`
+  String get susunPhase {
+    return Intl.message(
+      'Organizing Step',
+      name: 'susunPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reviewing Step`
+  String get reviewPhase {
+    return Intl.message(
+      'Reviewing Step',
+      name: 'reviewPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Signing Step`
+  String get signPhase {
+    return Intl.message(
+      'Signing Step',
+      name: 'signPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Agreement Step`
+  String get agreePhase {
+    return Intl.message(
+      'Agreement Step',
+      name: 'agreePhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Execution Step`
+  String get executePhase {
+    return Intl.message(
+      'Execution Step',
+      name: 'executePhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmation`
+  String get dialogTitle {
+    return Intl.message(
+      'Confirmation',
+      name: 'dialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requirements`
+  String get dialogTitleP {
+    return Intl.message(
+      'Requirements',
+      name: 'dialogTitleP',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure to download this file:`
+  String get dialogContent {
+    return Intl.message(
+      'Are you sure to download this file:',
+      name: 'dialogContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DOWNLOAD`
+  String get dialogConfirm {
+    return Intl.message(
+      'DOWNLOAD',
+      name: 'dialogConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CANCEL`
+  String get dialogCancel {
+    return Intl.message(
+      'CANCEL',
+      name: 'dialogCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Facilitate`
+  String get facilitation {
+    return Intl.message(
+      'Facilitate',
+      name: 'facilitation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cooperation`
+  String get coop {
+    return Intl.message(
+      'Cooperation',
+      name: 'coop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regional Cooperation`
+  String get ksdd {
+    return Intl.message(
+      'Regional Cooperation',
+      name: 'ksdd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regional Cooperation with Third Parties`
+  String get ksdpk {
+    return Intl.message(
+      'Regional Cooperation with Third Parties',
+      name: 'ksdpk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Synergy between Central Government and Local Governments`
+  String get sinergi {
+    return Intl.message(
+      'Synergy between Central Government and Local Governments',
+      name: 'sinergi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regional Cooperation with Foreign Local Governments`
+  String get ksdpl {
+    return Intl.message(
+      'Regional Cooperation with Foreign Local Governments',
+      name: 'ksdpl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regional Cooperation with Foreign Institutions`
+  String get ksdll {
+    return Intl.message(
+      'Regional Cooperation with Foreign Institutions',
+      name: 'ksdll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Education`
+  String get education {
+    return Intl.message(
+      'Education',
+      name: 'education',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Health`
+  String get health {
+    return Intl.message(
+      'Health',
+      name: 'health',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tourism`
+  String get tourism {
+    return Intl.message(
+      'Tourism',
+      name: 'tourism',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sport`
+  String get sport {
+    return Intl.message(
+      'Sport',
+      name: 'sport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SUCCESS`
+  String get suksesForm {
+    return Intl.message(
+      'SUCCESS',
+      name: 'suksesForm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FILLING OUT THE FRAMEWORK OF REFERENCE`
+  String get fillingSukses {
+    return Intl.message(
+      'FILLING OUT THE FRAMEWORK OF REFERENCE',
+      name: 'fillingSukses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back to Dashboard`
+  String get backToDb {
+    return Intl.message(
+      'Back to Dashboard',
+      name: 'backToDb',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill the form below`
+  String get formStepT {
+    return Intl.message(
+      'Please fill the form below',
+      name: 'formStepT',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PREPARATION APPLICATION FORM`
+  String get stepTitle {
+    return Intl.message(
+      'PREPARATION APPLICATION FORM',
+      name: 'stepTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OFFERING APPLICATION FORM`
+  String get stepTitleOffer {
+    return Intl.message(
+      'OFFERING APPLICATION FORM',
+      name: 'stepTitleOffer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Letter Number`
+  String get noLetter {
+    return Intl.message(
+      'Letter Number',
+      name: 'noLetter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Letter Date`
+  String get dateLetter {
+    return Intl.message(
+      'Letter Date',
+      name: 'dateLetter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hereby Submit an Offer`
+  String get offerState {
+    return Intl.message(
+      'Hereby Submit an Offer',
+      name: 'offerState',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Office`
+  String get office {
+    return Intl.message(
+      'Office',
+      name: 'office',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Act For and In the Name Of`
+  String get actBehalf {
+    return Intl.message(
+      'Act For and In the Name Of',
+      name: 'actBehalf',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Source`
+  String get source {
+    return Intl.message(
+      'Source',
+      name: 'source',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Password`
+  String get changePass {
+    return Intl.message(
+      'Change Password',
+      name: 'changePass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Password`
+  String get newPass {
+    return Intl.message(
+      'New Password',
+      name: 'newPass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Old Password`
+  String get oldPass {
+    return Intl.message(
+      'Old Password',
+      name: 'oldPass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password Changed!`
+  String get passChanged {
+    return Intl.message(
+      'Password Changed!',
+      name: 'passChanged',
       desc: '',
       args: [],
     );

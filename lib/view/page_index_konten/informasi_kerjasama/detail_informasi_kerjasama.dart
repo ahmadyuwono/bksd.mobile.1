@@ -6,12 +6,14 @@ class DetailInformasi extends StatefulWidget {
   final String date;
   final String image;
   final String content;
+  final String source;
   const DetailInformasi(
       {Key? key,
       required this.title,
       required this.date,
       required this.image,
-      required this.content})
+      required this.content,
+      required this.source})
       : super(key: key);
 
   @override
@@ -26,71 +28,74 @@ class _DetailInformasiState extends State<DetailInformasi> {
         backgroundColor: Color(0xFF27405E),
         title: Center(child: Text(S.of(context).information)),
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Text(
-                widget.title,
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 24),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          physics:
+              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Text(
-                widget.date,
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Colors.grey),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Text(
+                  widget.title,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 14,
-            ),
-            Image.network(
-                "https://muba.socketspace.com/uploads/berita/${widget.image}"),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Text(
-                "Foto: Pemerintahan BKSD Muba",
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Colors.grey),
+              SizedBox(
+                height: 5,
               ),
-            ),
-            SizedBox(
-              height: 13,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Text(
-                widget.content,
-                textAlign: TextAlign.start,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Text(
+                  widget.date,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.grey),
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 14,
+              ),
+              Image.network(
+                  "https://muba.socketspace.com/uploads/berita/${widget.image}"),
+              SizedBox(
+                height: 7,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Text(
+                  "${S.of(context).source} : ${widget.source}",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              SizedBox(
+                height: 13,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Text(
+                  widget.content,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.indigoAccent,
+        selectedItemColor: Colors.white,
         onTap: (value) {
           if (value == 0) {
             Navigator.pushNamed(context, '/home');

@@ -10,6 +10,7 @@ class SharedPreferencesHelper {
   static final String KEY_NAME = "KEY_NAME";
   static final String KEY_LANGUAGE = "KEY_LANGUAGE";
   static final String KEY_ISSELECTED = "KEY_ISSELECTED";
+  static final String KEY_ID = "KEY_ID";
 
   static Future<SharedPreferences> get sharedpreferences =>
       SharedPreferences.getInstance();
@@ -110,6 +111,18 @@ class SharedPreferencesHelper {
     return pref.getBool(KEY_ISSELECTED) ?? false;
   }
 
+  //untuk simpan id
+  static Future saveId(String id) async {
+    final pref = await sharedpreferences;
+    return pref.setString(KEY_ID, id);
+  }
+
+  //untuk panggil id
+  static Future<String> readId() async {
+    final pref = await sharedpreferences;
+    return pref.getString(KEY_ID) ?? "";
+  }
+
   //clear semua data yang disimpan
   static Future clearAllData() async {
     final pref = await sharedpreferences;
@@ -119,7 +132,6 @@ class SharedPreferencesHelper {
       pref.setString(KEY_PASSWORD, ""),
       pref.setString(KEY_TOKEN, ""),
       pref.setString(KEY_NAME, ""),
-      pref.setBool(KEY_ISSELECTED, false),
     });
   }
 }

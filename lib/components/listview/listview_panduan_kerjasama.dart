@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muba/components/custom_dialog.dart';
+import 'package:muba/generated/l10n.dart';
 
 class ListPanduan extends StatefulWidget {
   final int index;
@@ -24,7 +25,7 @@ class _ListPanduanState extends State<ListPanduan> {
           showDialog(
               context: context,
               builder: (_) => CustomDialog(
-                  title: "Konfirmasi",
+                  title: S.of(context).dialogTitle,
                   unduhFile: widget.contentCard[widget.index]));
         },
         child: Card(

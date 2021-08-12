@@ -25,10 +25,11 @@ class _TahapPersiapanCompleteState extends State<TahapPersiapanComplete> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Color(0xFF27405E),
             title: Center(
               child: Text(
-                "Tahap Persiapan",
+                S.of(context).prepPhase,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -48,7 +49,7 @@ class _TahapPersiapanCompleteState extends State<TahapPersiapanComplete> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "BERHASIL",
+                            S.of(context).suksesForm,
                             style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w500,
@@ -60,7 +61,7 @@ class _TahapPersiapanCompleteState extends State<TahapPersiapanComplete> {
                           Container(
                             width: 250,
                             child: Text(
-                              "PENGISIAN FORMAT KERANGKA ACUAN KERJA",
+                              S.of(context).fillingSukses,
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
@@ -96,7 +97,7 @@ class _TahapPersiapanCompleteState extends State<TahapPersiapanComplete> {
                                               LayananKerjaSama()));
                                 },
                                 child: Text(
-                                  "Kembali Dashboard",
+                                  S.of(context).backToDb,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -112,10 +113,9 @@ class _TahapPersiapanCompleteState extends State<TahapPersiapanComplete> {
                 ],
               )),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 2,
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.indigoAccent,
+            selectedItemColor: Colors.white,
             onTap: (value) {
               if (value == 0) {
                 Navigator.pushNamed(context, '/home');

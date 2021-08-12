@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class CustomDialog extends StatefulWidget {
   final String unduhFile;
@@ -47,7 +48,7 @@ class _CustomDialogState extends State<CustomDialog> {
                   height: 29,
                 ),
                 Text(
-                  "Apakah Anda yakin untuk mengunduh file:",
+                  S.of(context).dialogContent,
                   style: TextStyle(color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
@@ -81,7 +82,7 @@ class _CustomDialogState extends State<CustomDialog> {
                               bottomLeft: Radius.circular(10))),
                       child: Center(
                         child: Text(
-                          "UNDUH",
+                          S.of(context).dialogConfirm,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -100,7 +101,7 @@ class _CustomDialogState extends State<CustomDialog> {
                                 bottomRight: Radius.circular(10))),
                         child: Center(
                           child: Text(
-                            "TIDAK",
+                            S.of(context).dialogCancel,
                             style: TextStyle(
                                 color: Color(0xFF27405E),
                                 fontSize: 18,

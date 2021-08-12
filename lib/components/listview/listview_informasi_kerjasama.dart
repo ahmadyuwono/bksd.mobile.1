@@ -33,6 +33,7 @@ class _ListInformasiSamaState extends State<ListInformasiSama> {
                       date: formattedDate,
                       content: widget.headLine[widget.index].isi,
                       image: widget.headLine[widget.index].foto,
+                      source: widget.headLine[widget.index].sumber_foto,
                     )));
       },
       child: Container(
@@ -41,7 +42,9 @@ class _ListInformasiSamaState extends State<ListInformasiSama> {
         child: Row(
           children: [
             Image.network(
-                "https://muba.socketspace.com/uploads/berita/${widget.headLine[widget.index].foto}"),
+              "https://muba.socketspace.com/uploads/berita/${widget.headLine[widget.index].foto}",
+              width: MediaQuery.of(context).size.width * 0.40,
+            ),
             SizedBox(
               width: 18,
             ),

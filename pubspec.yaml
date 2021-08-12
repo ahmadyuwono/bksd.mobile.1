@@ -37,12 +37,17 @@ dependencies:
   shared_preferences: ^2.0.6
   video_player: ^2.1.12
   youtube_player_flutter: ^8.0.0
-  webview_flutter: ^2.0.10
   youtube_player_iframe: ^2.2.1
   file_picker: ^3.0.4
-  advance_pdf_viewer: ^2.0.0
   flutter_easyloading: ^3.0.0
   intl: ^0.17.0
+  url_launcher: ^6.0.9
+  firebase_core: ^1.4.0
+  email_auth: ^0.0.1+4
+  firebase_auth: ^3.0.1
+  provider: ^5.0.0
+  html: ^0.15.0
+
 
 dev_dependencies:
   flutter_test:
