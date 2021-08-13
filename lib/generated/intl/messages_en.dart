@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dialogTitleP": MessageLookupByLibrary.simpleMessage("Requirements"),
         "domestic":
             MessageLookupByLibrary.simpleMessage("Domestic Cooperation"),
+        "downloaded": MessageLookupByLibrary.simpleMessage("Download Success"),
         "education": MessageLookupByLibrary.simpleMessage("Education"),
         "executePhase": MessageLookupByLibrary.simpleMessage("Execution Step"),
         "facilitation": MessageLookupByLibrary.simpleMessage("Facilitate"),

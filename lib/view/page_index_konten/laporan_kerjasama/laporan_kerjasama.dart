@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:muba/components/tabbarview/tabbarview_laporan_dalam.dart';
 import 'package:muba/components/tabbarview/tabbarview_proker_luar.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/laporan_model.dart';
+import 'package:muba/model/program_model.dart';
+import 'package:http/http.dart' as http;
 
 class LaporanKerjasama extends StatefulWidget {
   const LaporanKerjasama({Key? key}) : super(key: key);
@@ -10,22 +17,29 @@ class LaporanKerjasama extends StatefulWidget {
   _LaporanKerjasamaState createState() => _LaporanKerjasamaState();
 }
 
-class _LaporanKerjasamaState extends State<LaporanKerjasama>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _LaporanKerjasamaState extends State<LaporanKerjasama> {
+  List<LaporanModel> laporanModel = [];
+  bool isLoaded = false;
+  bool isError = false;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(initialIndex: 1, length: 2, vsync: this);
-    _tabController.addListener(() {
+    loadData().onError((error, stackTrace) {
+      setState(() {
+        isError = true;
+      });
+    }).then((value) {
       setState(() {});
+      laporanModel = value;
+    }).whenComplete(() {
+      setState(() {});
+      isLoaded = true;
     });
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -52,78 +66,106 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
               ),
             ),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.topCenter,
-                width: MediaQuery.of(context).size.width,
-                constraints: BoxConstraints(maxHeight: 50),
-                child: TabBar(
-                  controller: _tabController,
-                  unselectedLabelColor: Colors.grey,
-                  labelColor: Color(0xFF27405E),
-                  isScrollable: true,
-                  tabs: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.40,
-                      child: Tab(
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/indo-icon.png",
-                              color: _tabController.index == 0
-                                  ? Color(0xFF27405E)
-                                  : Colors.grey,
+          body: isError == false
+              ? Container(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: isLoaded == true
+                      ? CustomScrollView(
+                          physics: BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          slivers: [
+                            SliverPadding(
+                              padding: const EdgeInsets.only(top: 20),
                             ),
-                            Text(
-                              S.of(context).dalamNegeri,
-                              style: TextStyle(fontSize: 18),
+                            CupertinoSliverRefreshControl(
+                              onRefresh: () {
+                                return loadData().onError((error, stackTrace) {
+                                  setState(() {
+                                    isError = true;
+                                  });
+                                }).then((value) {
+                                  setState(() {});
+                                  laporanModel = value;
+                                }).whenComplete(() {
+                                  setState(() {});
+                                  isLoaded = true;
+                                });
+                              },
                             ),
+                            SliverToBoxAdapter(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      laporanModel[laporanModel.indexWhere(
+                                              (element) =>
+                                                  element.judul ==
+                                                  "Monitoring dan Evaluasi")]
+                                          .judul,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      _parseHtmlString(laporanModel[laporanModel
+                                              .indexWhere((element) =>
+                                                  element.judul ==
+                                                  "Monitoring dan Evaluasi")]
+                                          .isi!),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
-                        ),
+                        )
+                      : Center(
+                          child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF27405E),
+                            strokeWidth: 8,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        )),
+                )
+              : Container(
+                  child: CustomScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  slivers: [
+                    CupertinoSliverRefreshControl(
+                      onRefresh: () {
+                        return loadData().onError((error, stackTrace) {
+                          setState(() {
+                            isError = true;
+                          });
+                        }).then((value) {
+                          setState(() {});
+                          laporanModel = value;
+                        }).whenComplete(() {
+                          setState(() {});
+                          isLoaded = true;
+                        });
+                      },
+                    ),
+                    SliverToBoxAdapter(
+                      child: Center(
+                        child: Text("Error Internet?"),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.40,
-                      child: Tab(
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/world-icon.png",
-                              color: _tabController.index == 1
-                                  ? Color(0xFF27405E)
-                                  : Colors.grey,
-                            ),
-                            Text(
-                              S.of(context).luarNegeri,
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
                   ],
-                  indicator: UnderlineTabIndicator(
-                    borderSide: BorderSide(
-                      width: 4,
-                      color: Color(0xFF27405E),
-                    ),
-                  ),
-                  indicatorWeight: 4,
-                ),
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    TabbarviewLaporanDalam(),
-                    TabbarviewLaporanDalam(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+                )),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
@@ -151,5 +193,32 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama>
         ),
       ],
     );
+  }
+
+  Future integrateAPI() async {
+    String apiURL = "https://muba.socketspace.com/api/pages";
+    var response = await http.get(Uri.parse(apiURL));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData() async {
+    String jsonData = await integrateAPI();
+    final jsonResponse = jsonDecode(jsonData);
+    ListLaporan listModel = ListLaporan.fromJson(jsonResponse);
+    return listModel.laporan;
+  }
+
+  String _parseHtmlString(String htmlString) {
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text;
+
+    return parsedString;
   }
 }

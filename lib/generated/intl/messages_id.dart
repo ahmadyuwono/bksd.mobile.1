@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dialogTitleP": MessageLookupByLibrary.simpleMessage("Persyaratan"),
         "domestic":
             MessageLookupByLibrary.simpleMessage("Kerjasama Dalam Negeri"),
+        "downloaded": MessageLookupByLibrary.simpleMessage("Download Berhasil"),
         "education": MessageLookupByLibrary.simpleMessage("Pendidikan"),
         "executePhase":
             MessageLookupByLibrary.simpleMessage("Tahap Pelaksanaan"),

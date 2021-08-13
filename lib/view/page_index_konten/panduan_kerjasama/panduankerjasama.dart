@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:muba/components/listview/listview_panduan_kerjasama.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:http/http.dart' as http;
+import 'package:muba/model/laporan_model.dart';
 
 class PanduanKerjasama extends StatefulWidget {
   const PanduanKerjasama({Key? key}) : super(key: key);
@@ -11,16 +15,28 @@ class PanduanKerjasama extends StatefulWidget {
 
 class _PanduanKerjasamaState extends State<PanduanKerjasama> {
   List<String> contentCard = [];
+  List<LaporanModel> laporanModel = [];
+  bool isLoaded = false;
+  bool isError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadData().onError((error, stackTrace) {
+      setState(() {
+        isError = true;
+      });
+    }).then((value) {
+      setState(() {});
+      laporanModel = value;
+    }).whenComplete(() {
+      setState(() {});
+      isLoaded = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> contentCard = [
-      "${S.of(context).ksdd} (KSDD)",
-      "${S.of(context).ksdpk} (KSDPK)",
-      "${S.of(context).sinergi} (SINERGI)",
-      "${S.of(context).ksdpl} (KSDPL)",
-      "${S.of(context).ksdll} (KSDLL)",
-    ];
     return Stack(
       children: [
         Container(
@@ -50,9 +66,9 @@ class _PanduanKerjasamaState extends State<PanduanKerjasama> {
                   SliverPadding(padding: const EdgeInsets.only(top: 32)),
                   SliverList(
                     delegate: SliverChildListDelegate(List.generate(
-                        contentCard.length,
+                        laporanModel.length,
                         (index) => ListPanduan(
-                            contentCard: contentCard, index: index)).toList()),
+                            contentCard: laporanModel, index: index)).toList()),
                   )
                 ],
               )),
@@ -83,5 +99,24 @@ class _PanduanKerjasamaState extends State<PanduanKerjasama> {
         ),
       ],
     );
+  }
+
+  Future integrateAPI() async {
+    String apiURL = "https://muba.socketspace.com/api/panduan_kerjasama";
+    var response = await http.get(Uri.parse(apiURL));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData() async {
+    String jsonData = await integrateAPI();
+    final jsonResponse = jsonDecode(jsonData);
+    ListLaporan listModel = ListLaporan.fromJson(jsonResponse);
+    return listModel.laporan;
   }
 }

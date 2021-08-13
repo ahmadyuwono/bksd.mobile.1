@@ -167,5 +167,7 @@
 
   "oldPass": "Old Password",
 
-  "passChanged": "Password Changed!"
+  "passChanged": "Password Changed!",
+
+  "downloaded": "Download Success"
 }

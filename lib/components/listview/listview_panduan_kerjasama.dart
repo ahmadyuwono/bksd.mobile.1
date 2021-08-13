@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:muba/components/custom_dialog.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/laporan_model.dart';
 
 class ListPanduan extends StatefulWidget {
   final int index;
-  final List contentCard;
+  final List<LaporanModel> contentCard;
   const ListPanduan({Key? key, required this.index, required this.contentCard})
       : super(key: key);
 
@@ -25,8 +26,10 @@ class _ListPanduanState extends State<ListPanduan> {
           showDialog(
               context: context,
               builder: (_) => CustomDialog(
+                  url:
+                      "https://muba.socketspace.com/${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}",
                   title: S.of(context).dialogTitle,
-                  unduhFile: widget.contentCard[widget.index]));
+                  unduhFile: widget.contentCard[widget.index].judul));
         },
         child: Card(
           elevation: 5,
@@ -41,7 +44,7 @@ class _ListPanduanState extends State<ListPanduan> {
               ),
               Expanded(
                 child: Text(
-                  widget.contentCard[widget.index],
+                  widget.contentCard[widget.index].judul,
                   style: TextStyle(
                       color: Color(0xFF27405E),
                       fontSize: 18,

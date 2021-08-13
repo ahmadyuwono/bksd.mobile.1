@@ -167,5 +167,7 @@
 
   "oldPass": "Password Lama",
 
-  "passChanged": "Password Diubah!"
+  "passChanged": "Password Diubah!",
+
+  "downloaded": "Download Berhasil"
 }

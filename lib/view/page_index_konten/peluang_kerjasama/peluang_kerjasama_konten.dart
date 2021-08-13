@@ -86,6 +86,8 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                         showDialog(
                                             context: context,
                                             builder: (_) => CustomDialog(
+                                                url:
+                                                    "https://muba.socketspace.com/${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
                                                 title:
                                                     S.of(context).dialogTitleP,
                                                 unduhFile:

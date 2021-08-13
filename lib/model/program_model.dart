@@ -22,7 +22,7 @@ class ProgramModel {
   final String judul;
   final String url;
   final String created_at;
-  final String negara_id;
+  final String? negara_id;
 
   factory ProgramModel.fromJson(Map<String, dynamic> object) {
     return ProgramModel(
