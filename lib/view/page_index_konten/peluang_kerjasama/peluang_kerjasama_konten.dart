@@ -23,8 +23,12 @@ class KontenPeluang extends StatefulWidget {
 
 class _KontenPeluangState extends State<KontenPeluang> {
   TextEditingController _textEditingController = TextEditingController();
+  String? _fileName;
   @override
   Widget build(BuildContext context) {
+    _fileName = widget.peluangModel[widget.index].file!
+        .substring(18, widget.peluangModel[widget.index].file!.length);
+    print(_fileName);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF27405E),
@@ -86,6 +90,7 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                         showDialog(
                                             context: context,
                                             builder: (_) => CustomDialog(
+                                                fileName: _fileName!,
                                                 url:
                                                     "https://muba.socketspace.com/${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
                                                 title:

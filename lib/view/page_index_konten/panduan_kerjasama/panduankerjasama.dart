@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muba/components/listview/listview_panduan_kerjasama.dart';
 import 'package:muba/generated/l10n.dart';
@@ -56,22 +57,65 @@ class _PanduanKerjasamaState extends State<PanduanKerjasama> {
               ),
             ),
           ),
-          body: Container(
-              padding: const EdgeInsets.only(right: 17, left: 17),
-              child: CustomScrollView(
-                scrollDirection: Axis.vertical,
-                physics: BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                slivers: [
-                  SliverPadding(padding: const EdgeInsets.only(top: 32)),
-                  SliverList(
-                    delegate: SliverChildListDelegate(List.generate(
-                        laporanModel.length,
-                        (index) => ListPanduan(
-                            contentCard: laporanModel, index: index)).toList()),
-                  )
-                ],
-              )),
+          body: isError == false
+              ? Container(
+                  padding: const EdgeInsets.only(right: 17, left: 17),
+                  child: isLoaded == true
+                      ? CustomScrollView(
+                          scrollDirection: Axis.vertical,
+                          physics: BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          slivers: [
+                            SliverPadding(
+                                padding: const EdgeInsets.only(top: 32)),
+                            SliverList(
+                              delegate: SliverChildListDelegate(List.generate(
+                                  laporanModel.length,
+                                  (index) => ListPanduan(
+                                      contentCard: laporanModel,
+                                      index: index)).toList()),
+                            )
+                          ],
+                        )
+                      : Center(
+                          child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF27405E),
+                            strokeWidth: 8,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        )),
+                )
+              : Container(
+                  child: CustomScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  slivers: [
+                    CupertinoSliverRefreshControl(
+                      onRefresh: () {
+                        return loadData().onError((error, stackTrace) {
+                          setState(() {
+                            isError = true;
+                          });
+                        }).then((value) {
+                          setState(() {});
+                          laporanModel = value;
+                        }).whenComplete(() {
+                          setState(() {});
+                          isLoaded = true;
+                        });
+                      },
+                    ),
+                    SliverToBoxAdapter(
+                      child: Center(
+                        child: Text("Error Internet?"),
+                      ),
+                    ),
+                  ],
+                )),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,

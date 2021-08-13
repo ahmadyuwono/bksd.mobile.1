@@ -21,6 +21,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   bool isLogin = false;
   String email = "";
+  String password = "";
   int _status = 0;
   List<UserModel>? userModel;
   @override
@@ -98,6 +99,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       },
                     ),
                     SizedBox(
+                      height: 15,
+                    ),
+                    FieldFormReg(
+                      hintForm: S.of(context).newPass,
+                      isPassword: true,
+                      onFilled: (value) {
+                        setState(() {});
+                        password = value;
+                      },
+                    ),
+                    SizedBox(
                       height: 41,
                     ),
                     Container(
@@ -109,20 +121,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           child: InkWell(
                         onTap: () {
                           EasyLoading.show(status: S.of(context).pleaseWait);
-                          loadData()
-                              .then((value) => userModel = value)
-                              .whenComplete(() {
+                          integrateAPI().whenComplete(() {
                             EasyLoading.dismiss();
-                            if (userModel != null) {
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => CustomAlert(
-                                        title: userModel![userModel!.indexWhere(
-                                                (element) =>
-                                                    element.email == email)]
-                                            .password,
-                                      ));
-                            }
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor: Color(0x0FF27405E),
+                                content: Text(S.of(context).passChanged),
+                                action: SnackBarAction(
+                                  label: 'OK',
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )));
                           });
                           // Navigator.pushNamed(context, '/login');
                           // await AuthService.forgotPassword(email);
@@ -180,8 +189,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/user";
-    var response = await http.get(Uri.parse(apiURL));
+    String apiURL = "https://muba.socketspace.com/api/user/forgot_password";
+    var response = await http.put(Uri.parse(apiURL), body: {
+      "email": email,
+      "new_password": password,
+    });
     if (response.statusCode == 200) {
       print(response.statusCode);
       return response.body;
@@ -190,12 +202,5 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       setState(() => _status = response.statusCode);
       throw Exception('Failed');
     }
-  }
-
-  Future loadData() async {
-    String jsonData = await integrateAPI();
-    final jsonRespone = jsonDecode(jsonData);
-    ListUser listModel = ListUser.fromJson(jsonRespone);
-    return listModel.user;
   }
 }

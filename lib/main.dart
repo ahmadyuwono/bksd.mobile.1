@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/services/auth_service.dart';
@@ -26,6 +29,7 @@ import 'package:muba/view/page_settings/page_terms_of_service.dart';
 import 'package:muba/view/register_form.dart';
 import 'package:muba/view/settings.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:open_file/open_file.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,6 +101,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
   PageController _splashController = PageController();
   double? _currentPage = 0;
 

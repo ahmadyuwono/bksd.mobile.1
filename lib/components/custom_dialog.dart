@@ -1,21 +1,24 @@
+import 'dart:convert';
 import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:muba/generated/l10n.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:muba/services/download_service.dart';
+import 'package:open_file/open_file.dart';
 
 class CustomDialog extends StatefulWidget {
   final String unduhFile;
   final String title;
   final String url;
+  final String fileName;
   const CustomDialog(
       {Key? key,
       required this.unduhFile,
       required this.title,
-      required this.url})
+      required this.url,
+      required this.fileName})
       : super(key: key);
 
   @override
@@ -23,12 +26,6 @@ class CustomDialog extends StatefulWidget {
 }
 
 class _CustomDialogState extends State<CustomDialog> {
-  var imageUrl =
-      "https://www.itl.cat/pngfile/big/10-100326_desktop-wallpaper-hd-full-screen-free-download-full.jpg";
-  bool downloading = true;
-  String downloadingStr = "No data";
-  String savePath = "";
-
   @override
   void initState() {
     super.initState();
@@ -38,6 +35,22 @@ class _CustomDialogState extends State<CustomDialog> {
       ..backgroundColor = Colors.transparent
       ..indicatorColor = Color(0x0FF27405E)
       ..textColor = Color(0x0FF27405E);
+  }
+
+  Future _onSelectNotification(String? json) async {
+    final obj = jsonDecode(json!);
+
+    if (obj['isSuccess']) {
+      OpenFile.open(obj['filePath']);
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Error'),
+          content: Text('${obj['error']}'),
+        ),
+      );
+    }
   }
 
   @override
@@ -120,9 +133,10 @@ class _CustomDialogState extends State<CustomDialog> {
                     ),
                     onTap: () {
                       EasyLoading.show(status: S.of(context).pleaseWait);
-                      downloadFile(widget.url).whenComplete(() async {
-                        await EasyLoading.dismiss();
-                        Navigator.of(context).pop();
+                      DownloadService()
+                          .download(widget.fileName, widget.url)
+                          .whenComplete(() {
+                        EasyLoading.dismiss();
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor: Color(0x0FF27405E),
                             content: Text(S.of(context).downloaded),
@@ -135,6 +149,7 @@ class _CustomDialogState extends State<CustomDialog> {
                       }).onError((error, stackTrace) {
                         EasyLoading.dismiss();
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Color(0x0FF27405E),
                             content: Text("Error"),
                             action: SnackBarAction(
                               label: 'OK',
@@ -173,63 +188,4 @@ class _CustomDialogState extends State<CustomDialog> {
       ),
     );
   }
-
-  Future downloadFile(var imageUrl) async {
-    try {
-      Dio dio = Dio();
-
-      String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-      print(imageUrl);
-      savePath = await getFilePath(fileName);
-      await dio.download(imageUrl, savePath, onReceiveProgress: (rec, total) {
-        setState(() {
-          downloading = true;
-          // download = (rec / total) * 100;
-          downloadingStr = "Downloading Image : $rec";
-        });
-      });
-      setState(() {
-        downloading = false;
-        downloadingStr = "Completed";
-        print(downloadingStr);
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<String> getFilePath(uniqueFileName) async {
-    String path = '';
-
-    Directory dir = await getApplicationDocumentsDirectory();
-
-    path = '${dir.path}/$uniqueFileName';
-
-    return path;
-  }
 }
-// Future<String> downloadFile(String url, String fileName, String dir) async {
-//   HttpClient httpClient = new HttpClient();
-//   File file;
-//   String filePath = '';
-//   String myUrl = '';
-//
-//   try {
-//     myUrl = url + '/' + fileName;
-//     var request = await httpClient.getUrl(Uri.parse(myUrl));
-//     var response = await request.close();
-//     if (response.statusCode == 200) {
-//       print("${response.statusCode} h");
-//       var bytes = await consolidateHttpClientResponseBytes(response);
-//       filePath = '$dir/$fileName';
-//       file = File(filePath);
-//       print(file);
-//       await file.writeAsBytes(bytes).whenComplete(() => print("done"));
-//     } else
-//       print("${response.statusCode} h");
-//     filePath = 'Error code: ' + response.statusCode.toString();
-//   } catch (ex) {
-//     filePath = 'Can not fetch url';
-//   }
-//   return filePath;
-// }

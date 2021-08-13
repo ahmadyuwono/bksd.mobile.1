@@ -14,8 +14,12 @@ class ListPanduan extends StatefulWidget {
 }
 
 class _ListPanduanState extends State<ListPanduan> {
+  String? _fileName;
   @override
   Widget build(BuildContext context) {
+    _fileName = widget.contentCard[widget.index].url
+        .substring(14, widget.contentCard[widget.index].url.length);
+    print(_fileName);
     return Container(
       height: 80,
       decoration: BoxDecoration(
@@ -26,6 +30,7 @@ class _ListPanduanState extends State<ListPanduan> {
           showDialog(
               context: context,
               builder: (_) => CustomDialog(
+                  fileName: _fileName!,
                   url:
                       "https://muba.socketspace.com/${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}",
                   title: S.of(context).dialogTitle,
