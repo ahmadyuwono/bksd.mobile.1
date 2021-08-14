@@ -117,7 +117,9 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),
-                                        height: 70,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.35,
                                         child: Center(
                                           child: Text(
                                             widget.peluangModel[index].judul,

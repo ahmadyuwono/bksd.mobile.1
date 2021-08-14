@@ -93,52 +93,46 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama> {
                               },
                             ),
                             SliverList(
-                              delegate: SliverChildListDelegate(List.generate(
-                                  1,
-                                  (index) => Container(
-                                        decoration: BoxDecoration(
-                                          color: Color(0x0FF27405E),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        child: Material(
-                                          elevation: 5,
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                laporanModel[laporanModel
-                                                        .indexWhere((element) =>
-                                                            element.judul ==
-                                                            "Monitoring dan Evaluasi")]
-                                                    .judul,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white),
-                                              ),
-                                              SizedBox(
-                                                height: 30,
-                                              ),
-                                              Text(
-                                                _parseHtmlString(laporanModel[
-                                                        laporanModel.indexWhere(
-                                                            (element) =>
-                                                                element.judul ==
-                                                                "Monitoring dan Evaluasi")]
-                                                    .isi!),
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ))),
-                            ),
+                                delegate: SliverChildListDelegate(List.generate(
+                              1,
+                              (index) => Container(
+                                padding: const EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: Color(0x0FF27405E),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      laporanModel[laporanModel.indexWhere(
+                                              (element) =>
+                                                  element.judul ==
+                                                  "Monitoring dan Evaluasi")]
+                                          .judul,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      _parseHtmlString(laporanModel[laporanModel
+                                              .indexWhere((element) =>
+                                                  element.judul ==
+                                                  "Monitoring dan Evaluasi")]
+                                          .isi!),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ))),
                           ],
                         )
                       : Center(
