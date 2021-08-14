@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class SubjekHukum extends StatefulWidget {
   final Function(String) a;
@@ -33,20 +34,20 @@ class _SubjekHukumState extends State<SubjekHukum> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "A. SUBJEK HUKUM",
+            "A. ${S.of(context).subjekHukum}",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 18,
           ),
-          Text("Nama Daerah"),
+          Text(S.of(context).namaDaerah),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.a(_textEditingControllerA.text);
+              onChanged: (value) {
+                widget.a(value);
               },
               controller: _textEditingControllerA,
               decoration: InputDecoration(
@@ -59,14 +60,14 @@ class _SubjekHukumState extends State<SubjekHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("Nama Kepala Daerah"),
+          Text(S.of(context).namaKepalaDaerah),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.b(_textEditingControllerB.text);
+              onChanged: (value) {
+                widget.b(value);
               },
               controller: _textEditingControllerB,
               decoration: InputDecoration(
@@ -79,14 +80,14 @@ class _SubjekHukumState extends State<SubjekHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("No SK Pengangkatan"),
+          Text(S.of(context).nomorSKPengangkatan),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.c(_textEditingControllerC.text);
+              onChanged: (value) {
+                widget.c(value);
               },
               controller: _textEditingControllerC,
               decoration: InputDecoration(
@@ -99,14 +100,14 @@ class _SubjekHukumState extends State<SubjekHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("Kedudukan (Alamat)"),
+          Text(S.of(context).address),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.d(_textEditingControllerD.text);
+              onChanged: (value) {
+                widget.d(value);
               },
               controller: _textEditingControllerD,
               decoration: InputDecoration(
@@ -119,14 +120,14 @@ class _SubjekHukumState extends State<SubjekHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("Bertindak Untuk dan Atas Nama"),
+          Text(S.of(context).actBehalf),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.e(_textEditingControllerE.text);
+              onChanged: (value) {
+                widget.e(value);
               },
               controller: _textEditingControllerE,
               decoration: InputDecoration(

@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "agreeCheck": MessageLookupByLibrary.simpleMessage(
             "Saya menyetujui Terms dan Privacy Policy dari layanan BKSD Kab. Muba"),
         "agreePhase": MessageLookupByLibrary.simpleMessage("Tahap Persetujuan"),
+        "alamatSurat": MessageLookupByLibrary.simpleMessage("Alamat Surat"),
         "backToDb":
             MessageLookupByLibrary.simpleMessage("Kembali ke Dashboard"),
         "changePass": MessageLookupByLibrary.simpleMessage("Ubah Password"),
@@ -37,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "coop": MessageLookupByLibrary.simpleMessage("Kerja Sama"),
         "country": MessageLookupByLibrary.simpleMessage("Negara"),
         "dalamNegeri": MessageLookupByLibrary.simpleMessage("Dalam Negeri"),
+        "dasarHukum": MessageLookupByLibrary.simpleMessage("DASAR HUKUM"),
         "dateLetter": MessageLookupByLibrary.simpleMessage("Tanggal Surat"),
         "dialogCancel": MessageLookupByLibrary.simpleMessage("BATAL"),
         "dialogConfirm": MessageLookupByLibrary.simpleMessage("UNDUH"),
@@ -65,7 +67,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "information": MessageLookupByLibrary.simpleMessage("Berita"),
         "international":
             MessageLookupByLibrary.simpleMessage("Kerjasama Luar Negeri"),
+        "jabatan": MessageLookupByLibrary.simpleMessage("Jabatan"),
+        "jangkaWaktu": MessageLookupByLibrary.simpleMessage("Jangka Waktu"),
         "kontak": MessageLookupByLibrary.simpleMessage("Pusat Kontak"),
+        "korespondensi": MessageLookupByLibrary.simpleMessage("KORESPONDENSI"),
         "ksdd": MessageLookupByLibrary.simpleMessage(
             "Kerjasama Daerah dengan Daerah Lain"),
         "ksdll": MessageLookupByLibrary.simpleMessage(
@@ -83,8 +88,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "logoutButton": MessageLookupByLibrary.simpleMessage("Keluar"),
         "lookFiles": MessageLookupByLibrary.simpleMessage("LIHAT BERKAS"),
         "luarNegeri": MessageLookupByLibrary.simpleMessage("Luar Negeri"),
+        "maksud": MessageLookupByLibrary.simpleMessage("Maksud"),
+        "namaDaerah": MessageLookupByLibrary.simpleMessage("Nama Daerah"),
+        "namaKepalaDaerah":
+            MessageLookupByLibrary.simpleMessage("Nama Kepala Daerah"),
+        "narahubung": MessageLookupByLibrary.simpleMessage("Nama Narahubung"),
         "newPass": MessageLookupByLibrary.simpleMessage("Password Baru"),
         "noLetter": MessageLookupByLibrary.simpleMessage("Nomor Surat"),
+        "nomorSKPengangkatan":
+            MessageLookupByLibrary.simpleMessage("Nomor SK Pengangkatan"),
+        "nomorTelepon": MessageLookupByLibrary.simpleMessage("Nomor Telepon"),
+        "objekKerjasama":
+            MessageLookupByLibrary.simpleMessage("Objek Kerjasama"),
         "offerPhase": MessageLookupByLibrary.simpleMessage("Tahap Penawaran"),
         "offerState": MessageLookupByLibrary.simpleMessage(
             "Dengan ini Mengajukan Penawaran"),
@@ -93,10 +108,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "opportunity":
             MessageLookupByLibrary.simpleMessage("Peluang Kerjasama"),
         "passChanged": MessageLookupByLibrary.simpleMessage("Password Diubah!"),
+        "pelaksanaan": MessageLookupByLibrary.simpleMessage("Pelaksanaan"),
+        "pembiayaan": MessageLookupByLibrary.simpleMessage("Pembiayaan"),
+        "peraturanDaerah": MessageLookupByLibrary.simpleMessage(
+            "Peraturan Daerah / Peraturan Bupati"),
+        "peraturanMenteri": MessageLookupByLibrary.simpleMessage(
+            "Peraturan Menteri / Kepala LNPK"),
+        "peraturanPemerintah":
+            MessageLookupByLibrary.simpleMessage("Peraturan Pemerintah"),
+        "peraturanPresiden":
+            MessageLookupByLibrary.simpleMessage("Peraturan Presiden"),
+        "pertimbangan": MessageLookupByLibrary.simpleMessage(
+            "Pertimbangan / Latar Belakang"),
         "platformCard": MessageLookupByLibrary.simpleMessage("Pilih Platform"),
         "pleaseLogin":
             MessageLookupByLibrary.simpleMessage("Harap login dahulu"),
         "pleaseWait": MessageLookupByLibrary.simpleMessage("Mohon Tunggu"),
+        "premisRectal": MessageLookupByLibrary.simpleMessage("PREMIS/RECTAL"),
         "prepPhase": MessageLookupByLibrary.simpleMessage("Tahap Persiapan"),
         "program": MessageLookupByLibrary.simpleMessage("Program Kerjasama"),
         "reUpload": MessageLookupByLibrary.simpleMessage("Unggah Ulang"),
@@ -111,8 +139,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Kembali ke Login"),
         "registeredMember": MessageLookupByLibrary.simpleMessage(
             "SUDAH TERDAFTAR SEBAGAI MEMBER"),
+        "rencanaPelaksana":
+            MessageLookupByLibrary.simpleMessage("RENCANA PELAKSANAAN"),
         "report": MessageLookupByLibrary.simpleMessage("Laporan Kerjasama"),
         "reviewPhase": MessageLookupByLibrary.simpleMessage("Tahap Pembahasan"),
+        "ruangLingkup": MessageLookupByLibrary.simpleMessage("Ruang Lingkup"),
         "selectPlatform": MessageLookupByLibrary.simpleMessage(
             "Silahkan pilih platform untuk menghubungi Pusat Kontak"),
         "sendForgot": MessageLookupByLibrary.simpleMessage("Kirim"),
@@ -128,10 +159,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("FORM APLIKASI PERSIAPAN"),
         "stepTitleOffer":
             MessageLookupByLibrary.simpleMessage("FORM APLIKASI PENAWARAN"),
+        "subjekHukum": MessageLookupByLibrary.simpleMessage("SUBJEK HUKUM"),
         "suksesForm": MessageLookupByLibrary.simpleMessage("BERHASIL"),
         "susunPhase": MessageLookupByLibrary.simpleMessage("Tahap Penyusunan"),
         "tourism": MessageLookupByLibrary.simpleMessage("Pariwisata"),
+        "tujuan": MessageLookupByLibrary.simpleMessage("Tujuan"),
         "tvButton": MessageLookupByLibrary.simpleMessage("Muba TV"),
+        "undangUndang": MessageLookupByLibrary.simpleMessage("Undang-undang"),
         "uploadFiles": MessageLookupByLibrary.simpleMessage("UNGGAH BERKAS"),
         "uploadedFiles":
             MessageLookupByLibrary.simpleMessage("Berkas Terunggah"),

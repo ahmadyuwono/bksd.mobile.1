@@ -39,8 +39,8 @@ class _FormPenawaranState extends State<FormPenawaran> {
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
               controller: _textEditingControllerA,
-              onEditingComplete: () {
-                widget.a(_textEditingControllerA.text);
+              onChanged: (value) {
+                widget.a(value);
               },
               decoration: InputDecoration(
                 alignLabelWithHint: true,
@@ -58,10 +58,11 @@ class _FormPenawaranState extends State<FormPenawaran> {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.b(_textEditingControllerB.text);
+              onChanged: (value) {
+                widget.b(value);
               },
               controller: _textEditingControllerB,
+              keyboardType: TextInputType.datetime,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
                 contentPadding: const EdgeInsets.only(left: 10, bottom: 15),
@@ -78,8 +79,8 @@ class _FormPenawaranState extends State<FormPenawaran> {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.c(_textEditingControllerC.text);
+              onChanged: (value) {
+                widget.c(value);
               },
               controller: _textEditingControllerC,
               decoration: InputDecoration(
@@ -98,8 +99,8 @@ class _FormPenawaranState extends State<FormPenawaran> {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.d(_textEditingControllerD.text);
+              onChanged: (value) {
+                widget.d(value);
               },
               controller: _textEditingControllerD,
               decoration: InputDecoration(
@@ -118,8 +119,8 @@ class _FormPenawaranState extends State<FormPenawaran> {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.e(_textEditingControllerE.text);
+              onChanged: (value) {
+                widget.e(value);
               },
               controller: _textEditingControllerE,
               decoration: InputDecoration(

@@ -169,5 +169,55 @@
 
   "passChanged": "Password Changed!",
 
-  "downloaded": "Download Success"
+  "downloaded": "Download Success",
+
+  "dasarHukum": "LEGAL BASIS",
+
+  "undangUndang": "Constitution",
+
+  "peraturanPemerintah": "Government Regulation",
+
+  "peraturanPresiden": "Presidential Decree",
+
+  "peraturanMenteri": "Ministerial Regulation / Head of LNPK",
+
+  "peraturanDaerah": "Regional Regulation / Regent Regulation",
+
+  "subjekHukum": "LEGAL SUBJECT",
+
+  "namaDaerah": "Region Name",
+
+  "namaKepalaDaerah": "Regional Head Name",
+
+  "nomorSKPengangkatan": "Appointment SK Number",
+
+  "premisRectal": "PREMISE/RECTAL",
+
+  "pertimbangan": "Considerations / Background",
+
+  "maksud": "Intention",
+
+  "tujuan": "Purpose",
+
+  "objekKerjasama": "Cooperation Object",
+
+  "ruangLingkup": "Scope",
+
+  "rencanaPelaksana": "IMPLEMENTATION PLANNING",
+
+  "pelaksanaan": "Implementation",
+
+  "jangkaWaktu": "Time Period",
+
+  "pembiayaan": "Funding",
+
+  "korespondensi": "CORRESPONDENCE",
+
+  "alamatSurat": "Mailing Address",
+
+  "nomorTelepon": "Phone Number",
+
+  "narahubung": "Contact Person",
+
+  "jabatan": "Position"
 }

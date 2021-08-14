@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class Korespondensi extends StatefulWidget {
   final Function(String) a;
@@ -32,20 +33,20 @@ class _KorespondensiState extends State<Korespondensi> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "E. KORESPONDENSI",
+            "E. ${S.of(context).korespondensi}",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 18,
           ),
-          Text("Alamat Surat"),
+          Text(S.of(context).alamatSurat),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.a(_textEditingControllerA.text);
+              onChanged: (value) {
+                widget.a(value);
               },
               controller: _textEditingControllerA,
               decoration: InputDecoration(
@@ -64,10 +65,11 @@ class _KorespondensiState extends State<Korespondensi> {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.b(_textEditingControllerB.text);
+              onChanged: (value) {
+                widget.b(value);
               },
               controller: _textEditingControllerB,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
                 contentPadding: const EdgeInsets.only(left: 10, bottom: 15),
@@ -78,16 +80,17 @@ class _KorespondensiState extends State<Korespondensi> {
           SizedBox(
             height: 10,
           ),
-          Text("Nomor Telepon"),
+          Text(S.of(context).nomorTelepon),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.c(_textEditingControllerC.text);
+              onChanged: (value) {
+                widget.c(value);
               },
               controller: _textEditingControllerC,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
                 contentPadding: const EdgeInsets.only(left: 10, bottom: 15),
@@ -98,14 +101,14 @@ class _KorespondensiState extends State<Korespondensi> {
           SizedBox(
             height: 10,
           ),
-          Text("Nama Narahubung"),
+          Text(S.of(context).narahubung),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.e(_textEditingControllerD.text);
+              onChanged: (value) {
+                widget.e(value);
               },
               controller: _textEditingControllerD,
               decoration: InputDecoration(
@@ -118,14 +121,14 @@ class _KorespondensiState extends State<Korespondensi> {
           SizedBox(
             height: 10,
           ),
-          Text("Jabatan"),
+          Text(S.of(context).jabatan),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.e(_textEditingControllerE.text);
+              onChanged: (value) {
+                widget.e(value);
               },
               controller: _textEditingControllerE,
               decoration: InputDecoration(

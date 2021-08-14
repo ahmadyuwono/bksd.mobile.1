@@ -93,12 +93,14 @@ class _FormPenawaranCompleteState extends State<FormPenawaranComplete> {
                                   Navigator.pushReplacementNamed(
                                       context, '/home');
                                 },
-                                child: Text(
-                                  S.of(context).backToDb,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700),
+                                child: Center(
+                                  child: Text(
+                                    S.of(context).backToDb,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
                               ),
                             ),

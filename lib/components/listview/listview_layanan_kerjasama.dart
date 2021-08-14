@@ -26,6 +26,7 @@ class _ListLayananSamaState extends State<ListLayananSama> {
               context,
               MaterialPageRoute(
                   builder: (context) => DetailLayananKerjasama(
+                      index: widget.index + 1,
                       title: widget.contentCard[widget.index])));
         },
         child: Padding(

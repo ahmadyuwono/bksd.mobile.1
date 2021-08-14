@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:muba/components/card_verifikasi_berkas.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/persiapan_model.dart';
 import 'package:muba/utilities/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class KerjasamaDalamNegeri extends StatefulWidget {
   const KerjasamaDalamNegeri({Key? key}) : super(key: key);
@@ -20,10 +24,19 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
   int length = 0;
   FilePickerResult? result;
   bool isVerified = false;
+  bool isUploadPersiapan = false;
+  bool isUploadPenawaran = false;
   bool isLogin = false;
   String token = "";
   String name = "";
   String userName = "";
+  String id = "";
+  List<PersiapanModel> persiapanModel = [];
+  List<PersiapanModel> penawaranModel = [];
+  bool isLoaded1 = false;
+  bool isLoaded2 = false;
+  bool isError1 = false;
+  bool isError2 = false;
 
   @override
   void initState() {
@@ -46,6 +59,38 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
     SharedPreferencesHelper.readUsername().then((value) {
       userName = value;
     });
+    SharedPreferencesHelper.readId().then((value) {
+      setState(() {
+        id = value;
+      });
+    });
+    loadData().then((value) {
+      setState(() {
+        persiapanModel = value;
+        print(persiapanModel);
+      });
+    }).whenComplete(() {
+      setState(() {
+        isLoaded1 = true;
+      });
+    }).onError((error, stackTrace) {
+      setState(() {
+        isError1 = true;
+      });
+    });
+    loadData2().then((value) {
+      setState(() {
+        penawaranModel = value;
+      });
+    }).whenComplete(() {
+      setState(() {
+        isLoaded2 = true;
+      });
+    }).onError((error, stackTrace) {
+      setState(() {
+        isError2 = true;
+      });
+    });
   }
 
   @override
@@ -60,231 +105,182 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.only(left: 21, right: 21),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(top: 13),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Color(0xFF27405E),
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFF27405E),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10)),
-                          ),
-                          width: 86,
-                          child: Center(
-                              child:
-                                  Image.asset("assets/images/user-avatar.png")),
-                        ),
-                        SizedBox(
-                          width: 13,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(top: 13, bottom: 17),
-                          width: MediaQuery.of(context).size.width * 0.60,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF27405E),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text("${S.of(context).address} :"),
-                              Text(
-                                  "Jalan Akasia Delphina No. 18 Bumi Panyawangan"),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text("E-mail :"),
-                              Text(userName),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 26,
-              ),
-              Text(
-                " ${S.of(context).fileID} :",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xFF27405E),
-                    ),
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 9),
-                      hintText: "DN-2021-00001",
-                      border: InputBorder.none),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CardVerifikasiBerkas(
-                  isVerified: isLogin,
-                  image: "assets/images/card-membership.png",
-                  title: S.of(context).registeredMember),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  length > 0
-                      ? showDialog(
-                          context: context,
-                          builder: (_) => Container(
-                                height: 300,
-                                width: 200,
-                                child: AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: Color(0x0FF27405E),
-                                  actions: [
-                                    IconButton(
-                                      icon: Icon(Icons.close),
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                  title: Text(
-                                    S.of(context).uploadedFiles,
-                                    style: TextStyle(color: Colors.white),
+      body: isError1 == false && isError2 == false
+          ? SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              child: isLoaded1 == true && isLoaded2 == true
+                  ? Container(
+                      height: MediaQuery.of(context).size.height,
+                      padding: const EdgeInsets.only(left: 21, right: 21),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(top: 13),
+                            child: Card(
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Color(0xFF27405E),
                                   ),
-                                  content: Container(
-                                    height: 200,
-                                    width: 200,
-                                    child: CustomScrollView(
-                                      physics: BouncingScrollPhysics(
-                                          parent:
-                                              AlwaysScrollableScrollPhysics()),
-                                      slivers: [
-                                        SliverList(
-                                          delegate: SliverChildListDelegate(
-                                              List.generate(
-                                                  _paths!.length,
-                                                  (index) => Dismissible(
-                                                        key: Key(_paths![index]
-                                                            .toString()),
-                                                        onDismissed:
-                                                            (direction) {
-                                                          setState(() {
-                                                            _paths!.removeAt(
-                                                                index);
-                                                            length =
-                                                                _paths!.length;
-                                                            if (length == 0) {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            }
-                                                          });
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              child: Text(
-                                                                "${_paths![index].name}",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
-                                                            ),
-                                                            Divider(
-                                                              color:
-                                                                  Colors.white,
-                                                              thickness: 2,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ))),
-                                        ),
-                                        SliverToBoxAdapter(
-                                          child: ElevatedButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.blueGrey)),
-                                            onPressed: () {
-                                              setState(() {
-                                                _paths!.clear();
-                                                length = _paths!.length;
-                                              });
-                                              _filePicker();
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text(
-                                              S.of(context).reUpload,
-                                              style: TextStyle(
-                                                  color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF27405E),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10)),
+                                      ),
+                                      width: 86,
+                                      child: Center(
+                                          child: Image.asset(
+                                              "assets/images/user-avatar.png")),
+                                    ),
+                                    SizedBox(
+                                      width: 13,
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          top: 13, bottom: 17),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.60,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            name,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xFF27405E),
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text("${S.of(context).address} :"),
+                                          Text(
+                                              "Jalan Akasia Delphina No. 18 Bumi Panyawangan"),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text("E-mail :"),
+                                          Text(userName),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ))
-                      : _filePicker();
-                },
-                child: CardVerifikasiBerkas(
-                    isVerified: length > 0 ? true : false,
-                    image: "assets/images/document.png",
-                    title: length > 0
-                        ? S.of(context).lookFiles
-                        : S.of(context).uploadFiles),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          Text(
+                            " ${S.of(context).fileID} :",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color(0xFF27405E),
+                                ),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  contentPadding:
+                                      const EdgeInsets.only(left: 9),
+                                  hintText: "DN-2021-00001",
+                                  border: InputBorder.none),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          CardVerifikasiBerkas(
+                              isVerified: isLogin,
+                              image: "assets/images/card-membership.png",
+                              title: S.of(context).registeredMember),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CardVerifikasiBerkas(
+                              image: "assets/images/document.png",
+                              title: S.of(context).uploadFiles,
+                              isVerified: cekBerkas()),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CardVerifikasiBerkas(
+                              isVerified: isVerified,
+                              image: "assets/images/document-checklist.png",
+                              title: S.of(context).verifyFiles),
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 150),
+                          child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: CircularProgressIndicator(
+                              color: Color(0xFF27405E),
+                              strokeWidth: 8,
+                              backgroundColor: Colors.transparent,
+                            ),
+                          )),
+                    ),
+            )
+          : Container(
+              child: CustomScrollView(
+                scrollDirection: Axis.vertical,
+                physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                slivers: [
+                  CupertinoSliverRefreshControl(
+                    onRefresh: () {
+                      return loadData().onError((error, stackTrace) {
+                        setState(() {
+                          isError1 = true;
+                        });
+                      }).then((value) {
+                        loadData2().whenComplete(() {
+                          setState(() {
+                            isLoaded2 = true;
+                          });
+                        }).then((value) {
+                          setState(() {
+                            penawaranModel = value;
+                          });
+                        });
+                        setState(() {});
+                        persiapanModel = value;
+                      }).whenComplete(() {
+                        setState(() {});
+                        isLoaded1 = true;
+                      });
+                    },
+                  ),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Text("Error"),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-              CardVerifikasiBerkas(
-                  isVerified: isVerified,
-                  image: "assets/images/document-checklist.png",
-                  title: S.of(context).verifyFiles),
-            ],
-          ),
-        ),
-      ),
+            ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
@@ -333,4 +329,174 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
           _paths != null ? _paths!.map((e) => e.name).toString() : "...";
     });
   }
+
+  bool cekBerkas() {
+    if (persiapanModel.contains(id) && penawaranModel.contains(id)) {
+      if (persiapanModel[persiapanModel
+                      .indexWhere((element) => element.userId == id)]
+                  .isValidate ==
+              "1" &&
+          penawaranModel[penawaranModel
+                      .indexWhere((element) => element.userId == id)]
+                  .isValidate ==
+              "1") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future integrateAPI() async {
+    String apiURL = "https://muba.socketspace.com/api/tahapan_persiapan";
+    var response = await http.get(Uri.parse(apiURL));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData() async {
+    String jsonData = await integrateAPI();
+    final jsonRespone = jsonDecode(jsonData);
+    ListPersiapan listModel = ListPersiapan.fromJson(jsonRespone);
+    return listModel.persiapan;
+  }
+
+  Future integrateAPI2() async {
+    String apiURL = "https://muba.socketspace.com/api/tahapan_penawaran";
+    var response = await http.get(Uri.parse(apiURL));
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      return response.body;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed');
+    }
+  }
+
+  Future loadData2() async {
+    String jsonData = await integrateAPI();
+    final jsonRespone = jsonDecode(jsonData);
+    ListPersiapan listModel = ListPersiapan.fromJson(jsonRespone);
+    return listModel.persiapan;
+  }
 }
+
+// InkWell(
+//   splashColor: Colors.transparent,
+//   focusColor: Colors.transparent,
+//   hoverColor: Colors.transparent,
+//   highlightColor: Colors.transparent,
+//   onTap: () {
+//     length > 0
+//         ? showDialog(
+//             context: context,
+//             builder: (_) => Container(
+//                   height: 300,
+//                   width: 200,
+//                   child: AlertDialog(
+//                     shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(10)),
+//                     backgroundColor: Color(0x0FF27405E),
+//                     actions: [
+//                       IconButton(
+//                         icon: Icon(Icons.close),
+//                         color: Colors.white,
+//                         onPressed: () {
+//                           Navigator.of(context).pop();
+//                         },
+//                       )
+//                     ],
+//                     title: Text(
+//                       S.of(context).uploadedFiles,
+//                       style: TextStyle(color: Colors.white),
+//                     ),
+//                     content: Container(
+//                       height: 200,
+//                       width: 200,
+//                       child: CustomScrollView(
+//                         physics: BouncingScrollPhysics(
+//                             parent:
+//                                 AlwaysScrollableScrollPhysics()),
+//                         slivers: [
+//                           SliverList(
+//                             delegate: SliverChildListDelegate(
+//                                 List.generate(
+//                                     _paths!.length,
+//                                     (index) => Dismissible(
+//                                           key: Key(_paths![index]
+//                                               .toString()),
+//                                           onDismissed:
+//                                               (direction) {
+//                                             setState(() {
+//                                               _paths!.removeAt(
+//                                                   index);
+//                                               length =
+//                                                   _paths!.length;
+//                                               if (length == 0) {
+//                                                 Navigator.of(
+//                                                         context)
+//                                                     .pop();
+//                                               }
+//                                             });
+//                                           },
+//                                           child: Column(
+//                                             children: [
+//                                               Container(
+//                                                 child: Text(
+//                                                   "${_paths![index].name}",
+//                                                   style: TextStyle(
+//                                                       color: Colors
+//                                                           .white),
+//                                                 ),
+//                                               ),
+//                                               Divider(
+//                                                 color:
+//                                                     Colors.white,
+//                                                 thickness: 2,
+//                                               )
+//                                             ],
+//                                           ),
+//                                         ))),
+//                           ),
+//                           SliverToBoxAdapter(
+//                             child: ElevatedButton(
+//                               style: ButtonStyle(
+//                                   backgroundColor:
+//                                       MaterialStateProperty.all(
+//                                           Colors.blueGrey)),
+//                               onPressed: () {
+//                                 setState(() {
+//                                   _paths!.clear();
+//                                   length = _paths!.length;
+//                                 });
+//                                 _filePicker();
+//                                 Navigator.of(context).pop();
+//                               },
+//                               child: Text(
+//                                 S.of(context).reUpload,
+//                                 style: TextStyle(
+//                                     color: Colors.white),
+//                               ),
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 ))
+//         : _filePicker();
+//   },
+//   child: CardVerifikasiBerkas(
+//       isVerified: length > 0 ? true : false,
+//       image: "assets/images/document.png",
+//       title: length > 0
+//           ? S.of(context).lookFiles
+//           : S.of(context).uploadFiles),
+// ),

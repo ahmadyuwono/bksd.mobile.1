@@ -5,7 +5,9 @@ import 'package:muba/view/page_index_konten/layanan_kerjasama/layanan_kerjasama_
 
 class DetailLayananKerjasama extends StatefulWidget {
   final String title;
-  const DetailLayananKerjasama({Key? key, required this.title})
+  final int index;
+  const DetailLayananKerjasama(
+      {Key? key, required this.title, required this.index})
       : super(key: key);
 
   @override
@@ -62,7 +64,8 @@ class _DetailLayananKerjasamaState extends State<DetailLayananKerjasama> {
                         (context, index) {
                           return InkWell(
                             onTap: () {
-                              _navigate(textContent[index]);
+                              _navigate(
+                                  textContent[index], widget.index, index + 1);
                             },
                             child: Card(
                               color: Color(0xFF27405E),
@@ -120,12 +123,14 @@ class _DetailLayananKerjasamaState extends State<DetailLayananKerjasama> {
     );
   }
 
-  _navigate(routeName) {
+  _navigate(String routeName, int index, int indexTahap) {
     if (routeName == S.of(context).prepPhase) {
       return Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => TahapanPersiapan(
+                    jenis: indexTahap.toString(),
+                    fasilitas: index.toString(),
                     title: routeName,
                     title2: widget.title,
                   )));
@@ -135,6 +140,8 @@ class _DetailLayananKerjasamaState extends State<DetailLayananKerjasama> {
           context,
           MaterialPageRoute(
               builder: (context) => TahapanPenawaran(
+                    jenis: indexTahap.toString(),
+                    fasilitas: index.toString(),
                     title: routeName,
                     title2: widget.title,
                   )));

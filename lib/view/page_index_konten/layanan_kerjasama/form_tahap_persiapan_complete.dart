@@ -90,11 +90,8 @@ class _TahapPersiapanCompleteState extends State<TahapPersiapanComplete> {
                             child: Center(
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              LayananKerjaSama()));
+                                  Navigator.pushReplacementNamed(
+                                      context, '/home');
                                 },
                                 child: Text(
                                   S.of(context).backToDb,

@@ -169,5 +169,55 @@
 
   "passChanged": "Password Diubah!",
 
-  "downloaded": "Download Berhasil"
+  "downloaded": "Download Berhasil",
+
+  "dasarHukum": "DASAR HUKUM",
+
+  "undangUndang": "Undang-undang",
+
+  "peraturanPemerintah": "Peraturan Pemerintah",
+
+  "peraturanPresiden": "Peraturan Presiden",
+
+  "peraturanMenteri": "Peraturan Menteri / Kepala LNPK",
+
+  "peraturanDaerah": "Peraturan Daerah / Peraturan Bupati",
+
+  "subjekHukum": "SUBJEK HUKUM",
+
+  "namaDaerah": "Nama Daerah",
+
+  "namaKepalaDaerah": "Nama Kepala Daerah",
+
+  "nomorSKPengangkatan": "Nomor SK Pengangkatan",
+
+  "premisRectal": "PREMIS/RECTAL",
+
+  "pertimbangan": "Pertimbangan / Latar Belakang",
+
+  "maksud": "Maksud",
+
+  "tujuan": "Tujuan",
+
+  "objekKerjasama": "Objek Kerjasama",
+
+  "ruangLingkup": "Ruang Lingkup",
+
+  "rencanaPelaksana": "RENCANA PELAKSANAAN",
+
+  "pelaksanaan": "Pelaksanaan",
+
+  "jangkaWaktu": "Jangka Waktu",
+
+  "pembiayaan": "Pembiayaan",
+
+  "korespondensi": "KORESPONDENSI",
+
+  "alamatSurat": "Alamat Surat",
+
+  "nomorTelepon": "Nomor Telepon",
+
+  "narahubung": "Nama Narahubung",
+
+  "jabatan": "Jabatan"
 }

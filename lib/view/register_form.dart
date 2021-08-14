@@ -22,11 +22,12 @@ class _RegisterFormState extends State<RegisterForm> {
   String nik = "";
   String namaLengkap = "";
   String alamat = "";
-  String negara = "";
+  String? negara;
   String email = "";
   String password = "";
   String konfirmPassword = "";
   bool isPressed = false;
+  List kodeNegara = ["1", "2"];
 
   @override
   void initState() {
@@ -42,6 +43,10 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    List kodeNegara = [
+      "1 (${S.of(context).domestic})",
+      "2 (${S.of(context).international})"
+    ];
     return Stack(
       children: [
         Image.asset(
@@ -89,6 +94,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 physics: BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     FieldFormReg(
                       hintForm: 'NIK (16 digit)',
@@ -123,13 +129,44 @@ class _RegisterFormState extends State<RegisterForm> {
                     SizedBox(
                       height: 13,
                     ),
-                    FieldFormReg(
-                      hintForm: S.of(context).country,
-                      isPassword: false,
-                      onFilled: (value) {
-                        setState(() {});
-                        negara = value;
-                      },
+                    Container(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      width: MediaQuery.of(context).size.width,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          icon: Icon(Icons.arrow_drop_down_sharp),
+                          focusColor: Colors.white,
+                          value: negara,
+                          items: <String>[
+                            '1 (${S.of(context).dalamNegeri})',
+                            '2 (${S.of(context).luarNegeri})'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                    fontSize: 24, color: Colors.black54),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {});
+                            negara = value.toString();
+                            print(negara);
+                          },
+                          hint: Text(
+                            S.of(context).country,
+                            style:
+                                TextStyle(fontSize: 24, color: Colors.black54),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 13,
@@ -181,10 +218,9 @@ class _RegisterFormState extends State<RegisterForm> {
                             }),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.70,
-                          height: 30,
                           child: Text(
                             S.of(context).agreeCheck,
-                            style: TextStyle(color: Colors.black, fontSize: 13),
+                            style: TextStyle(color: Colors.black, fontSize: 16),
                           ),
                         ),
                       ],
@@ -285,11 +321,12 @@ class _RegisterFormState extends State<RegisterForm> {
     if (nik.length >= 16 &&
         namaLengkap.isNotEmpty &&
         alamat.isNotEmpty &&
-        negara.isNotEmpty &&
+        negara!.isNotEmpty &&
         regExp.hasMatch(email) &&
         password.length >= 8 &&
         konfirmPassword == password) {
-      RegisterModel.integrateAPI(nik, namaLengkap, email, password, negara, "1")
+      RegisterModel.integrateAPI(
+              nik, namaLengkap, email, password, negara!, "1")
           .then((value) {
         setState(() {});
         registerModel = value;

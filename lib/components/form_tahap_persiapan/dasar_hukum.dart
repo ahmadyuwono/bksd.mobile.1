@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class DasarHukum extends StatefulWidget {
   final Function(String) a;
@@ -32,21 +33,21 @@ class _DasarHukumState extends State<DasarHukum> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "B. DASAR HUKUM",
+            "B. ${S.of(context).dasarHukum}",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 18,
           ),
-          Text("Undang-undang"),
+          Text(S.of(context).undangUndang),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
               controller: _textEditingControllerA,
-              onEditingComplete: () {
-                widget.a(_textEditingControllerA.text);
+              onChanged: (value) {
+                widget.a(value);
               },
               decoration: InputDecoration(
                 alignLabelWithHint: true,
@@ -58,14 +59,14 @@ class _DasarHukumState extends State<DasarHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("Peraturan Pemerintah"),
+          Text(S.of(context).peraturanPemerintah),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.b(_textEditingControllerB.text);
+              onChanged: (value) {
+                widget.b(value);
               },
               controller: _textEditingControllerB,
               decoration: InputDecoration(
@@ -78,14 +79,14 @@ class _DasarHukumState extends State<DasarHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("Peraturan Presiden"),
+          Text(S.of(context).peraturanPresiden),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.c(_textEditingControllerC.text);
+              onChanged: (value) {
+                widget.c(value);
               },
               controller: _textEditingControllerC,
               decoration: InputDecoration(
@@ -98,14 +99,14 @@ class _DasarHukumState extends State<DasarHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("Peraturan Menteri / Kepala LNPK"),
+          Text(S.of(context).peraturanMenteri),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.d(_textEditingControllerD.text);
+              onChanged: (value) {
+                widget.d(value);
               },
               controller: _textEditingControllerD,
               decoration: InputDecoration(
@@ -118,14 +119,14 @@ class _DasarHukumState extends State<DasarHukum> {
           SizedBox(
             height: 10,
           ),
-          Text("Peraturan Daerah dan/ atau Peraturan Bupati"),
+          Text(S.of(context).peraturanDaerah),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.e(_textEditingControllerE.text);
+              onChanged: (value) {
+                widget.e(value);
               },
               controller: _textEditingControllerE,
               decoration: InputDecoration(

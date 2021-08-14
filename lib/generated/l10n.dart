@@ -909,6 +909,256 @@ class S {
       args: [],
     );
   }
+
+  /// `LEGAL BASIS`
+  String get dasarHukum {
+    return Intl.message(
+      'LEGAL BASIS',
+      name: 'dasarHukum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Constitution`
+  String get undangUndang {
+    return Intl.message(
+      'Constitution',
+      name: 'undangUndang',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Government Regulation`
+  String get peraturanPemerintah {
+    return Intl.message(
+      'Government Regulation',
+      name: 'peraturanPemerintah',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Presidential Decree`
+  String get peraturanPresiden {
+    return Intl.message(
+      'Presidential Decree',
+      name: 'peraturanPresiden',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ministerial Regulation / Head of LNPK`
+  String get peraturanMenteri {
+    return Intl.message(
+      'Ministerial Regulation / Head of LNPK',
+      name: 'peraturanMenteri',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regional Regulation / Regent Regulation`
+  String get peraturanDaerah {
+    return Intl.message(
+      'Regional Regulation / Regent Regulation',
+      name: 'peraturanDaerah',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LEGAL SUBJECT`
+  String get subjekHukum {
+    return Intl.message(
+      'LEGAL SUBJECT',
+      name: 'subjekHukum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Region Name`
+  String get namaDaerah {
+    return Intl.message(
+      'Region Name',
+      name: 'namaDaerah',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regional Head Name`
+  String get namaKepalaDaerah {
+    return Intl.message(
+      'Regional Head Name',
+      name: 'namaKepalaDaerah',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appointment SK Number`
+  String get nomorSKPengangkatan {
+    return Intl.message(
+      'Appointment SK Number',
+      name: 'nomorSKPengangkatan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PREMISE/RECTAL`
+  String get premisRectal {
+    return Intl.message(
+      'PREMISE/RECTAL',
+      name: 'premisRectal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Considerations / Background`
+  String get pertimbangan {
+    return Intl.message(
+      'Considerations / Background',
+      name: 'pertimbangan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Intention`
+  String get maksud {
+    return Intl.message(
+      'Intention',
+      name: 'maksud',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Purpose`
+  String get tujuan {
+    return Intl.message(
+      'Purpose',
+      name: 'tujuan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cooperation Object`
+  String get objekKerjasama {
+    return Intl.message(
+      'Cooperation Object',
+      name: 'objekKerjasama',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scope`
+  String get ruangLingkup {
+    return Intl.message(
+      'Scope',
+      name: 'ruangLingkup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `IMPLEMENTATION PLANNING`
+  String get rencanaPelaksana {
+    return Intl.message(
+      'IMPLEMENTATION PLANNING',
+      name: 'rencanaPelaksana',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Implementation`
+  String get pelaksanaan {
+    return Intl.message(
+      'Implementation',
+      name: 'pelaksanaan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time Period`
+  String get jangkaWaktu {
+    return Intl.message(
+      'Time Period',
+      name: 'jangkaWaktu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Funding`
+  String get pembiayaan {
+    return Intl.message(
+      'Funding',
+      name: 'pembiayaan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CORRESPONDENCE`
+  String get korespondensi {
+    return Intl.message(
+      'CORRESPONDENCE',
+      name: 'korespondensi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mailing Address`
+  String get alamatSurat {
+    return Intl.message(
+      'Mailing Address',
+      name: 'alamatSurat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone Number`
+  String get nomorTelepon {
+    return Intl.message(
+      'Phone Number',
+      name: 'nomorTelepon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Person`
+  String get narahubung {
+    return Intl.message(
+      'Contact Person',
+      name: 'narahubung',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Position`
+  String get jabatan {
+    return Intl.message(
+      'Position',
+      name: 'jabatan',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

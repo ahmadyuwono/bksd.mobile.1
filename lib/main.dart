@@ -17,6 +17,7 @@ import 'package:muba/view/page_index_konten/informasi_kerjasama/informasi_kerjas
 import 'package:muba/view/page_index_konten/kerjasama_dalam_negeri/kerjasama_dalam_negeri.dart';
 import 'package:muba/view/page_index_konten/kerjasama_luar_negeri/kerjasama_luar_negeri.dart';
 import 'package:muba/view/page_index_konten/laporan_kerjasama/laporan_kerjasama.dart';
+import 'package:muba/view/page_index_konten/layanan_kerjasama/form_tahap_penawaran_complete.dart';
 import 'package:muba/view/page_index_konten/layanan_kerjasama/layanankerjasama.dart';
 import 'package:muba/view/page_index_konten/panduan_kerjasama/panduankerjasama.dart';
 import 'package:muba/view/page_index_konten/peluang_kerjasama/peluang_kerjasama.dart';

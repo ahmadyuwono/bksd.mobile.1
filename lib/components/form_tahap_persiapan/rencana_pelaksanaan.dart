@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class RencanaPelaksanaan extends StatefulWidget {
   final Function(String) a;
@@ -27,22 +28,23 @@ class _RencanaPelaksanaanState extends State<RencanaPelaksanaan> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "D. RENCANA PELAKSANAAN",
+            "D. ${S.of(context).rencanaPelaksana}",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 18,
           ),
-          Text("Pelaksanaan"),
+          Text("${S.of(context).pelaksanaan} (yyyy-mm-dd)"),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.a(_textEditingControllerA.text);
+              onChanged: (value) {
+                widget.a(value);
               },
               controller: _textEditingControllerA,
+              keyboardType: TextInputType.datetime,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
                 contentPadding: const EdgeInsets.only(left: 10, bottom: 15),
@@ -53,14 +55,14 @@ class _RencanaPelaksanaanState extends State<RencanaPelaksanaan> {
           SizedBox(
             height: 10,
           ),
-          Text("Jangka Waktu"),
+          Text(S.of(context).jangkaWaktu),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.b(_textEditingControllerB.text);
+              onChanged: (value) {
+                widget.b(value);
               },
               controller: _textEditingControllerB,
               decoration: InputDecoration(
@@ -73,14 +75,14 @@ class _RencanaPelaksanaanState extends State<RencanaPelaksanaan> {
           SizedBox(
             height: 10,
           ),
-          Text("Pembiayaan"),
+          Text(S.of(context).pembiayaan),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.c(_textEditingControllerC.text);
+              onChanged: (value) {
+                widget.c(value);
               },
               controller: _textEditingControllerC,
               decoration: InputDecoration(

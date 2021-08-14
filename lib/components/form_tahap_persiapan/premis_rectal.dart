@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muba/generated/l10n.dart';
 
 class PremisRectal extends StatefulWidget {
   final Function(String) a;
@@ -32,20 +33,20 @@ class _PremisRectalState extends State<PremisRectal> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "C. PREMIS/RECTAL",
+            "C. ${S.of(context).premisRectal}",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 18,
           ),
-          Text("Pertimbangan/Latar Belakang"),
+          Text(S.of(context).pertimbangan),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.a(_textEditingControllerA.text);
+              onChanged: (value) {
+                widget.a(value);
               },
               controller: _textEditingControllerA,
               decoration: InputDecoration(
@@ -58,14 +59,14 @@ class _PremisRectalState extends State<PremisRectal> {
           SizedBox(
             height: 10,
           ),
-          Text("Maksud"),
+          Text(S.of(context).maksud),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.b(_textEditingControllerB.text);
+              onChanged: (value) {
+                widget.b(value);
               },
               controller: _textEditingControllerB,
               decoration: InputDecoration(
@@ -78,14 +79,14 @@ class _PremisRectalState extends State<PremisRectal> {
           SizedBox(
             height: 10,
           ),
-          Text("Tujuan"),
+          Text(S.of(context).tujuan),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.c(_textEditingControllerC.text);
+              onChanged: (value) {
+                widget.c(value);
               },
               controller: _textEditingControllerC,
               decoration: InputDecoration(
@@ -98,14 +99,14 @@ class _PremisRectalState extends State<PremisRectal> {
           SizedBox(
             height: 10,
           ),
-          Text("Objek Kerja Sama"),
+          Text(S.of(context).objekKerjasama),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.d(_textEditingControllerD.text);
+              onChanged: (value) {
+                widget.d(value);
               },
               controller: _textEditingControllerD,
               decoration: InputDecoration(
@@ -118,14 +119,14 @@ class _PremisRectalState extends State<PremisRectal> {
           SizedBox(
             height: 10,
           ),
-          Text("Ruang Lingkup"),
+          Text(S.of(context).ruangLingkup),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: TextField(
-              onEditingComplete: () {
-                widget.e(_textEditingControllerE.text);
+              onChanged: (value) {
+                widget.e(value);
               },
               controller: _textEditingControllerE,
               decoration: InputDecoration(

@@ -1,12 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:muba/components/custom_alert_dialog.dart';
 import 'package:muba/components/form_tahapan_penawaran/form_tahapan_penawaran.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/penawaran_model.dart';
+import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/page_index_konten/layanan_kerjasama/form_tahap_penawaran_complete.dart';
 
 class TahapanPenawaran extends StatefulWidget {
   final String title;
   final String title2;
-  const TahapanPenawaran({Key? key, required this.title, required this.title2})
+  final String fasilitas;
+  final String jenis;
+  const TahapanPenawaran(
+      {Key? key,
+      required this.title,
+      required this.title2,
+      required this.fasilitas,
+      required this.jenis})
       : super(key: key);
 
   @override
@@ -14,6 +27,41 @@ class TahapanPenawaran extends StatefulWidget {
 }
 
 class _TahapanPenawaranState extends State<TahapanPenawaran> {
+  String noSurat = "";
+  String tanggalSurat = "";
+  String penawaran = "";
+  String kedudukan = "";
+  String atasNama = "";
+  String user_id = "";
+  String token = "";
+  bool isPressed = false;
+  PenawaranModel? penawaranModel;
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.fasilitas);
+    print(widget.jenis);
+    SharedPreferencesHelper.readId().then((value) {
+      setState(() {
+        user_id = value;
+        print(user_id);
+      });
+    });
+    SharedPreferencesHelper.readToken().then((value) {
+      setState(() {
+        token = value;
+        print(token);
+      });
+    });
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..userInteractions = false
+      ..backgroundColor = Colors.transparent
+      ..indicatorColor = Color(0x0FF27405E)
+      ..textColor = Color(0x0FF27405E);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -66,12 +114,32 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: FormPenawaran(
-                        a: (value) {},
-                        b: (value) {},
-                        c: (value) {},
-                        d: (value) {},
-                        e: (value) {}),
+                    child: FormPenawaran(a: (value) {
+                      setState(() {
+                        noSurat = value;
+                        print(noSurat);
+                      });
+                    }, b: (value) {
+                      setState(() {
+                        tanggalSurat = value;
+                        print(tanggalSurat);
+                      });
+                    }, c: (value) {
+                      setState(() {
+                        penawaran = value;
+                        print(penawaran);
+                      });
+                    }, d: (value) {
+                      setState(() {
+                        kedudukan = value;
+                        print(kedudukan);
+                      });
+                    }, e: (value) {
+                      setState(() {
+                        atasNama = value;
+                        print(atasNama);
+                      });
+                    }),
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate(
@@ -85,13 +153,9 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
                           child: Center(
                             child: InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            FormPenawaranComplete(
-                                              title: widget.title2,
-                                            )));
+                                EasyLoading.show(
+                                    status: S.of(context).pleaseWait);
+                                _validateForm();
                               },
                               child: Text(
                                 S.of(context).sendForgot,
@@ -137,5 +201,36 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
         ),
       ],
     );
+  }
+
+  _validateForm() {
+    if (noSurat.isNotEmpty &&
+        tanggalSurat.isNotEmpty &&
+        penawaran.isNotEmpty &&
+        kedudukan.isNotEmpty &&
+        atasNama.isNotEmpty) {
+      PenawaranModel.integrateAPI(token, widget.fasilitas, widget.jenis,
+              tanggalSurat, noSurat, penawaran, kedudukan, atasNama, user_id)
+          .whenComplete(() {
+        setState(() {});
+        isPressed = false;
+        EasyLoading.dismiss();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FormPenawaranComplete(
+                    title: widget.title2,
+                  )),
+        );
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) => CustomAlert(title: S.of(context).registerCheck));
+      EasyLoading.dismiss();
+      setState(() {
+        isPressed = false;
+      });
+    }
   }
 }
