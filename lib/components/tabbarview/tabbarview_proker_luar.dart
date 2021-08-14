@@ -37,7 +37,7 @@ class _TabbarviewProkerLuarState extends State<TabbarviewProkerLuar> {
                           DateTime.parse(widget.programModel[index].created_at);
                       String formattedDate =
                           DateFormat("dd MMMM yyyy").format(date);
-                      return widget.programModel[index].negara_id == '1'
+                      return widget.programModel[index].negara_id == '2'
                           ? Container(
                               height: MediaQuery.of(context).size.height,
                               width: MediaQuery.of(context).size.width,

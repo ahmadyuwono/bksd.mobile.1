@@ -48,7 +48,7 @@ class _TabbarviewProkerDalamState extends State<TabbarviewProkerDalam> {
                         DateTime.parse(widget.programModel[index].created_at);
                     String formattedDate =
                         DateFormat("dd MMMM yyyy").format(date);
-                    return widget.programModel[index].negara_id == '0'
+                    return widget.programModel[index].negara_id == '1'
                         ? Container(
                             height: MediaQuery.of(context).size.height,
                             width: MediaQuery.of(context).size.width,
