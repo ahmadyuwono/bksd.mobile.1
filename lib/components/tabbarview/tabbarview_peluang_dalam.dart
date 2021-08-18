@@ -35,6 +35,7 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
     }).whenComplete(() {
       setState(() {});
       isLoaded = true;
+      print(getJenis(peluangModel));
     });
   }
 
@@ -45,7 +46,6 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
         .where((c) => c.judul != "Data ${c.jenis} - 2")
         .toList()
         .length;
-    print(count);
     return isError == false
         ? Container(
             padding: const EdgeInsets.only(left: 32, right: 32),
@@ -72,15 +72,14 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
                                                       KontenPeluang(
                                                         peluangModel:
                                                             peluangModel,
-                                                        title:
-                                                            "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
+                                                        title: getJenis(
+                                                                peluangModel)[
+                                                            index],
                                                         index: index,
                                                       )));
                                         },
-                                        child: peluangModel[index]
-                                                    .judul
-                                                    .contains("-") ==
-                                                false
+                                        child: index <
+                                                getJenis(peluangModel).length
                                             ? Container(
                                                 width: 350,
                                                 padding: const EdgeInsets.only(
@@ -96,18 +95,14 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
                                                                       0.4),
                                                               BlendMode
                                                                   .srcOver),
-                                                      image: NetworkImage(peluangModel[
-                                                                      index]
-                                                                  .url !=
-                                                              null
-                                                          ? "https://muba.socketspace.com/${peluangModel[index].url!.substring(1, peluangModel[index].url!.length)}"
-                                                          : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
+                                                      image: NetworkImage(
+                                                          "https://muba.socketspace.com${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}")),
                                                   borderRadius:
                                                       BorderRadius.circular(5),
                                                 ),
                                                 height: 100,
                                                 child: Text(
-                                                  "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
+                                                  "${getJenis(peluangModel)[index]}",
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 36),
@@ -187,6 +182,22 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
     final jsonRespone = jsonDecode(jsonData);
     ListPeluang listModel = ListPeluang.fromJson(jsonRespone);
     return listModel.peluang;
+  }
+
+  List<String> getJenis(List<PeluangModel> peluangModel) {
+    List<String> result = [];
+    peluangModel.forEach((element) {
+      if (!result.contains(element.jenis)) result.add(element.jenis!);
+    });
+    return result;
+  }
+
+  List<String> getUrl(List<PeluangModel> peluangModel) {
+    List<String> result = [];
+    peluangModel.forEach((element) {
+      if (!result.contains(element.url)) result.add(element.url!);
+    });
+    return result;
   }
 
   @override

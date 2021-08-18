@@ -10,12 +10,12 @@ class KontenPeluang extends StatefulWidget {
   final String title;
   final int index;
   final List<PeluangModel> peluangModel;
-  const KontenPeluang(
-      {Key? key,
-      required this.title,
-      required this.index,
-      required this.peluangModel})
-      : super(key: key);
+  const KontenPeluang({
+    Key? key,
+    required this.title,
+    required this.index,
+    required this.peluangModel,
+  }) : super(key: key);
 
   @override
   _KontenPeluangState createState() => _KontenPeluangState();
@@ -24,11 +24,12 @@ class KontenPeluang extends StatefulWidget {
 class _KontenPeluangState extends State<KontenPeluang> {
   TextEditingController _textEditingController = TextEditingController();
   String? _fileName;
+  String? basename;
   @override
   Widget build(BuildContext context) {
     _fileName = widget.peluangModel[widget.index].file!
         .substring(18, widget.peluangModel[widget.index].file!.length);
-    print(_fileName);
+    // print(_fileName);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF27405E),
@@ -93,7 +94,13 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                         showDialog(
                                             context: context,
                                             builder: (_) => CustomDialog(
-                                                fileName: _fileName!,
+                                                fileName: basename = widget
+                                                    .peluangModel[index].file!
+                                                    .substring(widget
+                                                            .peluangModel[index]
+                                                            .file!
+                                                            .lastIndexOf("/") +
+                                                        1),
                                                 url:
                                                     "https://muba.socketspace.com${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
                                                 title:
@@ -112,10 +119,20 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                                   Colors.black.withOpacity(0.4),
                                                   BlendMode.srcOver),
                                               image: NetworkImage(widget
-                                                          .peluangModel[index]
-                                                          .file !=
-                                                      null
-                                                  ? "https://muba.socketspace.com/${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}"
+                                                                  .peluangModel[
+                                                                      index]
+                                                                  .file !=
+                                                              null &&
+                                                          widget
+                                                              .peluangModel[
+                                                                  index]
+                                                              .file!
+                                                              .contains(
+                                                                  "png") ||
+                                                      widget.peluangModel[index]
+                                                          .file!
+                                                          .contains("jpg")
+                                                  ? "https://muba.socketspace.com${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}"
                                                   : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
                                           borderRadius:
                                               BorderRadius.circular(5),

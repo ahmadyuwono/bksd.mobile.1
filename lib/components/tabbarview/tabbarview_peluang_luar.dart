@@ -66,40 +66,43 @@ class _TabbarviewLuarState extends State<TabbarviewLuar>
                                                       KontenPeluang(
                                                         peluangModel:
                                                             peluangModel,
-                                                        title:
-                                                            "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
+                                                        title: getJenis(
+                                                                peluangModel)[
+                                                            index],
                                                         index: index,
                                                       )));
                                         },
-                                        child: Container(
-                                          width: 350,
-                                          padding: const EdgeInsets.only(
-                                              left: 20, top: 43),
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF42A5F5),
-                                            image: DecorationImage(
-                                                fit: BoxFit.fill,
-                                                colorFilter: ColorFilter.mode(
-                                                    Colors.black
-                                                        .withOpacity(0.4),
-                                                    BlendMode.srcOver),
-                                                image: NetworkImage(peluangModel[
-                                                                index]
-                                                            .url !=
-                                                        null
-                                                    ? "https://muba.socketspace.com/${peluangModel[index].url!.substring(1, peluangModel[index].url!.length)}"
-                                                    : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          height: 100,
-                                          child: Text(
-                                            "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 36),
-                                          ),
-                                        ),
+                                        child: index <
+                                                getJenis(peluangModel).length
+                                            ? Container(
+                                                width: 350,
+                                                padding: const EdgeInsets.only(
+                                                    left: 20, top: 43),
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFF42A5F5),
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      colorFilter:
+                                                          ColorFilter.mode(
+                                                              Colors.black
+                                                                  .withOpacity(
+                                                                      0.4),
+                                                              BlendMode
+                                                                  .srcOver),
+                                                      image: NetworkImage(
+                                                          "https://muba.socketspace.com${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}")),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                height: 100,
+                                                child: Text(
+                                                  "${getJenis(peluangModel)[index]}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 36),
+                                                ),
+                                              )
+                                            : Container(),
                                       ),
                                       SizedBox(
                                         height: 18,
@@ -166,6 +169,22 @@ class _TabbarviewLuarState extends State<TabbarviewLuar>
       print(response.statusCode);
       throw Exception('Failed');
     }
+  }
+
+  List<String> getJenis(List<PeluangModel> peluangModel) {
+    List<String> result = [];
+    peluangModel.forEach((element) {
+      if (!result.contains(element.jenis)) result.add(element.jenis!);
+    });
+    return result;
+  }
+
+  List<String> getUrl(List<PeluangModel> peluangModel) {
+    List<String> result = [];
+    peluangModel.forEach((element) {
+      if (!result.contains(element.url)) result.add(element.url!);
+    });
+    return result;
   }
 
   Future loadData() async {

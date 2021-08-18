@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:muba/components/custom_dialog.dart';
 import 'package:muba/generated/l10n.dart';
@@ -18,8 +20,11 @@ class _ListPanduanState extends State<ListPanduan> {
   @override
   Widget build(BuildContext context) {
     _fileName = widget.contentCard[widget.index].url
-        .substring(14, widget.contentCard[widget.index].url.length);
-    print(_fileName);
+        .substring(28, widget.contentCard[widget.index].url.length);
+    final basename = widget.contentCard[widget.index].url
+        .substring(widget.contentCard[widget.index].url.lastIndexOf("/") + 1);
+    // print(_fileName);
+    print(basename);
     return Container(
       height: 80,
       decoration: BoxDecoration(
@@ -33,7 +38,7 @@ class _ListPanduanState extends State<ListPanduan> {
           showDialog(
               context: context,
               builder: (_) => CustomDialog(
-                  fileName: _fileName!,
+                  fileName: basename,
                   url:
                       "https://muba.socketspace.com${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}",
                   title: S.of(context).dialogTitle,
