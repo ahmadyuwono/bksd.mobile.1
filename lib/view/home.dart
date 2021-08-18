@@ -97,6 +97,7 @@ class _BerandaState extends State<Beranda> {
       S.of(context).report
     ];
     return Scaffold(
+      backgroundColor: Color(0xFF27405E),
       body: Container(
         color: Color(0xFF27405E),
         child: SingleChildScrollView(

@@ -27,12 +27,15 @@ class _ListPanduanState extends State<ListPanduan> {
       ),
       child: InkWell(
         onTap: () {
+          print(
+              "https://muba.socketspace.com${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}");
+
           showDialog(
               context: context,
               builder: (_) => CustomDialog(
                   fileName: _fileName!,
                   url:
-                      "https://muba.socketspace.com/${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}",
+                      "https://muba.socketspace.com${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}",
                   title: S.of(context).dialogTitle,
                   unduhFile: widget.contentCard[widget.index].judul));
         },

@@ -34,7 +34,7 @@ class PenawaranModel {
         user_id: object['user_id']);
   }
 
-  static Future<void> integrateAPI(
+  static Future<bool> integrateAPI(
       String token,
       String fasilitas,
       String jenis,
@@ -44,20 +44,28 @@ class PenawaranModel {
       String alamat,
       String atas_nama,
       String user_id) async {
+    bool responseValue;
     String apiURL = "https://muba.socketspace.com/api/tahapan_penawaran";
-    var response = await http.post(Uri.parse(apiURL), headers: {
-      'Authorization': 'Bearer $token',
-    }, body: {
-      "fasilitas": fasilitas,
-      "jenis": jenis,
-      "nomer_surat": nomor_surat,
-      "tanggal": tanggal,
-      "penawaran_ksdd": penawaran_ksdd,
-      "alamat": alamat,
-      "atas_nama": atas_nama,
-      "user_id": user_id
-    });
-    var jsonObject = jsonDecode(response.body);
+    var response = await http.post(Uri.parse(apiURL),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(<String, dynamic>{
+          "fasilitas": fasilitas,
+          "jenis": jenis,
+          "nomer_surat": nomor_surat,
+          "tanggal": tanggal,
+          "penawaran_ksdd": penawaran_ksdd,
+          "alamat": alamat,
+          "atas_nama": atas_nama,
+          "user_id": user_id
+        }));
     print(response.statusCode);
+    if (response.statusCode != 200) {
+      responseValue = false;
+    }
+    responseValue = true;
+    return responseValue;
   }
 }

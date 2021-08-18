@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:muba/components/custom_alert_dialog.dart';
 import 'package:muba/components/form_tahapan_penawaran/form_tahapan_penawaran.dart';
 import 'package:muba/generated/l10n.dart';
@@ -36,6 +37,16 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
   String token = "";
   bool isPressed = false;
   PenawaranModel? penawaranModel;
+  showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
   @override
   void initState() {
@@ -211,17 +222,21 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
         atasNama.isNotEmpty) {
       PenawaranModel.integrateAPI(token, widget.fasilitas, widget.jenis,
               tanggalSurat, noSurat, penawaran, kedudukan, atasNama, user_id)
-          .whenComplete(() {
-        setState(() {});
-        isPressed = false;
-        EasyLoading.dismiss();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FormPenawaranComplete(
-                    title: widget.title2,
-                  )),
-        );
+          .then((value) {
+        if (value) {
+          setState(() {});
+          isPressed = false;
+          EasyLoading.dismiss();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FormPenawaranComplete(
+                      title: widget.title2,
+                    )),
+          );
+        } else {
+          showToast("Coba lagi");
+        }
       });
     } else {
       showDialog(

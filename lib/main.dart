@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -32,6 +33,7 @@ import 'package:muba/view/register_form.dart';
 import 'package:muba/view/settings.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:open_file/open_file.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -120,14 +122,24 @@ class _HomeState extends State<Home> {
     return Colors.white;
   }
 
+  void _checkUserSession() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isStatus = prefs.getBool("KEY ISLOGIN")!;
+    if (isStatus) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Beranda()));
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => CarouselSplash()));
+    }
+  }
+
   @override
   void initState() {
-    _splashController.addListener(() {
-      setState(() {
-        _currentPage = _splashController.page;
-      });
-    });
     super.initState();
+    Timer(Duration(seconds: 2), () {
+      _checkUserSession();
+    });
   }
 
   @override

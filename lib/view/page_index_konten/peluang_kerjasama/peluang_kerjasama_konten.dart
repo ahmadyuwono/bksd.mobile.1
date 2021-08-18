@@ -87,12 +87,15 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                           .toLowerCase())
                                   ? InkWell(
                                       onTap: () {
+                                        print(
+                                          "https://muba.socketspace.com${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
+                                        );
                                         showDialog(
                                             context: context,
                                             builder: (_) => CustomDialog(
                                                 fileName: _fileName!,
                                                 url:
-                                                    "https://muba.socketspace.com/${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
+                                                    "https://muba.socketspace.com${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
                                                 title:
                                                     S.of(context).dialogTitleP,
                                                 unduhFile:

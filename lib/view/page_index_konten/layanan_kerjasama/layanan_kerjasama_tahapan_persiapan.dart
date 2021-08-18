@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:muba/components/custom_alert_dialog.dart';
 import 'package:muba/components/form_tahap_persiapan/dasar_hukum.dart';
 import 'package:muba/components/form_tahap_persiapan/korespondensi.dart';
@@ -55,6 +56,16 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
   String pembiayaan = "";
   String token = "";
   bool isPressed = false;
+  showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
   @override
   void initState() {
@@ -307,7 +318,7 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
     );
   }
 
-  _validateForm() {
+  _validateForm() async {
     EasyLoading.show(status: S.of(context).pleaseWait);
     if (namaDaerah.isNotEmpty) {
       _integrateAPI();
@@ -324,35 +335,48 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
 
   _integrateAPI() {
     PersiapanModel.integrateAPI(
-            token,
-            widget.fasilitas,
-            widget.jenis,
-            namaDaerah,
-            namaKepalaDaerah,
-            nomorSK,
-            alamat,
-            undangUndang,
-            peraturanPemerintah,
-            peraturanPresiden,
-            peraturanMenteri,
-            peraturanDaerah,
-            pertimbangan,
-            maksud,
-            tujuan,
-            objekKerjasama,
-            ruangLingkup,
-            pelaksanaan,
-            alamatSurat,
-            email,
-            no,
-            namaNarahubung,
-            jabatan,
-            user_id,
-            atasNama,
-            jangkaWaktu,
-            pembiayaan)
-        .whenComplete(() {
-      EasyLoading.dismiss();
+      token,
+      widget.fasilitas,
+      widget.jenis,
+      namaDaerah,
+      namaKepalaDaerah,
+      nomorSK,
+      alamat,
+      undangUndang,
+      peraturanPemerintah,
+      peraturanPresiden,
+      peraturanMenteri,
+      peraturanDaerah,
+      pertimbangan,
+      maksud,
+      tujuan,
+      objekKerjasama,
+      ruangLingkup,
+      pelaksanaan,
+      alamatSurat,
+      email,
+      no,
+      namaNarahubung,
+      jabatan,
+      user_id,
+      atasNama,
+      jangkaWaktu,
+      pembiayaan,
+    ).then((value) {
+      if (value) {
+        setState(() {});
+        isPressed = false;
+        EasyLoading.dismiss();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TahapPersiapanComplete(
+                    title: widget.title2,
+                  )),
+        );
+      } else {
+        showToast("Coba lagi");
+      }
     });
   }
 }

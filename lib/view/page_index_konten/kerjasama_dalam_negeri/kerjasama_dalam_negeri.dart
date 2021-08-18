@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:muba/components/card_verifikasi_berkas.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/model/kerjasama_model.dart';
 import 'package:muba/model/persiapan_model.dart';
 import 'package:muba/utilities/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -31,8 +32,7 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
   String name = "";
   String userName = "";
   String id = "";
-  List<PersiapanModel> persiapanModel = [];
-  List<PersiapanModel> penawaranModel = [];
+  late KerjasamaModel kerjasamaModel;
   bool isLoaded1 = false;
   bool isLoaded2 = false;
   bool isError1 = false;
@@ -63,32 +63,18 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
       setState(() {
         id = value;
       });
-    });
-    loadData().then((value) {
-      setState(() {
-        persiapanModel = value;
-        print(persiapanModel);
-      });
-    }).whenComplete(() {
-      setState(() {
-        isLoaded1 = true;
-      });
-    }).onError((error, stackTrace) {
-      setState(() {
-        isError1 = true;
-      });
-    });
-    loadData2().then((value) {
-      setState(() {
-        penawaranModel = value;
-      });
-    }).whenComplete(() {
-      setState(() {
-        isLoaded2 = true;
-      });
-    }).onError((error, stackTrace) {
-      setState(() {
-        isError2 = true;
+      loadData(id).then((value) {
+        setState(() {
+          kerjasamaModel = value;
+        });
+      }).whenComplete(() {
+        setState(() {
+          isLoaded1 = true;
+        });
+      }).onError((error, stackTrace) {
+        setState(() {
+          isError1 = true;
+        });
       });
     });
   }
@@ -105,12 +91,12 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
           ),
         ),
       ),
-      body: isError1 == false && isError2 == false
+      body: isError1 == false
           ? SingleChildScrollView(
               scrollDirection: Axis.vertical,
               physics: BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
-              child: isLoaded1 == true && isLoaded2 == true
+              child: isLoaded1 == true
                   ? Container(
                       height: MediaQuery.of(context).size.height,
                       padding: const EdgeInsets.only(left: 21, right: 21),
@@ -165,14 +151,15 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
                                           SizedBox(
                                             height: 15,
                                           ),
-                                          Text("${S.of(context).address} :"),
-                                          Text(
-                                              "Jalan Akasia Delphina No. 18 Bumi Panyawangan"),
+                                          Text("${S.of(context).address} :" +
+                                              (kerjasamaModel.alamat != null
+                                                  ? kerjasamaModel.alamat
+                                                  : "-")),
                                           SizedBox(
                                             height: 15,
                                           ),
-                                          Text("E-mail :"),
-                                          Text(userName),
+                                          Text("E-mail :" +
+                                              kerjasamaModel.email),
                                         ],
                                       ),
                                     )
@@ -201,7 +188,9 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
                               decoration: InputDecoration(
                                   contentPadding:
                                       const EdgeInsets.only(left: 9),
-                                  hintText: "DN-2021-00001",
+                                  hintText: kerjasamaModel.berkasId != null
+                                      ? kerjasamaModel.berkasId
+                                      : "",
                                   border: InputBorder.none),
                             ),
                           ),
@@ -209,21 +198,44 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
                             height: 15,
                           ),
                           CardVerifikasiBerkas(
-                              isVerified: isLogin,
-                              image: "assets/images/card-membership.png",
-                              title: S.of(context).registeredMember),
+                            image: "assets/images/document.png",
+                            title: S.of(context).uploadFiles +
+                                " " +
+                                S.of(context).prepPhase.toUpperCase(),
+                            isVerified: kerjasamaModel.validatePersiapan != null
+                                ? true
+                                : false,
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           CardVerifikasiBerkas(
-                              image: "assets/images/document.png",
-                              title: S.of(context).uploadFiles,
-                              isVerified: cekBerkas()),
+                              isVerified:
+                                  kerjasamaModel.validatePersiapan == "2"
+                                      ? true
+                                      : false,
+                              image: "assets/images/document-checklist.png",
+                              title: S.of(context).verifyFiles),
                           SizedBox(
                             height: 10,
                           ),
                           CardVerifikasiBerkas(
-                              isVerified: isVerified,
+                            image: "assets/images/document.png",
+                            title: S.of(context).uploadFiles +
+                                " " +
+                                S.of(context).offerPhase.toUpperCase(),
+                            isVerified: kerjasamaModel.validatePenawaran != null
+                                ? true
+                                : false,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CardVerifikasiBerkas(
+                              isVerified:
+                                  kerjasamaModel.validatePenawaran == "2"
+                                      ? true
+                                      : false,
                               image: "assets/images/document-checklist.png",
                               title: S.of(context).verifyFiles),
                         ],
@@ -251,22 +263,13 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
                 slivers: [
                   CupertinoSliverRefreshControl(
                     onRefresh: () {
-                      return loadData().onError((error, stackTrace) {
+                      return loadData(id).onError((error, stackTrace) {
                         setState(() {
                           isError1 = true;
                         });
                       }).then((value) {
-                        loadData2().whenComplete(() {
-                          setState(() {
-                            isLoaded2 = true;
-                          });
-                        }).then((value) {
-                          setState(() {
-                            penawaranModel = value;
-                          });
-                        });
                         setState(() {});
-                        persiapanModel = value;
+                        kerjasamaModel = value;
                       }).whenComplete(() {
                         setState(() {});
                         isLoaded1 = true;
@@ -330,61 +333,26 @@ class _KerjasamaDalamNegeriState extends State<KerjasamaDalamNegeri> {
     });
   }
 
-  bool cekBerkas() {
-    if (persiapanModel.contains(id) && penawaranModel.contains(id)) {
-      if (persiapanModel[persiapanModel
-                      .indexWhere((element) => element.userId == id)]
-                  .isValidate ==
-              "1" &&
-          penawaranModel[penawaranModel
-                      .indexWhere((element) => element.userId == id)]
-                  .isValidate ==
-              "1") {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-
-  Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/tahapan_persiapan";
+  Future integrateAPI(String idUser) async {
+    String apiURL =
+        "https://muba.socketspace.com/api/kerjasama/?user_id=" + idUser;
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
-      print(response.statusCode);
       return response.body;
     } else {
       print(response.statusCode);
-      throw Exception('Failed');
+      print('Failed');
     }
   }
 
-  Future loadData() async {
-    String jsonData = await integrateAPI();
-    final jsonRespone = jsonDecode(jsonData);
-    ListPersiapan listModel = ListPersiapan.fromJson(jsonRespone);
-    return listModel.persiapan;
-  }
+  Future loadData(String idUser) async {
+    print(idUser + "iduser");
+    String jsonData = await integrateAPI(idUser);
+    Map<String, dynamic> jsonRespone = jsonDecode(jsonData);
 
-  Future integrateAPI2() async {
-    String apiURL = "https://muba.socketspace.com/api/tahapan_penawaran";
-    var response = await http.get(Uri.parse(apiURL));
-    if (response.statusCode == 200) {
-      print(response.statusCode);
-      return response.body;
-    } else {
-      print(response.statusCode);
-      throw Exception('Failed');
-    }
-  }
-
-  Future loadData2() async {
-    String jsonData = await integrateAPI();
-    final jsonRespone = jsonDecode(jsonData);
-    ListPersiapan listModel = ListPersiapan.fromJson(jsonRespone);
-    return listModel.persiapan;
+    KerjasamaModel kerjasamaModel = KerjasamaModel.fromJson(jsonRespone);
+    print(jsonRespone["validate_persiapan"]);
+    return kerjasamaModel;
   }
 }
 

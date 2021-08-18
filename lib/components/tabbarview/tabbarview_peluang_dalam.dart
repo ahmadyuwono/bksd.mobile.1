@@ -20,6 +20,7 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
   List<PeluangModel> peluangModel = [];
   bool isLoaded = false;
   bool isError = false;
+  var count;
 
   @override
   void initState() {
@@ -40,6 +41,11 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    count = peluangModel
+        .where((c) => c.judul != "Data ${c.jenis} - 2")
+        .toList()
+        .length;
+    print(count);
     return isError == false
         ? Container(
             padding: const EdgeInsets.only(left: 32, right: 32),
@@ -71,35 +77,43 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
                                                         index: index,
                                                       )));
                                         },
-                                        child: Container(
-                                          width: 350,
-                                          padding: const EdgeInsets.only(
-                                              left: 20, top: 43),
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF42A5F5),
-                                            image: DecorationImage(
-                                                fit: BoxFit.fill,
-                                                colorFilter: ColorFilter.mode(
-                                                    Colors.black
-                                                        .withOpacity(0.4),
-                                                    BlendMode.srcOver),
-                                                image: NetworkImage(peluangModel[
-                                                                index]
-                                                            .url !=
-                                                        null
-                                                    ? "https://muba.socketspace.com/${peluangModel[index].url!.substring(1, peluangModel[index].url!.length)}"
-                                                    : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          height: 100,
-                                          child: Text(
-                                            "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 36),
-                                          ),
-                                        ),
+                                        child: peluangModel[index]
+                                                    .judul
+                                                    .contains("-") ==
+                                                false
+                                            ? Container(
+                                                width: 350,
+                                                padding: const EdgeInsets.only(
+                                                    left: 20, top: 43),
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFF42A5F5),
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      colorFilter:
+                                                          ColorFilter.mode(
+                                                              Colors.black
+                                                                  .withOpacity(
+                                                                      0.4),
+                                                              BlendMode
+                                                                  .srcOver),
+                                                      image: NetworkImage(peluangModel[
+                                                                      index]
+                                                                  .url !=
+                                                              null
+                                                          ? "https://muba.socketspace.com/${peluangModel[index].url!.substring(1, peluangModel[index].url!.length)}"
+                                                          : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                height: 100,
+                                                child: Text(
+                                                  "${peluangModel[index].jenis != null ? peluangModel[index].jenis : "Error"}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 36),
+                                                ),
+                                              )
+                                            : Container(),
                                       ),
                                       SizedBox(
                                         height: 18,

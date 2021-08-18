@@ -47,9 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ..backgroundColor = Colors.transparent
       ..indicatorColor = Color(0x0FF27405E)
       ..textColor = Color(0x0FF27405E);
-    loadData()
-        .then((value) => userModel = value)
-        .whenComplete(() => print("completed"));
   }
 
   @override
@@ -57,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Stack(
       children: [
         Image.asset(
-          "assets/images/image-background.png",
+          "assets/images/bg_loginmuba.png",
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
@@ -263,23 +260,4 @@ class _LoginScreenState extends State<LoginScreen> {
   //   }
   // }
 
-  Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/user";
-    var response = await http.get(Uri.parse(apiURL));
-    if (response.statusCode == 200) {
-      print(response.statusCode);
-      return response.body;
-    } else {
-      print(response.statusCode);
-      setState(() => _status = response.statusCode);
-      throw Exception('Failed');
-    }
-  }
-
-  Future loadData() async {
-    String jsonData = await integrateAPI();
-    final jsonRespone = jsonDecode(jsonData);
-    ListUser listModel = ListUser.fromJson(jsonRespone);
-    return listModel.user;
-  }
 }

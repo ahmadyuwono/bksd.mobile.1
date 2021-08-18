@@ -50,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
     return Stack(
       children: [
         Image.asset(
-          "assets/images/image-background.png",
+          "assets/images/bg_loginmuba.png",
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,

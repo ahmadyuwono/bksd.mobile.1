@@ -43,7 +43,6 @@ class DownloadService {
     //     await PermissionHandler.checkPermissionStatus(PermissionGroup.storage);
 
     var permission = await Permission.storage.status;
-
     if (permission != PermissionStatus.granted) {
       await Permission.storage.request();
       await Permission.storage.request().isGranted;
@@ -52,34 +51,21 @@ class DownloadService {
     return permission == PermissionStatus.granted;
   }
 
-  Future<void> download(final String _fileName, final String _fileUrl) async {
+  Future<void> download(final String _fileName, String fileUrl) async {
     final dir = await getDownloadDirectory();
     final isPermissionStatusGranted = await requestPermissions();
 
     if (isPermissionStatusGranted == true) {
       final savePath = path.join(dir!.path, _fileName);
-      await startDownload(savePath, _fileUrl);
+      await startDownload(savePath, fileUrl);
     } else {
       // handle the scenario when user declines the permissions
       EasyLoading.dismiss();
     }
   }
 
-  Future<void> startDownload(String savePath, final String _fileUrl) async {
-    Map<String, dynamic> result = {
-      'isSuccess': false,
-      'filePath': null,
-      'error': null,
-    };
-
-    try {
-      final response = await dio.download(_fileUrl, savePath,
-          onReceiveProgress: onReceiveProgress);
-      result['isSuccess'] = response.statusCode == 200;
-      result['filePath'] = savePath;
-    } catch (ex) {
-      result['error'] = ex.toString();
-    }
+  Future<void> startDownload(String savePath, String urlfile) async {
+    final response = await dio.download(urlfile, savePath);
   }
 
   void onReceiveProgress(int received, int total) {

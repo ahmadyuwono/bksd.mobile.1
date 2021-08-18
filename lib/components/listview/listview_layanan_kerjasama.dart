@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:muba/view/page_index_konten/layanan_kerjasama/detail_layanan_kerjasama.dart';
 
 class ListLayananSama extends StatefulWidget {
@@ -13,6 +14,17 @@ class ListLayananSama extends StatefulWidget {
 }
 
 class _ListLayananSamaState extends State<ListLayananSama> {
+  showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,12 +34,16 @@ class _ListLayananSamaState extends State<ListLayananSama> {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DetailLayananKerjasama(
-                      index: widget.index + 1,
-                      title: widget.contentCard[widget.index])));
+          if (widget.index == 1) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailLayananKerjasama(
+                        index: widget.index + 1,
+                        title: widget.contentCard[widget.index])));
+          } else {
+            showToast("Mohon maaf belum bisa di akses");
+          }
         },
         child: Padding(
           padding: const EdgeInsets.only(bottom: 10),
