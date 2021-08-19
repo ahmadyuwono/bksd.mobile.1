@@ -60,7 +60,7 @@ class _BerandaState extends State<Beranda> {
     });
     SharedPreferencesHelper.readLanguage().then((value) {
       setState(() {
-        value.isNotEmpty ? S.load(Locale(value)) : S.load(Locale("en"));
+        value.isNotEmpty ? S.load(Locale(value)) : S.load(Locale("id"));
       });
     });
     SharedPreferencesHelper.readIsSelected().then((value) {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:muba/components/custom_dialog.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/laporan_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class ListPanduan extends StatefulWidget {
   final int index;
@@ -33,14 +34,14 @@ class _ListPanduanState extends State<ListPanduan> {
       child: InkWell(
         onTap: () {
           print(
-              "https://muba.socketspace.com${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}");
+              "${Constants.baseUri}${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}");
 
           showDialog(
               context: context,
               builder: (_) => CustomDialog(
                   fileName: basename,
                   url:
-                      "https://muba.socketspace.com${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}",
+                      "${Constants.baseUri}${widget.contentCard[widget.index].url.substring(1, widget.contentCard[widget.index].url.length)}",
                   title: S.of(context).dialogTitle,
                   unduhFile: widget.contentCard[widget.index].judul));
         },

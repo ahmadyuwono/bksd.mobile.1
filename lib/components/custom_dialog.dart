@@ -26,6 +26,7 @@ class CustomDialog extends StatefulWidget {
 }
 
 class _CustomDialogState extends State<CustomDialog> {
+  String statusMessage = "";
   @override
   void initState() {
     super.initState();
@@ -131,21 +132,25 @@ class _CustomDialogState extends State<CustomDialog> {
                         ),
                       ),
                     ),
-                    onTap: () {
+                    onTap: () async {
                       EasyLoading.show(status: S.of(context).pleaseWait);
+                      await DownloadService().requestPermissions();
                       DownloadService()
                           .download(widget.fileName, widget.url)
-                          .whenComplete(() {
+                          .then((value) {
+                        statusMessage = value;
+                      }).whenComplete(() {
                         EasyLoading.dismiss();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: Color(0x0FF27405E),
-                            content: Text(S.of(context).downloaded),
-                            action: SnackBarAction(
-                              label: 'OK',
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            )));
+                        if (statusMessage == "OK")
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Color(0x0FF27405E),
+                              content: Text(S.of(context).downloaded),
+                              action: SnackBarAction(
+                                label: 'OK',
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )));
                       }).onError((error, stackTrace) {
                         EasyLoading.dismiss();
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

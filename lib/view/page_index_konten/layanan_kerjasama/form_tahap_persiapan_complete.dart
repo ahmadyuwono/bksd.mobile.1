@@ -95,6 +95,7 @@ class _TahapPersiapanCompleteState extends State<TahapPersiapanComplete> {
                                 },
                                 child: Text(
                                   S.of(context).backToDb,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,

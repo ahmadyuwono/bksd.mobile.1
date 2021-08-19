@@ -51,21 +51,23 @@ class DownloadService {
     return permission == PermissionStatus.granted;
   }
 
-  Future<void> download(final String _fileName, String fileUrl) async {
+  Future download(final String _fileName, String fileUrl) async {
     final dir = await getDownloadDirectory();
     final isPermissionStatusGranted = await requestPermissions();
 
     if (isPermissionStatusGranted == true) {
       final savePath = path.join(dir!.path, _fileName);
-      await startDownload(savePath, fileUrl);
+      final response = await startDownload(savePath, fileUrl);
+      return response;
     } else {
       // handle the scenario when user declines the permissions
       EasyLoading.dismiss();
     }
   }
 
-  Future<void> startDownload(String savePath, String urlfile) async {
+  Future startDownload(String savePath, String urlfile) async {
     final response = await dio.download(urlfile, savePath);
+    return response.statusMessage;
   }
 
   void onReceiveProgress(int received, int total) {

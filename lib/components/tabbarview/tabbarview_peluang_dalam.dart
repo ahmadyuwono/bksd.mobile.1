@@ -93,8 +93,12 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
                                                                       0.4),
                                                               BlendMode
                                                                   .srcOver),
-                                                      image: NetworkImage(
-                                                          "${Constants.baseUri}${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}")),
+                                                      image: NetworkImage(getJenis(
+                                                                      peluangModel)[
+                                                                  index] !=
+                                                              "Not Found!"
+                                                          ? "${Constants.baseUri}${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}"
+                                                          : "https://muba.socketspace.com/uploads/logo/6e064f7e7a6905924ea83c4d78cb9b43.png")),
                                                   borderRadius:
                                                       BorderRadius.circular(5),
                                                 ),
@@ -162,7 +166,7 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
   Future integrateAPI() async {
     final queryParameter = {'negara_id': '1'};
     final uri = Uri.https(
-        'muba.socketspace.com', '/api/peluang_kerjasama', queryParameter);
+        '${Constants.urlMuba}', '/api/peluang_kerjasama', queryParameter);
     // String apiURL =
     //     "https://muba.socketspace.com/api/peluang_kerjasama/?negara_id=1";
     var response = await http.get(uri);
@@ -182,18 +186,22 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
     return listModel.peluang;
   }
 
-  List<String> getJenis(List<PeluangModel> peluangModel) {
+  List<String> getJenis(List<PeluangModel>? peluangModel) {
     List<String> result = [];
-    peluangModel.forEach((element) {
-      if (!result.contains(element.jenis)) result.add(element.jenis!);
+    peluangModel!.forEach((element) {
+      if (element.jenis != null) {
+        if (!result.contains(element.jenis!)) result.add(element.jenis!);
+      } else if (element.jenis == null) result.add("Not Found!");
     });
     return result;
   }
 
-  List<String> getUrl(List<PeluangModel> peluangModel) {
+  List<String> getUrl(List<PeluangModel>? peluangModel) {
     List<String> result = [];
-    peluangModel.forEach((element) {
-      if (!result.contains(element.url)) result.add(element.url!);
+    peluangModel!.forEach((element) {
+      if (element.url != null) {
+        if (!result.contains(element.url)) result.add(element.url!);
+      } else if (element.url == null) result.add("Not Found!");
     });
     return result;
   }

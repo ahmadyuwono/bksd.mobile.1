@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +42,6 @@ void main() async {
 
 class MubaApp extends StatelessWidget {
   const MubaApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -88,7 +86,6 @@ class MubaApp extends StatelessWidget {
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   Color backgroundColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -109,7 +106,6 @@ class _HomeState extends State<Home> {
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
   PageController _splashController = PageController();
   double? _currentPage = 0;
-
   Color textColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -124,7 +120,7 @@ class _HomeState extends State<Home> {
 
   void _checkUserSession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isStatus = prefs.getBool("KEY ISLOGIN")!;
+    bool isStatus = prefs.getBool("KEY ISLOGIN") ?? false;
     if (isStatus) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Beranda()));
@@ -146,9 +142,10 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        child: CarouselSplash(),
+      body: Center(
+        child: Image.asset("assets/images/logo-kab-muba.png",
+            width: MediaQuery.of(context).size.width * 0.50,
+            height: MediaQuery.of(context).size.height * 0.50),
       ),
     );
   }

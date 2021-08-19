@@ -21,10 +21,12 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   bool isLogin = false;
+  bool isPressed = false;
   String email = "";
   String password = "";
   int _status = 0;
   List<UserModel>? userModel;
+
   @override
   void initState() {
     super.initState();
@@ -116,27 +118,36 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     Container(
                       height: 55,
                       decoration: BoxDecoration(
-                          color: Color(0xFF27405E),
+                          color: isPressed == false
+                              ? Color(0xFF27405E)
+                              : Colors.grey,
                           borderRadius: BorderRadius.circular(5)),
                       child: Center(
                           child: InkWell(
-                        onTap: () {
-                          EasyLoading.show(status: S.of(context).pleaseWait);
-                          integrateAPI().whenComplete(() {
-                            EasyLoading.dismiss();
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                backgroundColor: Color(0x0FF27405E),
-                                content: Text(S.of(context).passChanged),
-                                action: SnackBarAction(
-                                  label: 'OK',
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )));
-                          });
-                          // Navigator.pushNamed(context, '/login');
-                          // await AuthService.forgotPassword(email);
-                        },
+                        onTap: isPressed == false
+                            ? () {
+                                isPressed = true;
+                                EasyLoading.show(
+                                    status: S.of(context).pleaseWait);
+                                integrateAPI().whenComplete(() {
+                                  EasyLoading.dismiss();
+                                  isPressed = false;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          backgroundColor: Color(0x0FF27405E),
+                                          content:
+                                              Text(S.of(context).passChanged),
+                                          action: SnackBarAction(
+                                            label: 'OK',
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          )));
+                                });
+                                // Navigator.pushNamed(context, '/login');
+                                // await AuthService.forgotPassword(email);
+                              }
+                            : () {},
                         child: Text(
                           S.of(context).sendForgot,
                           style: TextStyle(

@@ -134,7 +134,7 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                                           .file!
                                                           .contains("jpg")
                                                   ? "${Constants.baseUri}${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}"
-                                                  : "${Constants.baseUri}/uploads/peluang/logo.jpg")),
+                                                  : "${Constants.baseUri}/uploads/peluang/logo2.jpg")),
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),

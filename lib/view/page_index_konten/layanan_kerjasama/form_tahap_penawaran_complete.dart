@@ -96,6 +96,7 @@ class _FormPenawaranCompleteState extends State<FormPenawaranComplete> {
                                 child: Center(
                                   child: Text(
                                     S.of(context).backToDb,
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,

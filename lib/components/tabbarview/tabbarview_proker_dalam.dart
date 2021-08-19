@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muba/model/program_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class TabbarviewProkerDalam extends StatefulWidget {
   final List<ProgramModel> programModel;
@@ -64,7 +65,7 @@ class _TabbarviewProkerDalamState extends State<TabbarviewProkerDalam> {
                                         Colors.black.withOpacity(0.4),
                                         BlendMode.srcOver),
                                     image: NetworkImage(
-                                        "https://muba.socketspace.com/${widget.programModel[index].url.substring(1, widget.programModel[index].url.length)}")),
+                                        "${Constants.baseUri}/${widget.programModel[index].url.substring(1, widget.programModel[index].url.length)}")),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Row(

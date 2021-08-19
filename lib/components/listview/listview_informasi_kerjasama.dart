@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:muba/model/berita_model.dart';
+import 'package:muba/utilities/const.dart';
 import 'package:muba/view/page_index_konten/informasi_kerjasama/detail_informasi_kerjasama.dart';
 
 class ListInformasiSama extends StatefulWidget {
@@ -42,7 +43,7 @@ class _ListInformasiSamaState extends State<ListInformasiSama> {
         child: Row(
           children: [
             Image.network(
-              "https://muba.socketspace.com/uploads/berita/${widget.headLine[widget.index].foto}",
+              "${Constants.baseUri}/uploads/berita/${widget.headLine[widget.index].foto}",
               width: MediaQuery.of(context).size.width * 0.40,
             ),
             SizedBox(
