@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:http/http.dart' as http;
 import 'package:muba/model/regulation_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class PagePrivacy extends StatefulWidget {
   const PagePrivacy({Key? key}) : super(key: key);
@@ -116,7 +117,7 @@ class _PagePrivacyState extends State<PagePrivacy> {
 }
 
 Future<List<RegulationModel>> integrateAPI() async {
-  String apiURL = "https://muba.socketspace.com/api/privacy";
+  String apiURL = "${Constants.baseUri}/api/privacy";
   var response = await http.get(Uri.parse(apiURL));
   if (response.statusCode == 200) {
     print(response.statusCode);

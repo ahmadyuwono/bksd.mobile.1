@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:http/http.dart' as http;
 import 'package:muba/model/regulation_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class PageTerms extends StatefulWidget {
   const PageTerms({Key? key}) : super(key: key);
@@ -115,7 +116,7 @@ class _PageTermsState extends State<PageTerms> {
 }
 
 Future<List<RegulationModel>> integrateAPI() async {
-  String apiURL = "https://muba.socketspace.com/api/termofservice";
+  String apiURL = "${Constants.baseUri}/api/termofservice";
   var response = await http.get(Uri.parse(apiURL));
   if (response.statusCode == 200) {
     print(response.statusCode);

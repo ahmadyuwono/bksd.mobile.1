@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:muba/utilities/const.dart';
 
 class RegisterModel {
   RegisterModel({
@@ -32,7 +33,7 @@ class RegisterModel {
 
   static Future<RegisterModel> integrateAPI(String nik, String name,
       String email, String password, String negara, String membership) async {
-    String apiURL = "https://muba.socketspace.com/api/auth/register";
+    String apiURL = "${Constants.baseUri}/api/auth/register";
     var response = await http.post(Uri.parse(apiURL), body: {
       "nik": nik,
       "name": name,

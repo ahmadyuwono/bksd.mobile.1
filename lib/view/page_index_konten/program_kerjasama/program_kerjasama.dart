@@ -7,6 +7,7 @@ import 'package:muba/components/tabbarview/tabbarview_proker_luar.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:http/http.dart' as http;
 import 'package:muba/model/program_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class ProgramKerjasama extends StatefulWidget {
   const ProgramKerjasama({Key? key}) : super(key: key);
@@ -219,7 +220,7 @@ class _ProgramKerjasamaState extends State<ProgramKerjasama>
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/agenda";
+    String apiURL = "${Constants.baseUri}/api/agenda";
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
       print(response.statusCode);

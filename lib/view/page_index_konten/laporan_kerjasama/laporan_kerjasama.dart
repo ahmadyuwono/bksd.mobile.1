@@ -9,6 +9,7 @@ import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/laporan_model.dart';
 import 'package:muba/model/program_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:muba/utilities/const.dart';
 
 class LaporanKerjasama extends StatefulWidget {
   const LaporanKerjasama({Key? key}) : super(key: key);
@@ -204,7 +205,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama> {
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/pages";
+    String apiURL = "${Constants.baseUri}/api/pages";
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
       print(response.statusCode);

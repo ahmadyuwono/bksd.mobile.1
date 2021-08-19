@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:muba/components/listview/listview_informasi_kerjasama.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/berita_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class InformasiKerjasama extends StatefulWidget {
   const InformasiKerjasama({Key? key}) : super(key: key);
@@ -147,7 +148,7 @@ class _InformasiKerjasamaState extends State<InformasiKerjasama> {
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/berita";
+    String apiURL = "${Constants.baseUri}/api/berita";
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
       print(response.statusCode);

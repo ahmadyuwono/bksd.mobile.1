@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:muba/utilities/const.dart';
 
 class LoginModel {
   LoginModel({
@@ -28,7 +29,7 @@ class LoginModel {
   }
 
   static Future<LoginModel> integrateAPI(String email, String password) async {
-    String apiURL = "https://muba.socketspace.com/api/auth/login";
+    String apiURL = "${Constants.baseUri}/api/auth/login";
     var response = await http.post(Uri.parse(apiURL), body: {
       "email": email,
       "password": password,

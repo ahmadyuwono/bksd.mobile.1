@@ -8,6 +8,7 @@ import 'package:muba/components/card_verifikasi_berkas.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/kerjasama_model.dart';
 import 'package:muba/model/persiapan_model.dart';
+import 'package:muba/utilities/const.dart';
 import 'package:muba/utilities/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -322,8 +323,7 @@ class _KerjasamaLuarNegeriState extends State<KerjasamaLuarNegeri> {
   }
 
   Future integrateAPI(String idUser) async {
-    String apiURL =
-        "https://muba.socketspace.com/api/kerjasama/?user_id=" + idUser;
+    String apiURL = "${Constants.baseUri}/api/kerjasama/?user_id=" + idUser;
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
       return response.body;

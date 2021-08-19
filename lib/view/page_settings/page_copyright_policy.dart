@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:http/http.dart' as http;
 import 'package:muba/model/regulation_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class PageCopyright extends StatefulWidget {
   const PageCopyright({Key? key}) : super(key: key);
@@ -118,7 +119,7 @@ class _PageCopyrightState extends State<PageCopyright> {
 }
 
 Future<List<RegulationModel>> integrateAPI() async {
-  String apiURL = "https://muba.socketspace.com/api/copyright";
+  String apiURL = "${Constants.baseUri}/api/copyright";
   var response = await http.get(Uri.parse(apiURL));
   if (response.statusCode == 200) {
     print(response.statusCode);

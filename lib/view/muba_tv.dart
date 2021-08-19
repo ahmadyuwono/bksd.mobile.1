@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:muba/components/listview/listview_muba_tv.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/video_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class MubaTv extends StatefulWidget {
   const MubaTv({Key? key}) : super(key: key);
@@ -164,7 +165,7 @@ class _MubaTvState extends State<MubaTv> {
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/galeri_video";
+    String apiURL = "${Constants.baseUri}/api/galeri_video";
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
       print(response.statusCode);

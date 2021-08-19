@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/peluang_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:muba/utilities/const.dart';
 import 'dart:async' show Future;
 import 'package:muba/view/page_index_konten/peluang_kerjasama/peluang_kerjasama_konten.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 class TabbarviewDalam extends StatefulWidget {
   const TabbarviewDalam({Key? key}) : super(key: key);
@@ -42,10 +44,6 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    count = peluangModel
-        .where((c) => c.judul != "Data ${c.jenis} - 2")
-        .toList()
-        .length;
     return isError == false
         ? Container(
             padding: const EdgeInsets.only(left: 32, right: 32),
@@ -96,7 +94,7 @@ class _TabbarviewDalamState extends State<TabbarviewDalam>
                                                               BlendMode
                                                                   .srcOver),
                                                       image: NetworkImage(
-                                                          "https://muba.socketspace.com${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}")),
+                                                          "${Constants.baseUri}${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}")),
                                                   borderRadius:
                                                       BorderRadius.circular(5),
                                                 ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:muba/components/custom_dialog.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/peluang_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class KontenPeluang extends StatefulWidget {
   final String title;
@@ -89,7 +90,7 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                   ? InkWell(
                                       onTap: () {
                                         print(
-                                          "https://muba.socketspace.com${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
+                                          "${Constants.baseUri}${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
                                         );
                                         showDialog(
                                             context: context,
@@ -102,7 +103,7 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                                             .lastIndexOf("/") +
                                                         1),
                                                 url:
-                                                    "https://muba.socketspace.com${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
+                                                    "${Constants.baseUri}${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}",
                                                 title:
                                                     S.of(context).dialogTitleP,
                                                 unduhFile:
@@ -132,8 +133,8 @@ class _KontenPeluangState extends State<KontenPeluang> {
                                                       widget.peluangModel[index]
                                                           .file!
                                                           .contains("jpg")
-                                                  ? "https://muba.socketspace.com${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}"
-                                                  : "https://muba.socketspace.com/uploads/peluang/logo.jpg")),
+                                                  ? "${Constants.baseUri}${widget.peluangModel[index].file!.substring(1, widget.peluangModel[index].file!.length)}"
+                                                  : "${Constants.baseUri}/uploads/peluang/logo.jpg")),
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),

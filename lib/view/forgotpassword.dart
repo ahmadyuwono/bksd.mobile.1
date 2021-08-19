@@ -7,6 +7,7 @@ import 'package:muba/components/form_register_field.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/user_model.dart';
 import 'package:muba/services/auth_service.dart';
+import 'package:muba/utilities/const.dart';
 import 'package:muba/utilities/shared_preferences.dart';
 import 'package:muba/view/loginscreen.dart';
 import 'package:http/http.dart' as http;
@@ -189,7 +190,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/user/forgot_password";
+    String apiURL = "${Constants.baseUri}/api/user/forgot_password";
     var response = await http.put(Uri.parse(apiURL), body: {
       "email": email,
       "new_password": password,

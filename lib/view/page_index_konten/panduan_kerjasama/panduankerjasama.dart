@@ -6,6 +6,7 @@ import 'package:muba/components/listview/listview_panduan_kerjasama.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:http/http.dart' as http;
 import 'package:muba/model/laporan_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class PanduanKerjasama extends StatefulWidget {
   const PanduanKerjasama({Key? key}) : super(key: key);
@@ -146,7 +147,7 @@ class _PanduanKerjasamaState extends State<PanduanKerjasama> {
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/panduan_kerjasama";
+    String apiURL = "${Constants.baseUri}/api/panduan_kerjasama";
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
       print(response.statusCode);

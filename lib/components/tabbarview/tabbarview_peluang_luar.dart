@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/peluang_model.dart';
+import 'package:muba/utilities/const.dart';
 import 'package:muba/view/page_index_konten/peluang_kerjasama/peluang_kerjasama_konten.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async' show Future;
@@ -90,7 +91,7 @@ class _TabbarviewLuarState extends State<TabbarviewLuar>
                                                               BlendMode
                                                                   .srcOver),
                                                       image: NetworkImage(
-                                                          "https://muba.socketspace.com${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}")),
+                                                          "${Constants.baseUri}${getUrl(peluangModel)[index].substring(1, getUrl(peluangModel)[index].length)}")),
                                                   borderRadius:
                                                       BorderRadius.circular(5),
                                                 ),
@@ -158,7 +159,7 @@ class _TabbarviewLuarState extends State<TabbarviewLuar>
   Future integrateAPI() async {
     final queryParameter = {'negara_id': '2'};
     final uri = Uri.https(
-        'muba.socketspace.com', '/api/peluang_kerjasama', queryParameter);
+        '${Constants.baseUrl}', '/api/peluang_kerjasama', queryParameter);
     // String apiURL =
     //     "https://muba.socketspace.com/api/peluang_kerjasama/?negara_id=1";
     var response = await http.get(uri);

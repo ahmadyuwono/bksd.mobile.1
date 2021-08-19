@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:muba/utilities/const.dart';
 
 class ListPersiapan {
   final List<PersiapanModel> persiapan;
@@ -67,7 +68,7 @@ class PersiapanModel {
     String jangka_waktu,
     String pembiayaan,
   ) async {
-    String apiURL = "https://muba.socketspace.com/api/tahapan_persiapan/create";
+    String apiURL = "${Constants.baseUri}/api/tahapan_persiapan/create";
     var response = await http.post(Uri.parse(apiURL),
         headers: {
           "Content-Type": "application/json",

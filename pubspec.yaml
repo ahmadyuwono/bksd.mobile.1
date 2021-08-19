@@ -52,6 +52,7 @@ dependencies:
   open_file: ^3.2.1
   flutter_local_notifications: ^8.1.1+1
   flutter_launcher_icons: ^0.9.1
+  fast_immutable_collections: ^5.1.2
 
 dev_dependencies:
   flutter_test:

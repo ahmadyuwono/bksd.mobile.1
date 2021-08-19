@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:muba/generated/l10n.dart';
+import 'package:muba/utilities/const.dart';
 
 class DetailInformasi extends StatefulWidget {
   final String title;
@@ -64,7 +65,7 @@ class _DetailInformasiState extends State<DetailInformasi> {
                 height: 14,
               ),
               Image.network(
-                  "https://muba.socketspace.com/uploads/berita/${widget.image}"),
+                  "${Constants.baseUri}/uploads/berita/${widget.image}"),
               SizedBox(
                 height: 7,
               ),

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:muba/components/listview/listview_contact_center.dart';
 import 'package:muba/generated/l10n.dart';
 import 'package:muba/model/kontak_model.dart';
+import 'package:muba/utilities/const.dart';
 
 class ContactCenter extends StatefulWidget {
   const ContactCenter({Key? key}) : super(key: key);
@@ -150,7 +151,7 @@ class _ContactCenterState extends State<ContactCenter> {
   }
 
   Future integrateAPI() async {
-    String apiURL = "https://muba.socketspace.com/api/kontak";
+    String apiURL = "${Constants.baseUri}/api/kontak";
     var response = await http.get(Uri.parse(apiURL));
     if (response.statusCode == 200) {
       print(response.statusCode);
