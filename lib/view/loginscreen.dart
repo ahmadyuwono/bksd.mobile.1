@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:muba/components/custom_alert_dialog.dart';
 import 'package:muba/components/form_register_field.dart';
 import 'package:muba/components/password_field.dart';
@@ -245,7 +246,21 @@ class _LoginScreenState extends State<LoginScreen> {
               builder: (_) => CustomAlert(
                     title: S.of(context).loginFailed,
                   ));
+    }).onError((error, stackTrace) {
+      showToast("Error");
+      EasyLoading.dismiss();
     });
+  }
+
+  showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   // _deleteAccount(int status) async {

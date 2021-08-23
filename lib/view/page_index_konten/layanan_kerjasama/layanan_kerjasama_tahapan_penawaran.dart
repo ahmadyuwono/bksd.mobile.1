@@ -222,7 +222,10 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
         atasNama.isNotEmpty) {
       PenawaranModel.integrateAPI(token, widget.fasilitas, widget.jenis,
               tanggalSurat, noSurat, penawaran, kedudukan, atasNama, user_id)
-          .then((value) {
+          .onError((error, stackTrace) {
+        EasyLoading.dismiss();
+        return showToast("Error");
+      }).then((value) {
         if (value) {
           setState(() {});
           isPressed = false;
@@ -235,6 +238,7 @@ class _TahapanPenawaranState extends State<TahapanPenawaran> {
                     )),
           );
         } else {
+          EasyLoading.dismiss();
           showToast("Coba lagi");
         }
       });

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:muba/utilities/const.dart';
 
 class PenawaranModel {
   PenawaranModel(
@@ -45,7 +46,7 @@ class PenawaranModel {
       String atas_nama,
       String user_id) async {
     bool responseValue;
-    String apiURL = "https://muba.socketspace.com/api/tahapan_penawaran";
+    String apiURL = "${Constants.baseUri}/api/tahapan_penawaran";
     var response = await http.post(Uri.parse(apiURL),
         headers: {
           "Content-Type": "application/json",

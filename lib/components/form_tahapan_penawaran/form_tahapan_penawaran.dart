@@ -52,7 +52,7 @@ class _FormPenawaranState extends State<FormPenawaran> {
           SizedBox(
             height: 10,
           ),
-          Text(S.of(context).dateLetter),
+          Text("${S.of(context).dateLetter} (yyyy-mm-dd)"),
           Container(
             constraints: BoxConstraints(maxHeight: 35),
             decoration: BoxDecoration(

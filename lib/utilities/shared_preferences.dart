@@ -96,7 +96,7 @@ class SharedPreferencesHelper {
   //untuk panggil language
   static Future<String> readLanguage() async {
     final pref = await sharedpreferences;
-    return pref.getString(KEY_LANGUAGE) ?? "en";
+    return pref.getString(KEY_LANGUAGE) ?? "id";
   }
 
   //untuk simpan isselected
