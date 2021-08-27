@@ -108,7 +108,7 @@ class SharedPreferencesHelper {
   //untuk panggil isselected
   static Future<bool> readIsSelected() async {
     final pref = await sharedpreferences;
-    return pref.getBool(KEY_ISSELECTED) ?? false;
+    return pref.getBool(KEY_ISSELECTED) ?? true;
   }
 
   //untuk simpan id

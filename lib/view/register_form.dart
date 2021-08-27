@@ -172,7 +172,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       height: 13,
                     ),
                     FieldFormReg(
-                      hintForm: 'E-mail (example@mail.com)',
+                      hintForm: 'E-mail (socketspace@mail.com)',
                       isPassword: false,
                       onFilled: (value) {
                         setState(() {});

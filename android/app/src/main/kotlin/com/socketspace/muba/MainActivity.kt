@@ -1,4 +1,4 @@
-package com.example.muba
+package com.socketspace.muba
 
 import io.flutter.embedding.android.FlutterActivity
 
