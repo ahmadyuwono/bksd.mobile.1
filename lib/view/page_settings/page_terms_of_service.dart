@@ -87,6 +87,8 @@ class _PageTermsState extends State<PageTerms> {
               ),
             ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedLabelStyle: TextStyle(fontSize: 11),
+        unselectedLabelStyle: TextStyle(fontSize: 11),
         currentIndex: 2,
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,

@@ -130,8 +130,8 @@ class _BerandaState extends State<Beranda> {
                               decoration: BoxDecoration(
                                   color: Color(0xFF27405E),
                                   borderRadius: BorderRadius.circular(5)),
-                              width: MediaQuery.of(context).size.width * 0.30,
-                              height: 30,
+                              width: MediaQuery.of(context).size.width * 0.40,
+                              height: 50,
                               child: Center(
                                 child: Text(
                                   isLogin == true
@@ -240,6 +240,8 @@ class _BerandaState extends State<Beranda> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedLabelStyle: TextStyle(fontSize: 11),
+        unselectedLabelStyle: TextStyle(fontSize: 11),
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.indigoAccent,

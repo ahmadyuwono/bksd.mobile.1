@@ -112,7 +112,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama> {
                                           .judul,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.w700,
                                           color: Colors.white),
                                     ),
@@ -126,7 +126,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama> {
                                                   "Monitoring dan Evaluasi")]
                                           .isi!),
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 15,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white),
                                     )
@@ -176,6 +176,8 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama> {
                   ],
                 )),
           bottomNavigationBar: BottomNavigationBar(
+            selectedLabelStyle: TextStyle(fontSize: 11),
+            unselectedLabelStyle: TextStyle(fontSize: 11),
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
             selectedItemColor: Colors.white,

@@ -137,6 +137,8 @@ class _MubaTvState extends State<MubaTv> {
               ),
             ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedLabelStyle: TextStyle(fontSize: 11),
+        unselectedLabelStyle: TextStyle(fontSize: 11),
         currentIndex: 1,
         backgroundColor: Color(0xFF27405E),
         unselectedItemColor: Colors.white,

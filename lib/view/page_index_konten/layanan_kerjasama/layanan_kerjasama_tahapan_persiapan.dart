@@ -290,6 +290,8 @@ class _TahapanPersiapanState extends State<TahapanPersiapan> {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
+            selectedLabelStyle: TextStyle(fontSize: 11),
+            unselectedLabelStyle: TextStyle(fontSize: 11),
             backgroundColor: Color(0xFF27405E),
             unselectedItemColor: Colors.white,
             selectedItemColor: Colors.white,
