@@ -97,7 +97,7 @@ class _LaporanKerjasamaState extends State<LaporanKerjasama> {
                                 delegate: SliverChildListDelegate(List.generate(
                               1,
                               (index) => Container(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.all(20.0),
                                 decoration: BoxDecoration(
                                   color: Color(0x0FF27405E),
                                   borderRadius: BorderRadius.circular(10),
